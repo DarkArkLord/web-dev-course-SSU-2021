@@ -14,15 +14,15 @@
                     <tr>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                         <td>
                             <h1>
@@ -33,15 +33,15 @@
                         </td>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                         <td>
                             <img src="https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg"
-                                width="100">
+                                width="100" alt="cat picture">
                         </td>
                     </tr>
                 </table>
@@ -77,7 +77,7 @@
         </tr>
         <tr>
             <td>
-                <a name="menu"></a>
+                <a id="menu"></a>
                 <h2>
                     Contents
                 </h2>
@@ -95,7 +95,7 @@
                 <table id="recordsTable" border="1" cellpadding="5" cellspacing="5" width="100%">
                     <tr>
                         <td>
-                            <a name="record_0"></a>
+                            <a id="record_0"></a>
                             <h2>
                                 <i>
                                     Record 0
@@ -124,53 +124,53 @@
             </td>
         </tr>
     </table>
-</body>
 
-<script>
-    const contents = document.getElementById('contentsList');
-    const records = document.getElementById('recordsTable');
-    const recordsNumber = 10;
+    <script>
+        const contents = document.getElementById('contentsList');
+        const records = document.getElementById('recordsTable');
+        const recordsNumber = 10;
 
-    for (let recordIndex = 1; recordIndex <= 10; recordIndex++) {
-        let recordRow = addChildElement(records, 'tr');
-        let recordData = addChildElement(recordRow, 'td');
+        for (let recordIndex = 1; recordIndex <= 10; recordIndex++) {
+            let recordRow = addChildElement(records, 'tr');
+            let recordData = addChildElement(recordRow, 'td');
 
-        addChildElement(recordData, 'a', { name: 'record_' + recordIndex });
-        let header = addChildElement(recordData, 'h2');
-        addChildElement(header, 'i', undefined, 'Record ' + recordIndex);
+            addChildElement(recordData, 'a', { id: 'record_' + recordIndex });
+            let header = addChildElement(recordData, 'h2');
+            addChildElement(header, 'i', undefined, 'Record ' + recordIndex);
 
-        let date = new Date(2000 + recordIndex, recordIndex, recordIndex, recordIndex, recordIndex, recordIndex);
-        let dateText = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
-        addChildElement(recordData, 'p', undefined, 'Date: ' + dateText);
+            let date = new Date(2000 + recordIndex, recordIndex, recordIndex, recordIndex, recordIndex, recordIndex);
+            let dateText = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+            addChildElement(recordData, 'p', undefined, 'Date: ' + dateText);
 
-        addChildElement(recordData, 'p', undefined, 'Record: some text ' + recordIndex);
+            addChildElement(recordData, 'p', undefined, 'Record: some text ' + recordIndex);
 
-        addChildElement(recordData, 'a', { href: '#menu' }, 'To contents');
+            addChildElement(recordData, 'a', { href: '#menu' }, 'To contents');
 
-        let contentItem = addChildElement(contents, 'li');
-        let contentLink = addChildElement(contentItem, 'a', { href: '#record_' + recordIndex }, 'Record ' + recordIndex);
-    }
+            let contentItem = addChildElement(contents, 'li');
+            let contentLink = addChildElement(contentItem, 'a', { href: '#record_' + recordIndex }, 'Record ' + recordIndex);
+        }
 
-    function addChildElement(parrent, tag, attributes, innerText) {
-        let element = document.createElement(tag);
+        function addChildElement(parrent, tag, attributes, innerText) {
+            let element = document.createElement(tag);
 
-        if (attributes) {
-            for (let name in attributes) {
-                let value = attributes[name];
-                element.setAttribute(name, value);
+            if (attributes) {
+                for (let name in attributes) {
+                    let value = attributes[name];
+                    element.setAttribute(name, value);
+                }
             }
-        }
 
-        if (innerText) {
-            element.innerText = innerText;
-        }
+            if (innerText) {
+                element.innerText = innerText;
+            }
 
-        if (parrent) {
-            parrent.append(element);
-        }
+            if (parrent) {
+                parrent.append(element);
+            }
 
-        return element;
-    }
-</script>
+            return element;
+        }
+    </script>
+</body>
 
 </html>
