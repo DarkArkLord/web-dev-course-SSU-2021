@@ -1,0 +1,91 @@
+/* Задайте элементу <body> фоновый цвет #bdc3c7. */
+body {
+    background-color: #bdc3c7;
+}
+
+/* Задайте элементу <h1> цвет шрифта #9b59b6. */
+h1 {
+    color: #9b59b6;
+}
+
+/* Сделайте шрифт всех заголовков <h2> оранжевым. */
+h2 {
+    color: orange;
+}
+
+/* Сделайте шрифт всех <li> элементов синим. */
+li {
+    color: blue;
+}
+
+/* Задайте жёлтый фоновый цвет для каждого параграфа. */
+p {
+    background-color: yellow;
+}
+
+/* Всем элементам <input> задайте сплошную (solid) красную границу (border) шириной 3px. */
+input {
+    border: 3px solid red;
+}
+
+/* Всем элементам с классом 'hello' задайте белый фон. */
+.hello {
+    background-color: white;
+}
+
+/* Элементу с id 'special' задайте зелёную сплошную границу шириной 2px. */
+#special {
+    border: 2px solid green;
+}
+
+/* Всем <p> элементам, которые вложены в div контейнеры, задайте размер шрифта 25px. */
+div p {
+    font-size: 25px;
+}
+
+/* Только элементам <input> с типом 'text' задайте серый фон. */
+input[type="text"] {
+    background-color: gray;
+}
+
+/* Обоим <p> элементам внутри 3-го <div> контейнера задайте розовый фон. */
+body > div:nth-child(5) > p {
+    background-color: pink;
+}
+
+/* Задайте второму <p> элементу внутри третьего <div> контейнера белую сплошную границу 5px. */
+body > div:nth-child(5) > p:nth-child(3) {
+    border: 5px solid white;
+}
+
+/* Задайте <em> элементу внутри третьего <div> контейнера белый фон и размер шрифта 20px. */
+body > div:nth-child(5) > em {
+    background-color: white;
+    font-size: 20px;
+}
+
+/* Задайте всем отмеченным (checked) чек-боксам отступ слева в 50px (margin-left: 50px). */
+input:checked {
+    margin-left: 50px
+}
+
+/* Измените текст всех <label> элементов на заглавные буквы (UPPERCASE), не меняя HTML. */
+label {
+    text-transform: uppercase;
+}
+
+/* Для элемента с id 'special' сделайте первую букву зелёной и размером 100px. */
+#special:first-letter {
+    color: green;
+    font-size: 100px;
+}
+
+/* Сделайте так, чтобы цвет заголовка <h1> менялся на красный, когда пользователь наводит на него курсор мыши. */
+h1:hover {
+    color: red;
+}
+
+/* Сделайте все ссылки <a>, которые были посещены пользователем, зелёного цвета. */
+a:visited {
+    color: green;
+}
