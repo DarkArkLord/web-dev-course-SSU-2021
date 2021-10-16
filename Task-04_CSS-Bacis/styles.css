@@ -1,0 +1,29 @@
+.cat_img {
+    width: 100px;
+}
+
+.table_without_border {
+    border: 1px black solid;
+    /* border-spacing: 5px;
+    width: 100%; */
+}
+
+.align_left {
+    text-align: left;
+}
+
+.align_center {
+    text-align: center;
+}
+
+.align_center {
+    text-align: center;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.margin_auto {
+    margin: auto;
+}
