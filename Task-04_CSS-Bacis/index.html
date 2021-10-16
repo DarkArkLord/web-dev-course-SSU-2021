@@ -9,9 +9,9 @@
 
 <body>
     <table cellpadding="5" cellspacing="5" width="100%">
-        <tr>
+        <tr class="backbgound_header">
             <td>
-                <table class="margin_auto">
+                <table class="margin_auto ">
                     <tr>
                         <td>
                             <img class="cat_img" alt="cat picture">
@@ -41,80 +41,95 @@
                     </tr>
                 </table>
                 <script>
-                    for (const img of [...document.getElementsByClassName('cat_img')]) img.setAttribute('src', 'https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg');
+                    // Set scr of img with class 'cat_img'
+                    for (const img of [...document.getElementsByClassName('cat_img')])
+                        img.setAttribute('src', 'https://goodhands.vet/upload/iblock/555/555e6ed7d3b4f48330cc2789309c06f6.jpg');
                 </script>
             </td>
         </tr>
         <tr>
             <td>
                 <table cellpadding="5" cellspacing="0" width="100%">
-                    <tr class="align_center">
-                        <td>
-                            <a href="http://www.google.com" target="_blank">
-                                menu item 1
-                            </a>
-                        </td>
-                        <td>
-                            <a href="http://www.yandex.ru" target="_blank">
-                                menu item 2
-                            </a>
-                        </td>
-                        <td>
-                            <a href="http://htmlbook.ru" target="_blank">
-                                menu item 3
-                            </a>
-                        </td>
-                        <td>
-                            <a href="https://translate.google.ru" target="_blank">
-                                menu item 4
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <a id="menu"></a>
-                <h2>
-                    Contents
-                </h2>
-                <ul id="contentsList">
-                    <li>
-                        <a href="#record_0">
-                            Record 0
-                        </a>
-                    </li>
-                </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <table id="recordsTable" cellpadding="5" cellspacing="5" width="100%">
                     <tr>
-                        <td>
-                            <a id="record_0"></a>
-                            <h2>
-                                <em>
-                                    Record 0
-                                </em>
-                            </h2>
-                            <p>
-                                Date: 1.1.2000
-                            </p>
-                            <p>
-                                Some record 0 text
-                            </p>
-                            <a href="#menu">
-                                To contents
-                            </a>
+                        <td class="top_element width_20 border_right_solid_green">
+                            <h2>Menu</h2>
+                            <table cellpadding="5" cellspacing="0" width="100%">
+                                <tr>
+                                    <td>
+                                        <a href="http://www.google.com" target="_blank">
+                                            menu item 1
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="http://www.yandex.ru" target="_blank">
+                                            menu item 2
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="http://htmlbook.ru" target="_blank">
+                                            menu item 3
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="https://translate.google.ru" target="_blank">
+                                            menu item 4
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="width_100 align_left">
+                            <table id="recordsTable" cellpadding="5" cellspacing="5" width="100%">
+                                <tr>
+                                    <td>
+                                        <a id="record_0"></a>
+                                        <h2>
+                                            <em>
+                                                Record 0
+                                            </em>
+                                        </h2>
+                                        <p>
+                                            Date: 1.1.2000
+                                        </p>
+                                        <p>
+                                            Some record 0 text
+                                        </p>
+                                        <a href="#menu">
+                                            To contents
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="top_element">
+                            <div class="content_container align_right details_container">
+                                <a id="menu"></a>
+                                <h2>Contents</h2>
+                                <input type="checkbox" class="details_toggle">
+                                <table id="contentsList" class="details_content" cellpadding="5" cellspacing="5"
+                                    width="100%">
+                                    <tr>
+                                        <td>
+                                            <a href="#record_0">
+                                                Record 0
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td class="align_right">
+            <td class="align_center">
                 Contact mew:
                 <a href="mailto:some@email.ru">
                     some@email.ru
@@ -129,6 +144,11 @@
         const recordsNumber = 10;
 
         for (let recordIndex = 1; recordIndex <= 10; recordIndex++) {
+            addRecord(recordIndex);
+        }
+        addRecord('66666666666666666')
+
+        function addRecord(recordIndex) {
             let recordRow = addChildElement(records, 'tr');
             let recordData = addChildElement(recordRow, 'td');
 
@@ -144,8 +164,9 @@
 
             addChildElement(recordData, 'a', { href: '#menu' }, 'To contents');
 
-            let contentItem = addChildElement(contents, 'li');
-            let contentLink = addChildElement(contentItem, 'a', { href: '#record_' + recordIndex }, 'Record ' + recordIndex);
+            let contentRow = addChildElement(contents, 'tr');
+            let contentData = addChildElement(contentRow, 'td');
+            let contentLink = addChildElement(contentData, 'a', { href: '#record_' + recordIndex }, 'Record ' + recordIndex);
         }
 
         function addChildElement(parrent, tag, attributes, innerText) {
