@@ -1,0 +1,47 @@
+.align_left {
+    text-align: left;
+}
+
+.align_center {
+    text-align: center;
+}
+
+.align_right {
+    text-align: right;
+}
+
+img {
+    border-radius: 100px;
+}
+
+.background_gray {
+    background-color: rgb(182, 181, 181);
+}
+
+.background_lightgray {
+    background-color: rgb(211, 211, 211);
+}
+
+.border_bottom_orange {
+    border-bottom: 3px solid orange;
+}
+
+.border_bottom_lightorange {
+    border-bottom: 1px dotted orange;
+}
+
+.color_orange {
+    color: orange;
+}
+
+.top_element {
+    vertical-align: top;
+}
+
+.width_20 {
+    width: 20%;
+}
+
+.width_80 {
+    width: 80%;
+}
