@@ -79,11 +79,19 @@ function getTextLine(text) {
         childs: [
             {
                 tag: HTMLTags.TableData,
-                type: ItemTypes.Value,
-                value: text
+                type: ItemTypes.Container,
+                childs: [
+                    {
+                        tag: HTMLTags.h2,
+                        type: ItemTypes.Value,
+                        value: text
+                    }
+                ],
             }
         ],
     };
+
+
 }
 
 function getTaskValues(func, testValues) {
@@ -125,6 +133,14 @@ const pageElement = {
             [[], []],
             [[], [1]],
             [[1, 3, 5], [-100], [2, 4, 6]],
+        ]),
+        getTextLine('6.2. Бинарное слово'),
+        getTaskValues(TASK_FUNCS.task2, [
+            'man',
+            'AB',
+            'wecking',
+            'Ruby',
+            'Yosemite',
         ]),
     ]
 };

@@ -2,6 +2,7 @@ const HTMLTags = {
     Table: 'table',
     TableRow: 'tr',
     TableData: 'td',
+    h2: 'h2',
     TextArea: 'textarea',
     Button: 'button',
 }
