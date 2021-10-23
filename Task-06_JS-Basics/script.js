@@ -155,6 +155,13 @@ const pageElement = {
             "RqaEzty",
             "cwAt"
         ]),
+        getTextLine('6.5. Изограммы'),
+        getTaskValues(TASK_FUNCS.task5, [
+            "Dermatoglyphics",
+            "aba",
+            "moOse",
+            ""
+        ]),
     ]
 };
 

@@ -37,4 +37,8 @@ const TASK_FUNCS = {
         }
         return words.join('-');
     },
+    task5(input) {
+        let arr = input.toLowerCase().split('');
+        return arr.every((char, index) => index == arr.indexOf(char));
+    },
 };
