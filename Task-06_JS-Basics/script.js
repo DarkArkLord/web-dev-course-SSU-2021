@@ -142,6 +142,19 @@ const pageElement = {
             'Ruby',
             'Yosemite',
         ]),
+        getTextLine('6.3. Подсчёт гласных'),
+        getTaskValues(TASK_FUNCS.task3, [
+            'abracadabra',
+            'ABRACADABRA',
+            'o a kak ushakov lil vo kashu kakao',
+            'my pyx'
+        ]),
+        getTextLine('6.4. Форматирование строки'),
+        getTaskValues(TASK_FUNCS.task4, [
+            "abcd",
+            "RqaEzty",
+            "cwAt"
+        ]),
     ]
 };
 
