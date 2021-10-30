@@ -9,8 +9,8 @@ const TASK_FUNCS = {
     task2(input) {
         return input.split('').map(char => {
             let res = char.charCodeAt(0).toString(2);
-            while (res.length < 8) {
-                res = '0' + res;
+            if(res.length < 8) {
+                res = '0'.repeat(8 - res.length) + res;
             }
             return res;
         })
