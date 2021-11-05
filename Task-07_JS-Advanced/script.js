@@ -14,7 +14,7 @@ function getLineByFunc(input, func) {
             {
                 tag: HTMLTags.TableData,
                 type: ItemTypes.Value,
-                value: JSON.stringify(funcRes)
+                value: funcRes
             }
         ],
     };
@@ -41,8 +41,8 @@ function getLineByFuncWithInput(func) {
     button.onclick = () => {
         try {
             let inputValue = JSON.parse(input.value);
-            let result = func(inputValue);
-            output.value = JSON.stringify(result);
+            let result = func(inputValue, true);
+            output.value = result;
         } catch (ex) {
             alert(`Smth went wrong: ${ex}`);
         }
@@ -139,6 +139,11 @@ const pageElement = {
             { w: 4, h: 4, text: 'Hello World!' },
             { w: 3, h: 4, text: 'Nice pattern' },
             { w: 4, h: 3, text: 'Nice pattern' },
+            { w: 3, h: 4, text: 'Nice long pattern' },
+            { w: 4, h: 3, text: 'Nice long pattern' },
+            { w: 3, h: 4, text: 'N s p' },
+            { w: 4, h: 3, text: 'N s p' },
+            { w: 4, h: 4, text: '' },
         ]),
         getTextLine('7.3. Формула для (a+b)^n'),
         getTaskValues(TASK_FUNCS.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ])

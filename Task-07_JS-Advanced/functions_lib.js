@@ -6,15 +6,28 @@ const TASK_FUNCS = {
             ? 'Invalid input'
             : `+7 ${'(012) 345-67-89'.replace(/\d/g, letter => input[letter])}`;
     },
-    task2(input) {
-        return "1";
-        return input.split("").map(char => {
-            let res = char.charCodeAt(0).toString(2);
-            if (res.length < 8) {
-                res = "0".repeat(8 - res.length) + res;
+    task2(input, isText) {
+        if (!input || !input.w || !Number.isInteger(input.w) || input.w < 1 || !input.h || !Number.isInteger(input.h) || input.h < 1) {
+            return 'Invalid input';
+        }
+
+        function safeLetter(i) {
+            return i < input.text.length ? input.text[i] : ' ';
+        }
+        const newLine = isText ? '\n' : '<br>';
+        const space = isText ? ' ' : '&nbsp;';
+        const horizontal = `+${'---+'.repeat(input.w)}${newLine}`;
+        let result = horizontal;
+        for (let hi = 0; hi < input.h; hi++) {
+            result += '|';
+            for (let wi = 0; wi < input.w; wi++) {
+                const i = hi * input.w + wi;
+                result += `${space}${safeLetter(i)}${space}|`;
             }
-            return res;
-        });
+            result += newLine + horizontal;
+        }
+
+        return result;
     },
     task3(input) {
         return "1";
