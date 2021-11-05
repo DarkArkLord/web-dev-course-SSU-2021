@@ -42,12 +42,19 @@ const TASK_FUNCS = {
             return 'Invalid input';
         }
 
-        function coeff(n, k) {
-            let res = 1;
-            for (let i = 1; i <= k; ++i) {
-                res = res * (n - k + i) / i;
+        function factor(n) {
+            factor.mem = factor.mem || {};
+            if(factor.mem[n]) return factor.mem[n];
+
+            let res = BigInt(1);
+            for(let i = 2; i <= n; i++) {
+                res *= BigInt(i);
             }
-            return (res + 0.01) | 0;
+            return factor.mem[n] = res;
+        }
+
+        function coeff(n, k) {
+            return factor(n) / (factor(k) * factor(n - k));
         }
 
         function powStr(letter, pow) {
