@@ -30,7 +30,41 @@ const TASK_FUNCS = {
         return result;
     },
     task3(input) {
-        return "1";
-        return [...input.matchAll(/[aeiou]/gi)].length;
+        if (input < 0) {
+            let temp = TASK_FUNCS.task3(-input);
+            return `1/(${temp})`;
+        }
+        if (input == 0) {
+            return '1';
+        }
+
+        if (!input || !Number.isInteger(input) || input < -200 || input > 200) {
+            return 'Invalid input';
+        }
+
+        function coeff(n, k) {
+            let res = 1;
+            for (let i = 1; i <= k; ++i) {
+                res = res * (n - k + i) / i;
+            }
+            return (res + 0.01) | 0;
+        }
+
+        function powStr(letter, pow) {
+            return pow == 1 ? letter : `${letter}^${pow}`;
+        }
+
+        let result = powStr('a', input);
+        for(let i = 1; i < input; i++) {
+            let c = coeff(input, i);
+            c = c == 1 ? '' : c;
+            const a = powStr('a', input - i);
+            const b = powStr('b', i);
+            
+            result += `+${c}${a}${b}`;
+        }
+        result += `+${powStr('b', input)}`;
+
+        return result;
     },
 };
