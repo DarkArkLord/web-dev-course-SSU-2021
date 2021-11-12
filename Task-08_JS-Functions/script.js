@@ -132,17 +132,12 @@ const pageElement = {
         getTaskValues(TASK_FUNCS.task1, [
             'none', 'none', 'none', 'none', 'none',
         ], '"none"'),
-        getTextLine('8.2. Форматирование строки в таблицу'),
+        getTextLine('8.2. Игра на выбывание'),
         getTaskValues(TASK_FUNCS.task2, [
-            { w: 4, h: 4, text: 'Hello World!' },
-            { w: 3, h: 4, text: 'Nice pattern' },
-            { w: 4, h: 3, text: 'Nice pattern' },
-            { w: 3, h: 4, text: 'Nice long pattern' },
-            { w: 4, h: 3, text: 'Nice long pattern' },
-            { w: 3, h: 4, text: 'N s p' },
-            { w: 4, h: 3, text: 'N s p' },
-            { w: 4, h: 4, text: '' },
-        ]),
+            { count: 7, step: 3 },
+            { count: 11, step: 19 },
+            { count: 1, step: 300 },
+        ], JSON.stringify({ count: 7, step: 3 })),
         getTextLine('8.3. Формула для (a+b)^n'),
         getTaskValues(TASK_FUNCS.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ])
     ]

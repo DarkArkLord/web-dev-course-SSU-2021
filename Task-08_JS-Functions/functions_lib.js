@@ -32,28 +32,17 @@ const TASK_FUNCS = {
 
         return res;
     },
-    task2(input, isText) {
-        if (!input || !input.w || !Number.isInteger(input.w) || input.w < 1 || !input.h || !Number.isInteger(input.h) || input.h < 1) {
-            return 'Invalid input';
-        }
-
-        function safeLetter(i) {
-            return i < input.text.length ? input.text[i] : ' ';
-        }
-        const newLine = isText ? '\n' : '<br>';
-        const space = isText ? ' ' : '&nbsp;';
-        const horizontal = `+${'---+'.repeat(input.w)}${newLine}`;
-        let result = horizontal;
-        for (let hi = 0; hi < input.h; hi++) {
-            result += '|';
-            for (let wi = 0; wi < input.w; wi++) {
-                const i = hi * input.w + wi;
-                result += `${space}${safeLetter(i)}${space}|`;
+    task2(input) {
+        let queue = Array.from({length: input.count}, (_, i) => i + 1);
+        for(let step = 1; queue.length > 1 ;step++) {
+            let cur = queue.shift();
+            if(step % input.step == 0) {
+                step = 0;
+                continue;
             }
-            result += newLine + horizontal;
+            queue.push(cur);
         }
-
-        return result;
+        return queue.shift();
     },
     task3(input) {
         if (input < 0) {
