@@ -21,10 +21,12 @@ function getLineByFunc(input, func) {
     return result;
 }
 
-function getLineByFuncWithInput(func) {
+function getLineByFuncWithInput(func, defaultInput) {
     let input = render({
         tag: HTMLTags.TextArea,
+        type: ItemTypes.Value,
         attributes: { cols: "30", rows: "5" },
+        value: defaultInput || ''
     });
 
     let output = render({
@@ -94,7 +96,7 @@ function getTextLine(text) {
 
 }
 
-function getTaskValues(func, testValues) {
+function getTaskValues(func, testValues, defaultInput) {
     let funcTable = {
         tag: HTMLTags.Table,
         type: ItemTypes.Container,
@@ -106,7 +108,7 @@ function getTaskValues(func, testValues) {
         const line = getLineByFunc(val, func);
         funcTable.childs.push(line);
     }
-    let inputLine = getLineByFuncWithInput(func);
+    let inputLine = getLineByFuncWithInput(func, defaultInput);
     funcTable.childs.push(inputLine);
 
     return {
@@ -126,15 +128,11 @@ const pageElement = {
     tag: HTMLTags.Table,
     type: ItemTypes.Container,
     childs: [
-        getTextLine('7.1. Форматирование телефонного номера'),
+        getTextLine('8.1. Генератор паролей'),
         getTaskValues(TASK_FUNCS.task1, [
-            [9, 0, 0, 1, 1, 1, 2, 2, 3, 3],
-            [9, 2, 7, 5, 5, 5, 6, 6, 9, 0],
-            [1, 2, 3, 4, 5, 6, 7, 8, 9, -11],
-            [],
-            'aw93fha=',
-        ]),
-        getTextLine('7.2. Форматирование строки в таблицу'),
+            'none', 'none', 'none', 'none', 'none',
+        ], '"none"'),
+        getTextLine('8.2. Форматирование строки в таблицу'),
         getTaskValues(TASK_FUNCS.task2, [
             { w: 4, h: 4, text: 'Hello World!' },
             { w: 3, h: 4, text: 'Nice pattern' },
@@ -145,7 +143,7 @@ const pageElement = {
             { w: 4, h: 3, text: 'N s p' },
             { w: 4, h: 4, text: '' },
         ]),
-        getTextLine('7.3. Формула для (a+b)^n'),
+        getTextLine('8.3. Формула для (a+b)^n'),
         getTaskValues(TASK_FUNCS.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ])
     ]
 };
