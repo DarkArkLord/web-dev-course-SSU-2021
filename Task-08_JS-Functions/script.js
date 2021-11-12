@@ -138,8 +138,19 @@ const pageElement = {
             { count: 11, step: 19 },
             { count: 1, step: 300 },
         ], JSON.stringify({ count: 7, step: 3 })),
-        getTextLine('8.3. Формула для (a+b)^n'),
-        getTaskValues(TASK_FUNCS.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ])
+        getTextLine('8.3. Калькулятор из функций'),
+        getTaskValues(TASK_FUNCS.task3, [
+            "seven(times(five())); // должно вернуть 35",
+            "four(plus(nine())); // 13",
+            "eight(minus(three())); // 5",
+            "six(dividedBy(two())); // 3",
+            "eight(dividedBy(three())); // 2, а не 2.666666(6)",
+            "three(times(three(times(three())))); // 27",
+            "two(plus(two(times(two(minus(one())))))); // 4",
+            "zero(plus(one(dividedBy(one())))); // 1",
+            "one(dividedBy(zero())); // Infinity",
+            "one();"
+        ], '"zero(dividedBy(zero()))"')
     ]
 };
 
