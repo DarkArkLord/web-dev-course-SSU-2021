@@ -34,13 +34,14 @@ function getLineByFuncWithInput(func, defaultInput) {
         attributes: { cols: "30", rows: "5", readonly: 'true' },
     });
 
-    let button = render({
+    let doButton = {
         tag: HTMLTags.Button,
         type: ItemTypes.Value,
         value: 'Do'
-    });
+    };
+    render(doButton);
 
-    button.onclick = () => {
+    doButton.element.onclick = () => {
         try {
             let inputValue = JSON.parse(input.value);
             let result = func(inputValue, true);
@@ -48,6 +49,31 @@ function getLineByFuncWithInput(func, defaultInput) {
         } catch (ex) {
             alert(`Smth went wrong: ${ex}`);
         }
+    };
+
+    let clearButton = {
+        tag: HTMLTags.Button,
+        type: ItemTypes.Value,
+        value: 'Clear'
+    };
+    render(clearButton);
+
+    clearButton.element.onclick = () => {
+        try {
+            input.value = '';
+            output.value = '';
+        } catch (ex) {
+            alert(`Smth went wrong: ${ex}`);
+        }
+    };
+
+    let buttonsContainer = {
+        tag: HTMLTags.Div,
+        type: ItemTypes.Container,
+        childs: [
+            doButton,
+            clearButton
+        ]
     };
 
     let result = {
@@ -67,7 +93,7 @@ function getLineByFuncWithInput(func, defaultInput) {
             {
                 tag: HTMLTags.TableData,
                 type: ItemTypes.HtmlElementContainer,
-                innerElement: button
+                innerElement: render(buttonsContainer)
             }
         ],
     };

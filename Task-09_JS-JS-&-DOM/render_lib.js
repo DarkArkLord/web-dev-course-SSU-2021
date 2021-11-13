@@ -5,6 +5,7 @@ const HTMLTags = {
     h2: 'h2',
     TextArea: 'textarea',
     Button: 'button',
+    Div: 'div',
 }
 
 const ItemTypes = {
