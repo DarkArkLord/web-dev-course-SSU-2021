@@ -138,7 +138,7 @@ const pageElement = {
             [[], []],
             [[], [1]],
             [[1, 3, 5], [-100], [2, 4, 6]],
-        ]),
+        ], JSON.stringify([[3, 2, 1], [4, 6, 5], [], [9, 7, 8]])),
         getTextLine('6.2. Бинарное слово'),
         getTaskValues(TASK_FUNCS_6.task2, [
             'man',
@@ -146,27 +146,27 @@ const pageElement = {
             'wecking',
             'Ruby',
             'Yosemite',
-        ]),
+        ], '"man"'),
         getTextLine('6.3. Подсчёт гласных'),
         getTaskValues(TASK_FUNCS_6.task3, [
             'abracadabra',
             'ABRACADABRA',
             'o a kak ushakov lil vo kashu kakao',
             'my pyx'
-        ]),
+        ], '"abracadabra"'),
         getTextLine('6.4. Форматирование строки'),
         getTaskValues(TASK_FUNCS_6.task4, [
             "abcd",
             "RqaEzty",
             "cwAt"
-        ]),
+        ], '"cat"'),
         getTextLine('6.5. Изограммы'),
         getTaskValues(TASK_FUNCS_6.task5, [
             "Dermatoglyphics",
             "aba",
             "moOse",
             ""
-        ]),
+        ], '"Dermatoglyphics"'),
         // --- --- --- --- --- --- ---
         // --- --- ---  7  --- --- ---
         // --- --- --- --- --- --- ---
@@ -177,7 +177,7 @@ const pageElement = {
             [1, 2, 3, 4, 5, 6, 7, 8, 9, -11],
             [],
             'aw93fha=',
-        ]),
+        ], [9, 2, 7, 5, 5, 5, 6, 6, 9, 0]),
         getTextLine('7.2. Форматирование строки в таблицу'),
         getTaskValues(TASK_FUNCS_7.task2, [
             { w: 4, h: 4, text: 'Hello World!' },
@@ -188,9 +188,9 @@ const pageElement = {
             { w: 3, h: 4, text: 'N s p' },
             { w: 4, h: 3, text: 'N s p' },
             { w: 4, h: 4, text: '' },
-        ]),
+        ], JSON.stringify({ w: 3, h: 4, text: 'Nice long pattern' })),
         getTextLine('7.3. Формула для (a+b)^n'),
-        getTaskValues(TASK_FUNCS_7.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ]),
+        getTaskValues(TASK_FUNCS_7.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ], 5),
         // --- --- --- --- --- --- ---
         // --- --- ---  8  --- --- ---
         // --- --- --- --- --- --- ---
