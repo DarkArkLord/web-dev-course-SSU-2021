@@ -1,31 +1,37 @@
+const COMMON_FUNCS = {
+    randInt(min, max) {
+        return min + (Math.random() * (max - min)) | 0;
+    },
+    getRandomValue(values) {
+        let index = COMMON_FUNCS.randInt(0, values.length);
+        return values[index];
+    },
+    getOperator: operator => numberRight => numberLeft => operator(numberLeft, numberRight),
+    getNumber: value => operator => operator ? operator(value) : value,
+};
+
 const TASK_FUNCS = {
     task1(input) {
-        function randInt(min, max) {
-            return min + (Math.random() * (max - min)) | 0;
-        }
-
-        function getRandomValue(values) {
-            let index = randInt(0, values.length);
-            return values[index];
-        }
         const numbers = '0123456789';
         const lettersLow = 'abcdefghijklmnopqrstuvwxyz';
         const lettersUp = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        const resultLength = randInt(6, 20 + 1);
+        const resultLength = COMMON_FUNCS.randInt(6, 20 + 1);
 
-        let res = getRandomValue(numbers) + getRandomValue(lettersLow) + getRandomValue(lettersUp);
+        let res = COMMON_FUNCS.getRandomValue(numbers)
+            + COMMON_FUNCS.getRandomValue(lettersLow)
+            + COMMON_FUNCS.getRandomValue(lettersUp);
         while (res.length < resultLength) {
-            let variant = randInt(1, 3);
+            let variant = COMMON_FUNCS.randInt(1, 3);
             switch (variant) {
                 case 1:
-                    res += getRandomValue(numbers);
+                    res += COMMON_FUNCS.getRandomValue(numbers);
                     break;
                 case 2:
-                    res += getRandomValue(lettersLow);
+                    res += COMMON_FUNCS.getRandomValue(lettersLow);
                     break;
                 case 3:
-                    res += getRandomValue(lettersUp);
+                    res += COMMON_FUNCS.getRandomValue(lettersUp);
                     break;
             }
         }
@@ -45,9 +51,6 @@ const TASK_FUNCS = {
         return queue.shift();
     },
     task3(input) {
-        const getOperator = operator => numberRight => numberLeft => operator(numberLeft, numberRight);
-        const getNumber = value => operator => operator ? operator(value) : value;
-
         // * * * * * * * * * *
         // * Короткая версия *
         // * * * * * * * * * *
@@ -59,20 +62,20 @@ const TASK_FUNCS = {
         //     getOperator((a, b) => a + b), getOperator((a, b) => a - b),
         //     getOperator((a, b) => a * b), getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b)));
 
-        const zero = getNumber(0);
-        const one = getNumber(1);
-        const two = getNumber(2);
-        const three = getNumber(3);
-        const four = getNumber(4);
-        const five = getNumber(5);
-        const six = getNumber(6);
-        const seven = getNumber(7);
-        const eight = getNumber(8);
-        const nine = getNumber(9);
-        const plus = getOperator((a, b) => a + b);
-        const minus = getOperator((a, b) => a - b);
-        const times = getOperator((a, b) => a * b);
-        const dividedBy = getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b));
+        const zero = COMMON_FUNCS.getNumber(0);
+        const one = COMMON_FUNCS.getNumber(1);
+        const two = COMMON_FUNCS.getNumber(2);
+        const three = COMMON_FUNCS.getNumber(3);
+        const four = COMMON_FUNCS.getNumber(4);
+        const five = COMMON_FUNCS.getNumber(5);
+        const six = COMMON_FUNCS.getNumber(6);
+        const seven = COMMON_FUNCS.getNumber(7);
+        const eight = COMMON_FUNCS.getNumber(8);
+        const nine = COMMON_FUNCS.getNumber(9);
+        const plus = COMMON_FUNCS.getOperator((a, b) => a + b);
+        const minus = COMMON_FUNCS.getOperator((a, b) => a - b);
+        const times = COMMON_FUNCS.getOperator((a, b) => a * b);
+        const dividedBy = COMMON_FUNCS.getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b));
 
         return eval(input);
     },
