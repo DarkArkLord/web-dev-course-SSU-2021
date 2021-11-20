@@ -60,7 +60,7 @@ function getLineByFuncWithInput(func, defaultInput) {
 
     clearButton.element.onclick = () => {
         try {
-            input.value = '';
+            input.value = defaultInput;
             output.value = '';
         } catch (ex) {
             alert(`Smth went wrong: ${ex}`);
