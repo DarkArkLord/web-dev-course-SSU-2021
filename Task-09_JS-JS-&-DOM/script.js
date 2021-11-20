@@ -81,7 +81,7 @@ function getLineByFuncWithInput(func, defaultInput, valudator) {
     return result;
 }
 
-function getTextLine(text) {
+function getHeaderLine(text) {
     return {
         tag: HTMLTags.TableRow,
         type: ItemTypes.Container,
@@ -99,11 +99,23 @@ function getTextLine(text) {
             }
         ],
     };
-
-
 }
 
-function getTaskValues(func, description, defaultInput, valudator) {
+function getTextLine(text) {
+    return {
+        tag: HTMLTags.TableRow,
+        type: ItemTypes.Container,
+        childs: [
+            {
+                tag: HTMLTags.TableData,
+                type: ItemTypes.Value,
+                value: text
+            }
+        ],
+    };
+}
+
+function getTaskValues(func, defaultInput, valudator) {
     let funcTable = {
         tag: HTMLTags.Table,
         type: ItemTypes.Container,
@@ -114,39 +126,31 @@ function getTaskValues(func, description, defaultInput, valudator) {
     let inputLine = getLineByFuncWithInput(func, defaultInput, valudator);
     funcTable.childs.push(inputLine);
 
-    return [
-        {
-            tag: HTMLTags.TableRow,
-            type: ItemTypes.Container,
-            childs: [
-                {
-                    tag: HTMLTags.TableData,
-                    type: ItemTypes.Value,
-                    value: description
-                }
-            ],
-        },
-        {
-            tag: HTMLTags.TableRow,
-            type: ItemTypes.Container,
-            childs: [
-                {
-                    tag: HTMLTags.TableData,
-                    type: ItemTypes.Container,
-                    childs: [funcTable]
-                }
-            ],
-        }
-    ];
+    return {
+        tag: HTMLTags.TableRow,
+        type: ItemTypes.Container,
+        childs: [
+            {
+                tag: HTMLTags.TableData,
+                type: ItemTypes.Container,
+                childs: [funcTable]
+            }
+        ],
+    };
 }
 
 const pageElement = {
     tag: HTMLTags.Table,
     type: ItemTypes.Container,
     childs: [
-        getTextLine('7.2. Форматирование строки в таблицу'),
-        ...getTaskValues(TASK_FUNCS.task1, 
-            'test1',
+        getHeaderLine('7.2. Форматирование строки в таблицу'),
+        getTextLine('Требуется ввести объект в следующем виде:<br>'
+            + '{"w":<width>,"h":<height>,"text":"<text>"}<br>'
+            + 'Где:<br>'
+            + '<width> - положительнео целое число, ширина таблицы<br>'
+            + '<height> - положительнео целое число, высота таблицы<br>'
+            + '<text> - текст для ячеек таблицы'),
+        getTaskValues(TASK_FUNCS.task1,
             JSON.stringify({ w: 3, h: 4, text: 'Nice long pattern' }),
             value => {
                 let header = 'Validation:\n';
@@ -159,9 +163,9 @@ const pageElement = {
                 if (value.w < 1) throw header + 'Value of "w" is not positive.';
                 if (value.h < 1) throw header + 'Value of "h" is not positive.';
             }),
-        getTextLine('7.3. Формула для (a+b)^n'),
-        ...getTaskValues(TASK_FUNCS.task2, 
-            'test2', 5,
+        getHeaderLine('7.3. Формула для (a+b)^n'),
+        getTextLine('Введите целое число от -200 до 200'),
+        getTaskValues(TASK_FUNCS.task2, 5,
             value => {
                 let header = 'Validation:\n';
                 if (value == undefined) throw header + 'Input is undefind.';
@@ -169,9 +173,11 @@ const pageElement = {
                 if (value < -200) throw header + 'Input is less then -200.';
                 if (value > 200) throw header + 'Input is great then 200.';
             }),
-        getTextLine('8.3. Калькулятор из функций'),
-        ...getTaskValues(TASK_FUNCS.task3, 
-            'test3',
+        getHeaderLine('8.3. Калькулятор из функций'),
+        getTextLine('Введите фунциональную последовательность из элементов:<br>'
+            + 'Цифры: zero, one, two, three, four, five, six, seven, eight, nine<br>'
+            + 'Операторы: plus, minus, times, dividedBy'),
+        getTaskValues(TASK_FUNCS.task3,
             '"zero(dividedBy(zero()))"',
             value => {
                 let header = 'Validation:\n';
