@@ -1,26 +1,5 @@
 const bodyElement = document.getElementsByTagName('body')[0];
 
-function getLineByFunc(input, func) {
-    let funcRes = func(input);
-    let result = {
-        tag: HTMLTags.TableRow,
-        type: ItemTypes.Container,
-        childs: [
-            {
-                tag: HTMLTags.TableData,
-                type: ItemTypes.Value,
-                value: JSON.stringify(input)
-            },
-            {
-                tag: HTMLTags.TableData,
-                type: ItemTypes.Value,
-                value: funcRes + ''
-            }
-        ],
-    };
-    return result;
-}
-
 function getLineByFuncWithInput(func, defaultInput, valudator) {
     let input = render({
         tag: HTMLTags.TextArea,
@@ -124,7 +103,7 @@ function getTextLine(text) {
 
 }
 
-function getTaskValues(func, testValues, defaultInput, valudator) {
+function getTaskValues(func, description, defaultInput, valudator) {
     let funcTable = {
         tag: HTMLTags.Table,
         type: ItemTypes.Container,
@@ -132,24 +111,33 @@ function getTaskValues(func, testValues, defaultInput, valudator) {
         childs: []
     }
 
-    for (const val of testValues) {
-        const line = getLineByFunc(val, func);
-        funcTable.childs.push(line);
-    }
     let inputLine = getLineByFuncWithInput(func, defaultInput, valudator);
     funcTable.childs.push(inputLine);
 
-    return {
-        tag: HTMLTags.TableRow,
-        type: ItemTypes.Container,
-        childs: [
-            {
-                tag: HTMLTags.TableData,
-                type: ItemTypes.Container,
-                childs: [funcTable]
-            }
-        ],
-    };
+    return [
+        {
+            tag: HTMLTags.TableRow,
+            type: ItemTypes.Container,
+            childs: [
+                {
+                    tag: HTMLTags.TableData,
+                    type: ItemTypes.Value,
+                    value: description
+                }
+            ],
+        },
+        {
+            tag: HTMLTags.TableRow,
+            type: ItemTypes.Container,
+            childs: [
+                {
+                    tag: HTMLTags.TableData,
+                    type: ItemTypes.Container,
+                    childs: [funcTable]
+                }
+            ],
+        }
+    ];
 }
 
 const pageElement = {
@@ -157,16 +145,8 @@ const pageElement = {
     type: ItemTypes.Container,
     childs: [
         getTextLine('7.2. Форматирование строки в таблицу'),
-        getTaskValues(TASK_FUNCS.task1, [
-                { w: 4, h: 4, text: 'Hello World!' },
-                { w: 3, h: 4, text: 'Nice pattern' },
-                { w: 4, h: 3, text: 'Nice pattern' },
-                { w: 3, h: 4, text: 'Nice long pattern' },
-                { w: 4, h: 3, text: 'Nice long pattern' },
-                { w: 3, h: 4, text: 'N s p' },
-                { w: 4, h: 3, text: 'N s p' },
-                { w: 4, h: 4, text: '' },
-            ],
+        ...getTaskValues(TASK_FUNCS.task1, 
+            'test1',
             JSON.stringify({ w: 3, h: 4, text: 'Nice long pattern' }),
             value => {
                 let header = 'Validation:\n';
@@ -180,7 +160,8 @@ const pageElement = {
                 if (value.h < 1) throw header + 'Value of "h" is not positive.';
             }),
         getTextLine('7.3. Формула для (a+b)^n'),
-        getTaskValues(TASK_FUNCS.task2, [0, 1, 2, -2, 3, 5, 201, 3.14, ], 5,
+        ...getTaskValues(TASK_FUNCS.task2, 
+            'test2', 5,
             value => {
                 let header = 'Validation:\n';
                 if (value == undefined) throw header + 'Input is undefind.';
@@ -189,18 +170,8 @@ const pageElement = {
                 if (value > 200) throw header + 'Input is great then 200.';
             }),
         getTextLine('8.3. Калькулятор из функций'),
-        getTaskValues(TASK_FUNCS.task3, [
-                "seven(times(five())); // должно вернуть 35",
-                "four(plus(nine())); // 13",
-                "eight(minus(three())); // 5",
-                "six(dividedBy(two())); // 3",
-                "eight(dividedBy(three())); // 2, а не 2.666666(6)",
-                "three(times(three(times(three())))); // 27",
-                "two(plus(two(times(two(minus(one())))))); // 4",
-                "zero(plus(one(dividedBy(one())))); // 1",
-                "one(dividedBy(zero())); // Infinity",
-                "one();"
-            ],
+        ...getTaskValues(TASK_FUNCS.task3, 
+            'test3',
             '"zero(dividedBy(zero()))"',
             value => {
                 let header = 'Validation:\n';
@@ -212,7 +183,7 @@ const pageElement = {
 
                 let openBracketCount = (valueWithpouComments.match(/\(/g) || []).length;
                 let closeBracketCount = (valueWithpouComments.match(/\)/g) || []).length;
-                if(openBracketCount != closeBracketCount) throw header + 'Incorrect brackets count!';
+                if (openBracketCount != closeBracketCount) throw header + 'Incorrect brackets count!';
             })
     ]
 };
