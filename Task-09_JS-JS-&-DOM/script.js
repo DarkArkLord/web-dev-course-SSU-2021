@@ -184,6 +184,7 @@ const pageElement = {
             value => {
                 let header = 'Validation:\n';
                 if (value == undefined) throw header + 'Input is undefind.';
+                if (!Number.isInteger(value)) throw header + 'Input is not integer.';
                 if (value < -200) throw header + 'Input is less then -200.';
                 if (value > 200) throw header + 'Input is great then 200.';
             }),
@@ -207,10 +208,10 @@ const pageElement = {
 
                 let keywords = /(zero)|(one)|(two)|(three)|(four)|(five)|(six)|(seven)|(eight)|(nine)|(plus)|(minus)|(times)|(dividedBy)|(\()|(\))|(;)/g
                 let valueWithoutKeywords = valueWithpouComments.replace(keywords, '');
-                if (valueWithoutKeywords.length) throw header + 'Input has unexpected characters.';
+                if (valueWithoutKeywords.length > 0) throw header + 'Input has unexpected characters.';
 
-                let openBracketCount = valueWithpouComments.match(/\(/g).length;
-                let closeBracketCount = valueWithpouComments.match(/\)/g).length;
+                let openBracketCount = (valueWithpouComments.match(/\(/g) || []).length;
+                let closeBracketCount = (valueWithpouComments.match(/\)/g) || []).length;
                 if(openBracketCount != closeBracketCount) throw header + 'Incorrect brackets count!';
             })
     ]
