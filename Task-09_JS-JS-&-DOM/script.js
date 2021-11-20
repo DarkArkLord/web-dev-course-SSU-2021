@@ -155,7 +155,7 @@ const pageElement = {
     type: ItemTypes.Container,
     childs: [
         getTextLine('7.2. Форматирование строки в таблицу'),
-        getTaskValues(TASK_FUNCS_7.task2, [
+        getTaskValues(TASK_FUNCS.task1, [
             { w: 4, h: 4, text: 'Hello World!' },
             { w: 3, h: 4, text: 'Nice pattern' },
             { w: 4, h: 3, text: 'Nice pattern' },
@@ -166,9 +166,9 @@ const pageElement = {
             { w: 4, h: 4, text: '' },
         ], JSON.stringify({ w: 3, h: 4, text: 'Nice long pattern' })),
         getTextLine('7.3. Формула для (a+b)^n'),
-        getTaskValues(TASK_FUNCS_7.task3, [0, 1, 2, -2, 3, 5, 201, 3.14, ], 5),
+        getTaskValues(TASK_FUNCS.task2, [0, 1, 2, -2, 3, 5, 201, 3.14, ], 5),
         getTextLine('8.3. Калькулятор из функций'),
-        getTaskValues(TASK_FUNCS_8.task3, [
+        getTaskValues(TASK_FUNCS.task3, [
             "seven(times(five())); // должно вернуть 35",
             "four(plus(nine())); // 13",
             "eight(minus(three())); // 5",

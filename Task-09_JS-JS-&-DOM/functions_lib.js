@@ -1,12 +1,34 @@
-const TASK_FUNCS_7 = {
-    task2(input, isText) {
+const COMMON_FUNCS = {
+    safeLetter(index, text, defaultValue) {
+        return index < text.length ? text[index] : defaultValue;
+    },
+    factor(n) {
+        COMMON_FUNCS.factor.mem = COMMON_FUNCS.factor.mem || {};
+        if (COMMON_FUNCS.factor.mem[n] == undefined) {
+            let res = BigInt(1);
+            for (let i = 2; i <= n; i++) {
+                res *= BigInt(i);
+            }
+            COMMON_FUNCS.factor.mem[n] = res;
+        }
+        return COMMON_FUNCS.factor.mem[n];
+    },
+    coeff(n, k) {
+        return COMMON_FUNCS.factor(n) / (COMMON_FUNCS.factor(k) * COMMON_FUNCS.factor(n - k));
+    },
+    powStr(letter, pow) {
+        return pow == 1 ? letter : `${letter}^${pow}`;
+    },
+    getOperator: operator => numberRight => numberLeft => operator(numberLeft, numberRight),
+    getNumber: value => operator => operator ? operator(value) : value,
+};
+
+const TASK_FUNCS = {
+    task1(input, isText) {
         if (!input || !input.w || !Number.isInteger(input.w) || input.w < 1 || !input.h || !Number.isInteger(input.h) || input.h < 1) {
             return 'Invalid input';
         }
 
-        function safeLetter(i) {
-            return i < input.text.length ? input.text[i] : ' ';
-        }
         const newLine = isText ? '\n' : '<br>';
         const space = isText ? ' ' : '&nbsp;';
         const horizontal = `+${'---+'.repeat(input.w)}${newLine}`;
@@ -15,16 +37,16 @@ const TASK_FUNCS_7 = {
             result += '|';
             for (let wi = 0; wi < input.w; wi++) {
                 const i = hi * input.w + wi;
-                result += `${space}${safeLetter(i)}${space}|`;
+                result += `${space}${COMMON_FUNCS.safeLetter(i, input.text, space)}${space}|`;
             }
             result += newLine + horizontal;
         }
 
         return result;
     },
-    task3(input) {
+    task2(input) {
         if (input < 0) {
-            let temp = TASK_FUNCS_7.task3(-input);
+            let temp = TASK_FUNCS.task2(-input);
             return `1/(${temp})`;
         }
         if (input == 0) {
@@ -35,45 +57,20 @@ const TASK_FUNCS_7 = {
             return 'Invalid input';
         }
 
-        function factor(n) {
-            factor.mem = factor.mem || {};
-            if(factor.mem[n]) return factor.mem[n];
-
-            let res = BigInt(1);
-            for(let i = 2; i <= n; i++) {
-                res *= BigInt(i);
-            }
-            return factor.mem[n] = res;
-        }
-
-        function coeff(n, k) {
-            return factor(n) / (factor(k) * factor(n - k));
-        }
-
-        function powStr(letter, pow) {
-            return pow == 1 ? letter : `${letter}^${pow}`;
-        }
-
-        let result = powStr('a', input);
-        for(let i = 1; i < input; i++) {
-            let c = coeff(input, i);
+        let result = COMMON_FUNCS.powStr('a', input);
+        for (let i = 1; i < input; i++) {
+            let c = COMMON_FUNCS.coeff(input, i);
             c = c == 1 ? '' : c;
-            const a = powStr('a', input - i);
-            const b = powStr('b', i);
-            
+            const a = COMMON_FUNCS.powStr('a', input - i);
+            const b = COMMON_FUNCS.powStr('b', i);
+
             result += `+${c}${a}${b}`;
         }
-        result += `+${powStr('b', input)}`;
+        result += `+${COMMON_FUNCS.powStr('b', input)}`;
 
         return result;
     },
-};
-
-const TASK_FUNCS_8 = {
     task3(input) {
-        const getOperator = operator => numberRight => numberLeft => operator(numberLeft, numberRight);
-        const getNumber = value => operator => operator ? operator(value) : value;
-
         // * * * * * * * * * *
         // * Короткая версия *
         // * * * * * * * * * *
@@ -85,20 +82,20 @@ const TASK_FUNCS_8 = {
         //     getOperator((a, b) => a + b), getOperator((a, b) => a - b),
         //     getOperator((a, b) => a * b), getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b)));
 
-        const zero = getNumber(0);
-        const one = getNumber(1);
-        const two = getNumber(2);
-        const three = getNumber(3);
-        const four = getNumber(4);
-        const five = getNumber(5);
-        const six = getNumber(6);
-        const seven = getNumber(7);
-        const eight = getNumber(8);
-        const nine = getNumber(9);
-        const plus = getOperator((a, b) => a + b);
-        const minus = getOperator((a, b) => a - b);
-        const times = getOperator((a, b) => a * b);
-        const dividedBy = getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b));
+        const zero = COMMON_FUNCS.getNumber(0);
+        const one = COMMON_FUNCS.getNumber(1);
+        const two = COMMON_FUNCS.getNumber(2);
+        const three = COMMON_FUNCS.getNumber(3);
+        const four = COMMON_FUNCS.getNumber(4);
+        const five = COMMON_FUNCS.getNumber(5);
+        const six = COMMON_FUNCS.getNumber(6);
+        const seven = COMMON_FUNCS.getNumber(7);
+        const eight = COMMON_FUNCS.getNumber(8);
+        const nine = COMMON_FUNCS.getNumber(9);
+        const plus = COMMON_FUNCS.getOperator((a, b) => a + b);
+        const minus = COMMON_FUNCS.getOperator((a, b) => a - b);
+        const times = COMMON_FUNCS.getOperator((a, b) => a * b);
+        const dividedBy = COMMON_FUNCS.getOperator((a, b) => Number.isFinite(a / b) ? ((a / b) | 0) : (a / b));
 
         return eval(input);
     },
