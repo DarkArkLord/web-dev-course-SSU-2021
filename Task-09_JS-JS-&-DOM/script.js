@@ -176,7 +176,8 @@ const pageElement = {
         getHeaderLine('8.3. Калькулятор из функций'),
         getTextLine('Введите фунциональную последовательность из элементов:<br>'
             + 'Цифры: zero, one, two, three, four, five, six, seven, eight, nine<br>'
-            + 'Операторы: plus, minus, times, dividedBy'),
+            + 'Операторы: plus, minus, times, dividedBy<br>'
+            + 'В виде строки в двойных ковычках'),
         getTaskValues(TASK_FUNCS.task3,
             '"zero(dividedBy(zero()))"',
             value => {
