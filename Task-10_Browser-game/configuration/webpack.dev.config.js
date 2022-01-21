@@ -5,34 +5,34 @@ const webpackConfiguration = require('../webpack.config');
 const environment = require('./environment');
 
 module.exports = merge(webpackConfiguration, {
-  mode: 'development',
+    mode: 'development',
 
-  /* Manage source maps generation process */
-  devtool: 'eval-source-map',
+    /* Manage source maps generation process */
+    devtool: 'eval-source-map',
 
-  /* Development Server Configuration */
-  devServer: {
-    static: {
-      directory: environment.paths.output,
-      publicPath: '/',
-      watch: true,
+    /* Development Server Configuration */
+    devServer: {
+        static: {
+            directory: environment.paths.output,
+            publicPath: '/',
+            watch: true,
+        },
+        client: {
+            overlay: true,
+        },
+        open: true,
+        compress: true,
+        hot: false,
+        ...environment.server,
     },
-    client: {
-      overlay: true,
+
+    /* File watcher options */
+    watchOptions: {
+        aggregateTimeout: 300,
+        poll: 300,
+        ignored: /node_modules/,
     },
-    open: true,
-    compress: true,
-    hot: false,
-    ...environment.server,
-  },
 
-  /* File watcher options */
-  watchOptions: {
-    aggregateTimeout: 300,
-    poll: 300,
-    ignored: /node_modules/,
-  },
-
-  /* Additional plugins configuration */
-  plugins: [],
+    /* Additional plugins configuration */
+    plugins: [],
 });
