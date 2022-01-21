@@ -1,3 +1,5 @@
-const demo = 'Hello world';
+function demo() {
+    return 'Hello world';
+}
 
-console.log(demo);
+console.log(demo());
