@@ -1,24 +1,9 @@
 {
-  "author": "WeAreAthlon <hello@weareathlon.com> (https://www.weareathlon.com)",
-  "name": "@weareathlon/frontend-webpack-boilerplate",
-  "version": "5.11.0",
-  "description": "Starter project template boilerplate based on Webpack with SASS/PostCSS and babel ES6/7 support.",
-  "homepage": "https://github.com/WeAreAthlon/frontend-webpack-boilerplate#readme",
-  "browserslist": [
-    "last 2 versions",
-    "> 5%"
-  ],
-  "bugs": {
-    "url": "https://github.com/WeAreAthlon/frontend-webpack-boilerplate/issues",
-    "email": "plamen@athlonsofia.com"
-  },
-  "contributors": [
-    {
-      "name": "Plamen Nikolov",
-      "email": "me@pnikoloff.com",
-      "url": "https://pnikoloff.com"
-    }
-  ],
+  "author": "Dark_ness_Lord",
+  "name": "Browser-game",
+  "version": "1.0.0",
+  "description": "Browser game for web dev course.",
+  "homepage": "https://github.com/ShadowOfFallenLord/web-dev-course-SSU-2021/tree/master/Task-10_Browser-game",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
@@ -64,10 +49,6 @@
   ],
   "license": "MIT",
   "private": false,
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:WeAreAthlon/frontend-webpack-boilerplate.git"
-  },
   "scripts": {
     "build": "webpack --config configuration/webpack.dev.config.js --mode=development",
     "watch": "webpack --config configuration/webpack.dev.config.js --mode=development --watch",
