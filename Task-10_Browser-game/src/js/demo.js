@@ -1,4 +1,3 @@
-const demo = () => 'Webpack Boilerplate v5.11.0 - SASS/PostCSS, ES6/7, browser sync, source code listing and more.';
+const demo = 'Hello world';
 
-// eslint-disable-next-line no-console
-console.log(demo());
+console.log(demo);
