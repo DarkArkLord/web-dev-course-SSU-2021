@@ -1,5 +1,14 @@
 @import 'vars';
+* {
+    font-family: Consolas;
+    background-color: $body-background-color;
+    color: $main-text-color;
+}
 
-.test-style {
-    color: $link-color
+body * {
+    border: solid 1px $table-border-color;
+}
+
+body *::selection {
+    background: transparent;
 }
