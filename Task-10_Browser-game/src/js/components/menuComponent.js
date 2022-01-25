@@ -23,11 +23,9 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
     this.currentItem = new IndexEnumerator(0, this.items.list.length - 1, 0);
     this.commandActions = {
         [Commands.Up]: function() {
-            debugger;
             instance.currentItem.prev();
         },
         [Commands.Down]: function() {
-            debugger;
             instance.currentItem.next();
         },
         [Commands.Use]: function() {
