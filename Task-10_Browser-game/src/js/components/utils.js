@@ -31,3 +31,7 @@ IndexEnumerator.prototype = {
         return this.value;
     }
 };
+
+export function getRandomInt(min, max) {
+    return ((Math.random() * (max + 1 - min)) + min) | 0;
+}
