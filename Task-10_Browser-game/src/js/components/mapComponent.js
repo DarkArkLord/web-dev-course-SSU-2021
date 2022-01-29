@@ -60,5 +60,28 @@ const CellContent = {
 };
 
 export function MapComponent() {
-    //
+    let instance = this;
+    this.commandActions = {
+        [Commands.Up]: function() {},
+        [Commands.Down]: function() {},
+        [Commands.Left]: function() {},
+        [Commands.Right]: function() {},
+        [Commands.Use]: function() {},
+        [Commands.Back]: function() {},
+    };
 }
+
+MapComponent.prototype = {
+    init() {
+        //
+    },
+    executeCommand(command) {
+        let action = this.commandActions[command];
+        if (action) {
+            action();
+        }
+    },
+    createElement() {
+        //
+    }
+};
