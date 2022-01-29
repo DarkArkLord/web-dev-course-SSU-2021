@@ -4,7 +4,7 @@ import { getRandomInt } from './utils.js'
 
 const defaultStyleClasses = {
     table: {
-        main: 'align_center',
+        main: 'align_center no-border',
         row: 'align_center',
         data: 'width_19'
     },
