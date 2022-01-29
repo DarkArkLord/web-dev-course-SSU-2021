@@ -3,47 +3,23 @@ import '../scss/app.scss';
 import { render } from './components/render.js'
 import { ConstrolKeys, Commands } from './components/controls.js'
 import { isInArray } from './components/utils.js'
-import { MenuComponent } from './components/menuComponent.js'
+import { MapComponent, testGenerator } from './components/mapComponent'
 
 var mainDisplay = document.getElementById('main_disp');
 
-const menuItems = {
-    item1: {
-        value: "item1",
-        isActive: true,
-    },
-    item2: {
-        value: "item2",
-        isActive: false,
-    },
-    item3: {
-        value: "item3",
-        isActive: true,
-    },
-};
-
-let menu = new MenuComponent([menuItems.item1, menuItems.item2, menuItems.item3], { element: 'header' }, { element: 'footer' });
-
-menu.items.actions[menuItems.item1.value] = function() {
-    alert(menuItems.item1.value);
-}
-menu.items.actions[menuItems.item2.value] = function() {
-    alert(menuItems.item2.value);
-}
-menu.items.actions[menuItems.item3.value] = function() {
-    alert(menuItems.item3.value);
-}
+let map = new MapComponent(50, 50);
+map.init();
 
 function renderMenu() {
     mainDisplay.innerHTML = '';
-    let menuElemenet = menu.createElement();
-    let menuHtml = render(menuElemenet);
-    mainDisplay.appendChild(menuHtml);
+    let elemenet = map.createElement();
+    let html = render(elemenet);
+    mainDisplay.appendChild(html);
 }
 
 function action(command) {
     console.log(command);
-    menu.executeCommand(command);
+    map.executeCommand(command);
     renderMenu();
 }
 

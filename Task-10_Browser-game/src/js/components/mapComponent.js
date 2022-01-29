@@ -103,7 +103,7 @@ function testGenerator(width, height, params) {
     return result;
 }
 
-export function MapComponent(width, height, params = { fieldOfView: 12 }, generator, css = defaultStyleClasses) {
+export function MapComponent(width, height, params = { fieldOfView: 12 }, generator = testGenerator, css = defaultStyleClasses) {
     let instance = this;
     this.styleClasses = css;
     this.config = { width, height, params, generator: () => generator(width, height, params) };
