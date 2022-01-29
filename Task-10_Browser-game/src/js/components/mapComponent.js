@@ -1,48 +1,61 @@
 import { HTMLTags, ItemTypes } from './render.js'
 import { Commands } from './controls.js'
 
+const CellType = {
+    Player: 'PLAYER',
+    Cell: {
+        Empty: 'CELL-EMPTY',
+        Wall: 'CELL-WALL',
+        Invisible: 'CELL-INVISIBLE',
+    },
+    Flag: {
+        Normal: 'FLAG-NORMAL',
+        Used: 'FLAG-USED',
+    },
+    Door: {
+        Next: 'DOOR-NEXT',
+        Prev: 'DOOR-PREV',
+        Closed: 'DOOR-CLOSED',
+    },
+};
+
 const CellContent = {
-    Player: {
+    [CellType.Player]: {
         Value: '@',
         Class: '',
     },
-    Cell: {
-        Empty: {
-            Value: '.',
-            Class: '',
-        },
-        Wall: {
-            Value: '#',
-            Class: '',
-        },
-        Invisible: {
-            Value: '&nbsp;',
-            Class: '',
-        },
+    [CellType.Cell.Empty]: {
+        Value: '.',
+        Class: '',
     },
-    Flag: {
-        Normal: {
-            Value: 'F',
-            Class: '',
-        },
-        Used: {
-            Value: '!',
-            Class: '',
-        },
+    [CellType.Cell.Wall]: {
+        Value: '#',
+        Class: '',
     },
-    Door: {
-        Next: {
-            Value: '>',
-            Class: '',
-        },
-        Prev: {
-            Value: '<',
-            Class: '',
-        },
-        Closed: {
-            Value: 'X',
-            Class: '',
-        },
+    [CellType.Cell.Invisible]: {
+        Value: '&nbsp;',
+        Class: '',
+    },
+
+    [CellType.Flag.Normal]: {
+        Value: 'F',
+        Class: '',
+    },
+    [CellType.Flag.Used]: {
+        Value: '!',
+        Class: '',
+    },
+    [CellType.Door.Next]: {
+        Value: '>',
+        Class: '',
+    },
+    [CellType.Door.Prev]: {
+        Value: '<',
+        Class: '',
+    },
+    [CellType.Door.Closed]: {
+        Value: 'X',
+        Class: '',
     },
 };
 
