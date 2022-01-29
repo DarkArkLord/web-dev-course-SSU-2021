@@ -2,6 +2,14 @@ import { HTMLTags, ItemTypes } from './render.js'
 import { Commands } from './controls.js'
 import { getRandomInt } from './utils.js'
 
+const defaultStyleClasses = {
+    table: {
+        main: 'width_100 align_center',
+        row: 'align_center',
+        data: 'width_19'
+    },
+};
+
 const CellType = {
     Player: 'PLAYER',
     Cell: {
@@ -95,9 +103,10 @@ function testGenerator(width, height, params) {
     return result;
 }
 
-export function MapComponent(width, height, generator, params) {
+export function MapComponent(width, height, params = { fieldOfView: 12 }, generator, css = defaultStyleClasses) {
     let instance = this;
-    this.config = { width, height, generator, params };
+    this.styleClasses = css;
+    this.config = { width, height, params, generator: () => generator(width, height, params) };
 
     this.map = undefined;
 
@@ -113,7 +122,7 @@ export function MapComponent(width, height, generator, params) {
 
 MapComponent.prototype = {
     init() {
-        //
+        this.map = this.config.generator();
     },
     executeCommand(command) {
         let action = this.commandActions[command];
@@ -122,6 +131,51 @@ MapComponent.prototype = {
         }
     },
     createElement() {
-        //
+        let table = {
+            tag: HTMLTags.Table,
+            type: ItemTypes.Container,
+            attributes: { class: this.styleClasses.table.main, cellspacing: 0 },
+            childs: []
+        };
+
+        const fov = this.config.params.fieldOfView;
+        for (let y = -fov; y <= fov; y++) {
+            let tableRow = {
+                tag: HTMLTags.TableRow,
+                type: ItemTypes.Container,
+                attributes: { class: this.styleClasses.table.row },
+                childs: []
+            };
+
+            for (let x = -fov; x <= fov; x++) {
+                let currentCell;
+                if (x == 0 && y == 0) {
+                    currentCell = CellContent[CellType.Player];
+                } else {
+                    let px = this.map.position.x + x;
+                    let py = this.map.position.y + y;
+                    if (px < 0 || px >= this.config.width || py < 0 || py > this.config.height) {
+                        currentCell = CellContent[CellType.Cell.Invisible];
+                    } else {
+                        let cell = this.map[py][px];
+                        currentCell = CellContent[cell];
+                    }
+                }
+                let currentCellClass = this.styleClasses.table.data;
+                if(currentCell.Class) {
+                    currentCellClass += ' ' + currentCell.Class;
+                }
+                tableRow.childs.push({
+                    tag: HTMLTags.TableData,
+                    type: ItemTypes.Value,
+                    attributes: { class: currentCellClass },
+                    value: currentCell.Value
+                });
+            }
+
+            table.childs.push(tableRow);
+        }
+
+        return table;
     }
 };
