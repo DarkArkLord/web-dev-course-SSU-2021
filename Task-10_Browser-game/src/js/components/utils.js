@@ -18,14 +18,14 @@ IndexEnumerator.prototype = {
     },
     next() {
         this.value = this.nextFunc(this.value);
-        if(this.value > this.maxValue) {
+        if (this.value > this.maxValue) {
             this.value = this.minValue;
         }
         return this.value;
     },
     prev() {
         this.value = this.prevFunc(this.value);
-        if(this.value < this.minValue) {
+        if (this.value < this.minValue) {
             this.value = this.maxValue;
         }
         return this.value;
