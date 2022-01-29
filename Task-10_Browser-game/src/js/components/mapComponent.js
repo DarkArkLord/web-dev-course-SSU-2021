@@ -4,7 +4,7 @@ import { getRandomInt } from './utils.js'
 
 const defaultStyleClasses = {
     table: {
-        main: 'width_100 align_center',
+        main: 'align_center',
         row: 'align_center',
         data: 'width_19'
     },
@@ -73,6 +73,9 @@ function testGenerator(width, height, params) {
 
     for (let y = 0; y < height; y++) {
         result.map[y] = new Array(width);
+        for (let x = 0; x < width; x++) {
+            result.map[y][x] = CellType.Cell.Empty;
+        }
         result.map[y][0] = CellType.Cell.Wall;
         result.map[y][width - 1] = CellType.Cell.Wall;
     }
@@ -154,15 +157,15 @@ MapComponent.prototype = {
                 } else {
                     let px = this.map.position.x + x;
                     let py = this.map.position.y + y;
-                    if (px < 0 || px >= this.config.width || py < 0 || py > this.config.height) {
+                    if (px < 0 || px >= this.config.width || py < 0 || py >= this.config.height) {
                         currentCell = CellContent[CellType.Cell.Invisible];
                     } else {
-                        let cell = this.map[py][px];
+                        let cell = this.map.map[py][px];
                         currentCell = CellContent[cell];
                     }
                 }
                 let currentCellClass = this.styleClasses.table.data;
-                if(currentCell.Class) {
+                if (currentCell.Class) {
                     currentCellClass += ' ' + currentCell.Class;
                 }
                 tableRow.childs.push({
