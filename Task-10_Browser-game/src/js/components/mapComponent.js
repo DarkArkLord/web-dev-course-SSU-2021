@@ -114,10 +114,46 @@ export function MapComponent(width, height, params = { fieldOfView: 12 }, genera
     this.map = undefined;
 
     this.commandActions = {
-        [Commands.Up]: function() {},
-        [Commands.Down]: function() {},
-        [Commands.Left]: function() {},
-        [Commands.Right]: function() {},
+        [Commands.Up]: function() {
+            const y = instance.map.position.y - 1;
+            if (y < 0) {
+                return;
+            }
+            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
+                return;
+            }
+            instance.map.position.y--;
+        },
+        [Commands.Down]: function() {
+            const y = instance.map.position.y + 1;
+            if (y >= instance.config.height) {
+                return;
+            }
+            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
+                return;
+            }
+            instance.map.position.y++;
+        },
+        [Commands.Left]: function() {
+            const x = instance.map.position.x - 1;
+            if (x >= instance.config.width) {
+                return;
+            }
+            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
+                return;
+            }
+            instance.map.position.x--;
+        },
+        [Commands.Right]: function() {
+            const x = instance.map.position.x + 1;
+            if (x >= instance.config.width) {
+                return;
+            }
+            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
+                return;
+            }
+            instance.map.position.x++;
+        },
         [Commands.Use]: function() {},
         [Commands.Back]: function() {},
     };
