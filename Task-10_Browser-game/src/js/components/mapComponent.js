@@ -39,7 +39,7 @@ const CellContent = {
             Value: '<',
             Class: '',
         },
-        CLosed: {
+        Closed: {
             Value: 'X',
             Class: '',
         },
