@@ -5,8 +5,12 @@
     color: $main-text-color;
 }
 
-body * {
+body {
     border: solid 1px $table-border-color;
+}
+
+body * {
+    border: inherit;
 }
 
 body *::selection {
@@ -23,6 +27,10 @@ body *::selection {
 
 .width_100 {
     width: 100%;
+}
+
+.width_19 {
+    width: 19px;
 }
 
 .height_70 {
@@ -57,4 +65,8 @@ body *::selection {
 }
 .disable-menu-item {
     color: $disable-text-color;
+}
+
+.no-border {
+    border: 0;
 }
