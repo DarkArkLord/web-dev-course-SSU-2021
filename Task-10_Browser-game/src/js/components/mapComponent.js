@@ -69,7 +69,7 @@ const CellContent = {
 };
 
 function testGenerator(width, height, params) {
-    let result = { map: new Array(height), position: { x: 0, y: 0 }, };
+    let result = { map: new Array(height), position: { x: 0, y: 0 }, flags: [] };
 
     for (let y = 0; y < height; y++) {
         result.map[y] = new Array(width);
@@ -92,12 +92,10 @@ function testGenerator(width, height, params) {
         result.map[y][x] = CellType.Cell.Wall;
     }
 
-    const width3 = Math.round(width / 3);
-    const height3 = Math.round(height / 3);
     function findFreeCell() {
         while (true) {
-            let x = getRandomInt(width3, width3 * 2);
-            let y = getRandomInt(height3, height3 * 2);
+            let x = getRandomInt(1, width - 2);
+            let y = getRandomInt(1, height - 2);
             if (result.map[y][x] == CellType.Cell.Empty) {
                 return { x, y };
             }
@@ -105,10 +103,16 @@ function testGenerator(width, height, params) {
     }
     result.position = findFreeCell();
 
+    for (let i = 0; i < params.flagCount; i++) {
+        let flag = { position: null, used: false };
+        flag.position = findFreeCell();
+        result.map[flag.position.y][flag.position.x] = CellType.Flag.Normal;
+    }
+
     return result;
 }
 
-export function MapComponent(width, height, params = { fieldOfView: 12 }, generator = testGenerator, css = defaultStyleClasses) {
+export function MapComponent(width, height, params = { fieldOfView: 12, flagCount: 3 }, generator = testGenerator, css = defaultStyleClasses) {
     let instance = this;
     this.styleClasses = css;
     this.config = { width, height, params, generator: () => generator(width, height, params) };
@@ -123,7 +127,7 @@ export function MapComponent(width, height, params = { fieldOfView: 12 }, genera
     function tryMove(position, xMove, yMove) {
         const x = xMove(position.x);
         const y = yMove(position.y);
-        if(isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
+        if (isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
             position.x = x;
             position.y = y;
         }
