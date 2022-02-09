@@ -115,46 +115,32 @@ export function MapComponent(width, height, params = { fieldOfView: 12 }, genera
 
     this.map = undefined;
 
+    function isInMap(x, y) {
+        return y >= 0 || y < instance.config.height
+            && x >= 0 || x < instance.config.width;
+    }
+
+    function tryMove(position, xMove, yMove) {
+        const x = xMove(position.x);
+        const y = yMove(position.y);
+        if(isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
+            position.x = x;
+            position.y = y;
+        }
+    }
+
     this.commandActions = {
         [Commands.Up]: function() {
-            const y = instance.map.position.y - 1;
-            if (y < 0) {
-                return;
-            }
-            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.y--;
+            tryMove(instance.map.position, x => x, y => y - 1);
         },
         [Commands.Down]: function() {
-            const y = instance.map.position.y + 1;
-            if (y >= instance.config.height) {
-                return;
-            }
-            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.y++;
+            tryMove(instance.map.position, x => x, y => y + 1);
         },
         [Commands.Left]: function() {
-            const x = instance.map.position.x - 1;
-            if (x >= instance.config.width) {
-                return;
-            }
-            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.x--;
+            tryMove(instance.map.position, x => x - 1, y => y);
         },
         [Commands.Right]: function() {
-            const x = instance.map.position.x + 1;
-            if (x >= instance.config.width) {
-                return;
-            }
-            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.x++;
+            tryMove(instance.map.position, x => x + 1, y => y);
         },
         [Commands.Use]: function() {},
         [Commands.Back]: function() {},
