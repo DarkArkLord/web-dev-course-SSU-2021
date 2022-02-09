@@ -69,7 +69,15 @@ const CellContent = {
 };
 
 function testGenerator(width, height, params) {
-    let result = { map: new Array(height), position: { x: 0, y: 0 }, flags: { notUsedCount: params.flagCount, list: [] } };
+    let result = {
+        map: new Array(height),
+        position: { x: 0, y: 0 },
+        flags: { notUsedCount: params.flagCount, list: [] },
+        doors: {
+            prev: { position: null, isOpen: true },
+            next: { position: null, isOpen: false }
+        },
+    };
 
     for (let y = 0; y < height; y++) {
         result.map[y] = new Array(width);
@@ -108,6 +116,15 @@ function testGenerator(width, height, params) {
         result.map[flag.position.y][flag.position.x] = CellType.Flag.NotUsed;
         result.flags.list.push(flag);
     }
+
+    result.doors.prev.position = findFreeCell();
+    result.map[result.doors.prev.position.y][result.doors.prev.position.x] = CellType.Door.Prev;
+
+    result.doors.next.position = findFreeCell();
+    result.doors.next.isOpen = params.flagCount > 0;
+    result.map[result.doors.next.position.y][result.doors.next.position.x] = params.flagCount > 0
+        ? CellType.Door.Closed
+        : CellType.Door.Next;
 
     return result;
 }
