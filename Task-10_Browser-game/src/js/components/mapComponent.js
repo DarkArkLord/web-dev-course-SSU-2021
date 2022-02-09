@@ -150,40 +150,59 @@ export function MapComponent(width, height, params = { fieldOfView: 12, flagCoun
         }
     }
 
-    function tryGetFlag(position) {
-        if (instance.map.flags.notUsedCount > 0
-            && isInMap(position.x, position.y)
-            && instance.map.map[position.y][position.x] == CellType.Flag.NotUsed) {
-            instance.map.map[position.y][position.x] = CellType.Flag.Used;
-            let flag = instance.map.flags.list.find(value =>
-                value.position.x == position.x && value.position.y == position.y);
-            if (flag) {
-                flag.used = true;
-                instance.map.flags.notUsedCount--;
-                if (instance.map.flags.notUsedCount < 1) {
-                    // open exit
-                    alert('complete');
+    this.mapObjectActions = {
+        [CellType.Flag.NotUsed]: function(position) {
+            if (instance.map.flags.notUsedCount > 0) {
+                instance.map.map[position.y][position.x] = CellType.Flag.Used;
+                let flag = instance.map.flags.list.find(value =>
+                    value.position.x == position.x && value.position.y == position.y);
+                if (flag) {
+                    flag.used = true;
+                    instance.map.flags.notUsedCount--;
+                    if (instance.map.flags.notUsedCount < 1) {
+                        instance.map.doors.next.isOpen = true;
+                        let doorPos = instance.map.doors.next.position;
+                        instance.map.map[doorPos.y][doorPos.x] = CellType.Door.Next;
+                    }
                 }
             }
+        },
+        [CellType.Door.Prev]: function(position) {
+            alert('prev');
+        },
+        [CellType.Door.Next]: function(position) {
+            alert('next');
+        },
+        [CellType.Door.Closed]: function(position) {
+            alert('closed');
+        },
+    };
+
+    function tryUseObject(position) {
+        if (!isInMap(position.x, position.y)) return;
+        const cell = instance.map.map[position.y][position.x];
+        const action = instance.mapObjectActions[cell];
+        if (action) {
+            action(position);
         }
     }
 
     this.commandActions = {
         [Commands.Up]: function() {
             tryMove(instance.map.position, x => x, y => y - 1);
-            tryGetFlag(instance.map.position);
+            tryUseObject(instance.map.position);
         },
         [Commands.Down]: function() {
             tryMove(instance.map.position, x => x, y => y + 1);
-            tryGetFlag(instance.map.position);
+            tryUseObject(instance.map.position);
         },
         [Commands.Left]: function() {
             tryMove(instance.map.position, x => x - 1, y => y);
-            tryGetFlag(instance.map.position);
+            tryUseObject(instance.map.position);
         },
         [Commands.Right]: function() {
             tryMove(instance.map.position, x => x + 1, y => y);
-            tryGetFlag(instance.map.position);
+            tryUseObject(instance.map.position);
         },
         [Commands.Use]: function() {},
         [Commands.Back]: function() {},
