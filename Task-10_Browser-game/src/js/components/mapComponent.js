@@ -18,7 +18,7 @@ const CellType = {
         Invisible: 'CELL-INVISIBLE',
     },
     Flag: {
-        Normal: 'FLAG-NORMAL',
+        NotUsed: 'FLAG-NORMAL',
         Used: 'FLAG-USED',
     },
     Door: {
@@ -46,7 +46,7 @@ const CellContent = {
         Class: '',
     },
 
-    [CellType.Flag.Normal]: {
+    [CellType.Flag.NotUsed]: {
         Value: 'F',
         Class: '',
     },
@@ -69,7 +69,7 @@ const CellContent = {
 };
 
 function testGenerator(width, height, params) {
-    let result = { map: new Array(height), position: { x: 0, y: 0 }, flags: [] };
+    let result = { map: new Array(height), position: { x: 0, y: 0 }, flags: { notUsedCount: params.flagCount, list: [] } };
 
     for (let y = 0; y < height; y++) {
         result.map[y] = new Array(width);
@@ -104,9 +104,9 @@ function testGenerator(width, height, params) {
     result.position = findFreeCell();
 
     for (let i = 0; i < params.flagCount; i++) {
-        let flag = { position: null, used: false };
-        flag.position = findFreeCell();
-        result.map[flag.position.y][flag.position.x] = CellType.Flag.Normal;
+        let flag = { position: findFreeCell(), used: false };
+        result.map[flag.position.y][flag.position.x] = CellType.Flag.NotUsed;
+        result.flags.list.push(flag);
     }
 
     return result;
@@ -133,18 +133,40 @@ export function MapComponent(width, height, params = { fieldOfView: 12, flagCoun
         }
     }
 
+    function tryGetFlag(position) {
+        if (instance.map.flags.notUsedCount > 0
+            && isInMap(position.x, position.y)
+            && instance.map.map[position.y][position.x] == CellType.Flag.NotUsed) {
+            instance.map.map[position.y][position.x] = CellType.Flag.Used;
+            let flag = instance.map.flags.list.find(value =>
+                value.position.x == position.x && value.position.y == position.y);
+            if (flag) {
+                flag.used = true;
+                instance.map.flags.notUsedCount--;
+                if (instance.map.flags.notUsedCount < 1) {
+                    // open exit
+                    alert('complete');
+                }
+            }
+        }
+    }
+
     this.commandActions = {
         [Commands.Up]: function() {
             tryMove(instance.map.position, x => x, y => y - 1);
+            tryGetFlag(instance.map.position);
         },
         [Commands.Down]: function() {
             tryMove(instance.map.position, x => x, y => y + 1);
+            tryGetFlag(instance.map.position);
         },
         [Commands.Left]: function() {
             tryMove(instance.map.position, x => x - 1, y => y);
+            tryGetFlag(instance.map.position);
         },
         [Commands.Right]: function() {
             tryMove(instance.map.position, x => x + 1, y => y);
+            tryGetFlag(instance.map.position);
         },
         [Commands.Use]: function() {},
         [Commands.Back]: function() {},
