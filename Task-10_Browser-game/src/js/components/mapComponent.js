@@ -94,14 +94,16 @@ function testGenerator(width, height, params) {
 
     const width3 = Math.round(width / 3);
     const height3 = Math.round(height / 3);
-    while (true) {
-        let x = getRandomInt(width3, width3 * 2);
-        let y = getRandomInt(height3, height3 * 2);
-        if (result.map[y][x] == CellType.Cell.Empty) {
-            result.position = { x, y };
-            break;
+    function findFreeCell() {
+        while (true) {
+            let x = getRandomInt(width3, width3 * 2);
+            let y = getRandomInt(height3, height3 * 2);
+            if (result.map[y][x] == CellType.Cell.Empty) {
+                return { x, y };
+            }
         }
     }
+    result.position = findFreeCell();
 
     return result;
 }
