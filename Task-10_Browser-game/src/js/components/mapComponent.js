@@ -18,7 +18,7 @@ const CellType = {
         Invisible: 'CELL-INVISIBLE',
     },
     Flag: {
-        Normal: 'FLAG-NORMAL',
+        NotUsed: 'FLAG-NORMAL',
         Used: 'FLAG-USED',
     },
     Door: {
@@ -46,7 +46,7 @@ const CellContent = {
         Class: '',
     },
 
-    [CellType.Flag.Normal]: {
+    [CellType.Flag.NotUsed]: {
         Value: 'F',
         Class: '',
     },
@@ -69,7 +69,15 @@ const CellContent = {
 };
 
 function testGenerator(width, height, params) {
-    let result = { map: new Array(height), position: { x: 0, y: 0 }, };
+    let result = {
+        map: new Array(height),
+        position: { x: 0, y: 0 },
+        flags: { notUsedCount: params.flagCount, list: [] },
+        doors: {
+            prev: { position: null, isOpen: true },
+            next: { position: null, isOpen: false }
+        },
+    };
 
     for (let y = 0; y < height; y++) {
         result.map[y] = new Array(width);
@@ -92,67 +100,109 @@ function testGenerator(width, height, params) {
         result.map[y][x] = CellType.Cell.Wall;
     }
 
-    const width3 = Math.round(width / 3);
-    const height3 = Math.round(height / 3);
-    while (true) {
-        let x = getRandomInt(width3, width3 * 2);
-        let y = getRandomInt(height3, height3 * 2);
-        if (result.map[y][x] == CellType.Cell.Empty) {
-            result.position = { x, y };
-            break;
+    function findFreeCell() {
+        while (true) {
+            let x = getRandomInt(1, width - 2);
+            let y = getRandomInt(1, height - 2);
+            if (result.map[y][x] == CellType.Cell.Empty) {
+                return { x, y };
+            }
         }
     }
+    result.position = findFreeCell();
+
+    for (let i = 0; i < params.flagCount; i++) {
+        let flag = { position: findFreeCell(), used: false };
+        result.map[flag.position.y][flag.position.x] = CellType.Flag.NotUsed;
+        result.flags.list.push(flag);
+    }
+
+    result.doors.prev.position = findFreeCell();
+    result.map[result.doors.prev.position.y][result.doors.prev.position.x] = CellType.Door.Prev;
+
+    result.doors.next.position = findFreeCell();
+    result.doors.next.isOpen = params.flagCount > 0;
+    result.map[result.doors.next.position.y][result.doors.next.position.x] = params.flagCount > 0
+        ? CellType.Door.Closed
+        : CellType.Door.Next;
 
     return result;
 }
 
-export function MapComponent(width, height, params = { fieldOfView: 12 }, generator = testGenerator, css = defaultStyleClasses) {
+export function MapComponent(width, height, params = { fieldOfView: 12, flagCount: 3 }, generator = testGenerator, css = defaultStyleClasses) {
     let instance = this;
     this.styleClasses = css;
     this.config = { width, height, params, generator: () => generator(width, height, params) };
 
     this.map = undefined;
 
+    function isInMap(x, y) {
+        return y >= 0 || y < instance.config.height
+            && x >= 0 || x < instance.config.width;
+    }
+
+    function tryMove(position, xMove, yMove) {
+        const x = xMove(position.x);
+        const y = yMove(position.y);
+        if (isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
+            position.x = x;
+            position.y = y;
+        }
+    }
+
+    this.mapObjectActions = {
+        [CellType.Flag.NotUsed]: function(position) {
+            if (instance.map.flags.notUsedCount > 0) {
+                instance.map.map[position.y][position.x] = CellType.Flag.Used;
+                let flag = instance.map.flags.list.find(value =>
+                    value.position.x == position.x && value.position.y == position.y);
+                if (flag) {
+                    flag.used = true;
+                    instance.map.flags.notUsedCount--;
+                    if (instance.map.flags.notUsedCount < 1) {
+                        instance.map.doors.next.isOpen = true;
+                        let doorPos = instance.map.doors.next.position;
+                        instance.map.map[doorPos.y][doorPos.x] = CellType.Door.Next;
+                    }
+                }
+            }
+        },
+        [CellType.Door.Prev]: function(position) {
+            alert('prev');
+        },
+        [CellType.Door.Next]: function(position) {
+            alert('next');
+        },
+        [CellType.Door.Closed]: function(position) {
+            alert('closed');
+        },
+    };
+
+    function tryUseObject(position) {
+        if (!isInMap(position.x, position.y)) return;
+        const cell = instance.map.map[position.y][position.x];
+        const action = instance.mapObjectActions[cell];
+        if (action) {
+            action(position);
+        }
+    }
+
     this.commandActions = {
         [Commands.Up]: function() {
-            const y = instance.map.position.y - 1;
-            if (y < 0) {
-                return;
-            }
-            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.y--;
+            tryMove(instance.map.position, x => x, y => y - 1);
+            tryUseObject(instance.map.position);
         },
         [Commands.Down]: function() {
-            const y = instance.map.position.y + 1;
-            if (y >= instance.config.height) {
-                return;
-            }
-            if (instance.map.map[y][instance.map.position.x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.y++;
+            tryMove(instance.map.position, x => x, y => y + 1);
+            tryUseObject(instance.map.position);
         },
         [Commands.Left]: function() {
-            const x = instance.map.position.x - 1;
-            if (x >= instance.config.width) {
-                return;
-            }
-            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.x--;
+            tryMove(instance.map.position, x => x - 1, y => y);
+            tryUseObject(instance.map.position);
         },
         [Commands.Right]: function() {
-            const x = instance.map.position.x + 1;
-            if (x >= instance.config.width) {
-                return;
-            }
-            if (instance.map.map[instance.map.position.y][x] == CellType.Cell.Wall) {
-                return;
-            }
-            instance.map.position.x++;
+            tryMove(instance.map.position, x => x + 1, y => y);
+            tryUseObject(instance.map.position);
         },
         [Commands.Use]: function() {},
         [Commands.Back]: function() {},

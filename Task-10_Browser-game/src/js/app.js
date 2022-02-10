@@ -7,7 +7,7 @@ import { MapComponent, testGenerator } from './components/mapComponent'
 
 var mainDisplay = document.getElementById('main_disp');
 
-let map = new MapComponent(50, 50);
+let map = new MapComponent(20, 20);
 map.init();
 
 function renderMenu() {
