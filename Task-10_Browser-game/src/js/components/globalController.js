@@ -1,7 +1,7 @@
 export function GlobalController(startController) {
     let instance = this;
     this.currentController = startController;
-    this.controllerStack = [startController];
+    this.controllerStack = [];
     this.gameData = {};
 };
 
