@@ -1,4 +1,4 @@
-import { HTMLTags, ItemTypes } from '../render.js'
+import { HTMLTags } from '../render.js'
 import { Commands } from '../controls.js'
 import { getRandomInt } from '../utils.js'
 
@@ -222,7 +222,6 @@ MapComponent.prototype = {
     createElement() {
         let table = {
             tag: HTMLTags.Table,
-            type: ItemTypes.Container,
             attributes: { class: this.styleClasses.table.main, cellspacing: 0 },
             childs: []
         };
@@ -231,7 +230,6 @@ MapComponent.prototype = {
         for (let y = -fov; y <= fov; y++) {
             let tableRow = {
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 attributes: { class: this.styleClasses.table.row },
                 childs: []
             };
@@ -256,7 +254,6 @@ MapComponent.prototype = {
                 }
                 tableRow.childs.push({
                     tag: HTMLTags.TableData,
-                    type: ItemTypes.Value,
                     attributes: { class: currentCellClass },
                     value: currentCell.Value
                 });

@@ -1,4 +1,4 @@
-import { HTMLTags, ItemTypes } from '../render.js'
+import { HTMLTags } from '../render.js'
 import { Commands } from '../controls.js'
 import { IndexEnumerator } from '../utils.js'
 
@@ -56,7 +56,6 @@ MenuComponent.prototype = {
     createElement() {
         let table = {
             tag: HTMLTags.Table,
-            type: ItemTypes.Container,
             attributes: { class: this.styleClasses.table },
             childs: []
         };
@@ -64,11 +63,9 @@ MenuComponent.prototype = {
         if (this.header) {
             let element = {
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Container,
                         childs: [this.header]
                     }
                 ]
@@ -86,13 +83,11 @@ MenuComponent.prototype = {
             }
             table.childs.push({
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Value,
                         attributes: { class: elementClass },
-                        value: ['- ' + item.value]
+                        value: '- ' + item.value
                     }
                 ]
             });
@@ -101,11 +96,9 @@ MenuComponent.prototype = {
         if (this.footer) {
             table.childs.push({
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Container,
                         childs: [this.footer]
                     }
                 ]

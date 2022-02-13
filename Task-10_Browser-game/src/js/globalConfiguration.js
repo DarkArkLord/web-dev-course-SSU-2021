@@ -10,7 +10,7 @@ function renderMenu() {
     mainDisplay.innerHTML = '';
     let elemenet = mainController.createElement();
     let html = render(elemenet);
-    mainDisplay.appendChild(html);
+    mainDisplay.append(html);
 }
 
 function action(command) {

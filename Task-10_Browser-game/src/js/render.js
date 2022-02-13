@@ -8,12 +8,6 @@ export const HTMLTags = {
     Div: 'div',
 }
 
-export const ItemTypes = {
-    Value: 'VALUE',
-    Container: 'CONTAINER',
-    HtmlElementContainer: 'HTML_ELEMENT_CONTAINER'
-}
-
 export function render(item) {
     if (item.element) {
         return item.element;
@@ -29,27 +23,17 @@ export function render(item) {
         }
     }
 
-    switch (item.type) {
-        case ItemTypes.Value:
-            if (item.value) {
-                element.innerHTML = item.value;
+    if (item.value) {
+        element.innerHTML = item.value;
+    }
+
+    if (item.childs) {
+        for (let child of item.childs) {
+            if (!child.element) {
+                render(child);
             }
-            break;
-        case ItemTypes.Container:
-            if (item.childs) {
-                for (let child of item.childs) {
-                    if (!child.element) {
-                        render(child);
-                    }
-                    element.append(child.element);
-                }
-            }
-            break;
-        case ItemTypes.HtmlElementContainer:
-            if (item.innerElement) {
-                element.append(item.innerElement);
-            }
-            break;
+            element.append(child.element);
+        }
     }
 
     return element;
