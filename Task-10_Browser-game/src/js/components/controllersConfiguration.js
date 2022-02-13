@@ -1,5 +1,5 @@
-import { MenuComponent } from './menuComponent'
-import { GlobalController } from './globalController'
+import { MenuComponent } from './menuComponent.js'
+import { GlobalController } from './globalController.js'
 
 const menuItems = {
     item1: {

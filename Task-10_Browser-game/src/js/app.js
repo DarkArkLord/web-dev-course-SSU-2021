@@ -1,3 +1,3 @@
 import '../scss/app.scss';
-import './globalConfiguration';
-import './demo';
+import './globalConfiguration.js';
+import './demo.js';
