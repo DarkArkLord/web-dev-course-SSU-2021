@@ -1,9 +1,9 @@
 import '../scss/app.scss';
 
-import { render } from './components/render.js'
-import { ConstrolKeys, Commands } from './components/controls.js'
-import { isInArray } from './components/utils.js'
-import { MapComponent, testGenerator } from './components/mapComponent'
+import { render } from './render.js'
+import { ConstrolKeys, Commands } from './controls.js'
+import { isInArray } from './utils.js'
+import { MapComponent, testGenerator } from './mapComponent'
 
 var mainDisplay = document.getElementById('main_disp');
 
