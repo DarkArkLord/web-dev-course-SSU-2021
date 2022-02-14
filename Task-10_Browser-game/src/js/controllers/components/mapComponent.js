@@ -131,10 +131,11 @@ function testGenerator(width, height, params) {
 
 export function MapComponent(width, height, params = { fieldOfView: 12, flagCount: 3 }, generator = testGenerator, css = defaultStyleClasses) {
     let instance = this;
+    this.mainController = undefined;
     this.styleClasses = css;
-    this.config = { width, height, params, generator };
+    this.config = { width, height, params, primaryGenerator: generator, generator: () => generator(width, height, params) };
 
-    this.map = generator(width, height, params);
+    this.map = undefined;
 
     function isInMap(x, y) {
         return y >= 0 || y < instance.config.height
@@ -210,8 +211,9 @@ export function MapComponent(width, height, params = { fieldOfView: 12, flagCoun
 }
 
 MapComponent.prototype = {
-    init() {
-        //
+    init(mainController) {
+        this.mainController = mainController;
+        this.map = this.config.generator();
     },
     executeCommand(command) {
         let action = this.commandActions[command];

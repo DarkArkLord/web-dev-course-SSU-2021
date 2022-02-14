@@ -13,6 +13,7 @@ const defaultstyleClasses = {
 
 export function MenuComponent(items, headerElement, footerElement, styleClasses = defaultstyleClasses) {
     let instance = this;
+    this.mainController = undefined;
     this.header = headerElement;
     this.footer = footerElement;
     this.items = {
@@ -44,8 +45,8 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 };
 
 MenuComponent.prototype = {
-    init() {
-        //
+    init(mainController) {
+        this.mainController = mainController;
     },
     executeCommand(command) {
         let action = this.commandActions[command];
