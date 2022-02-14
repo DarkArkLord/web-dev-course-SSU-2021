@@ -2,9 +2,12 @@ import { render } from './render.js'
 import { Commands, ConstrolKeys } from './controls.js'
 import { isInArray } from './utils.js'
 
-import { mainController } from './components/controllersConfiguration.js';
+import { GlobalController } from './components/globalController.js';
 
 const mainDisplay = document.getElementById('main_disp');
+
+const mainController = new GlobalController();
+mainController.init();
 
 function renderMenu() {
     mainDisplay.innerHTML = '';
