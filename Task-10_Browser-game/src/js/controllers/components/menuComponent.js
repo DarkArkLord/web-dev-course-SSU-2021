@@ -45,8 +45,12 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 };
 
 MenuComponent.prototype = {
+    customInit: function() {},
     init(mainController) {
         this.mainController = mainController;
+        if (this.customInit) {
+            this.customInit();
+        }
     },
     executeCommand(command) {
         let action = this.commandActions[command];
