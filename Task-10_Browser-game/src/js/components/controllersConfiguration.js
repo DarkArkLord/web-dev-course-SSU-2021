@@ -1,33 +1,35 @@
 import { MenuComponent } from './menuComponent.js'
 import { GlobalController } from './globalController.js'
 
-const menuItems = {
-    item1: {
-        value: "item1",
-        isActive: () => true,
+export const mainController = new GlobalController();
+
+const mainMenu = {
+    items: {
+        newGame: {
+            value: "Новая игра",
+            isActive: () => true,
+        },
+        continue: {
+            value: "Продолжить",
+            isActive: () => mainController.controllerStack.length > 0,
+        },
+        help: {
+            value: "Справка",
+            isActive: () => true,
+        },
     },
-    item2: {
-        value: "item2",
-        isActive: () => false,
-    },
-    item3: {
-        value: "item3",
-        isActive: () => true,
-    },
+    component: null
 };
+mainMenu.component = new MenuComponent([mainMenu.items.newGame, mainMenu.items.continue, mainMenu.items.help], { element: 'Главное меню' });
 
-let menu = new MenuComponent([menuItems.item1, menuItems.item2, menuItems.item3], { element: 'header' }, { element: 'footer' });
+mainController.pushController(mainMenu.component);
 
-menu.items.actions[menuItems.item1.value] = function() {
-    alert(menuItems.item1.value);
+mainMenu.component.items.actions[mainMenu.items.newGame.value] = function() {
+    alert(mainMenu.items.newGame.value);
 }
-menu.items.actions[menuItems.item2.value] = function() {
-    alert(menuItems.item2.value);
+mainMenu.component.items.actions[mainMenu.items.continue.value] = function() {
+    mainController.popController();
 }
-menu.items.actions[menuItems.item3.value] = function() {
-    alert(menuItems.item3.value);
+mainMenu.component.items.actions[mainMenu.items.help.value] = function() {
+    alert(mainMenu.items.help.value);
 }
-
-export const mainController = new GlobalController(menu);
-
-mainController.init();
