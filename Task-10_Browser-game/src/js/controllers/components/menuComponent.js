@@ -44,6 +44,9 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 };
 
 MenuComponent.prototype = {
+    init() {
+        //
+    },
     executeCommand(command) {
         let action = this.commandActions[command];
         if (action) {
