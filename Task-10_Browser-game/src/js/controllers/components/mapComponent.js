@@ -211,12 +211,12 @@ export function MapComponent(width, height, params = { fieldOfView: 12, flagCoun
 }
 
 MapComponent.prototype = {
-    customInit: function() {},
+    customInit: function(mainController) {},
     init(mainController) {
         this.mainController = mainController;
         this.map = this.config.generator();
         if (this.customInit) {
-            this.customInit();
+            this.customInit(mainController);
         }
     },
     executeCommand(command) {

@@ -45,11 +45,11 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 };
 
 MenuComponent.prototype = {
-    customInit: function() {},
+    customInit: function(mainController) {},
     init(mainController) {
         this.mainController = mainController;
         if (this.customInit) {
-            this.customInit();
+            this.customInit(mainController);
         }
     },
     executeCommand(command) {
