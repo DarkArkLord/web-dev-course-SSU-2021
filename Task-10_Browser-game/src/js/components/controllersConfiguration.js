@@ -4,15 +4,15 @@ import { GlobalController } from './globalController.js'
 const menuItems = {
     item1: {
         value: "item1",
-        isActive: true,
+        isActive: () => true,
     },
     item2: {
         value: "item2",
-        isActive: false,
+        isActive: () => false,
     },
     item3: {
         value: "item3",
-        isActive: true,
+        isActive: () => true,
     },
 };
 

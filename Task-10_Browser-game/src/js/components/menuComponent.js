@@ -30,7 +30,7 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
         },
         [Commands.Use]: function() {
             let item = instance.items.list[instance.currentItem.current()];
-            if (item && item.isActive) {
+            if (item && item.isActive()) {
                 let action = instance.items.actions[item.value];
                 if (action) {
                     action();
@@ -75,7 +75,7 @@ MenuComponent.prototype = {
 
         for (let itemIndex in this.items.list) {
             let item = this.items.list[itemIndex];
-            let elementClass = item.isActive
+            let elementClass = item.isActive()
                 ? this.styleClasses.item.default
                 : this.styleClasses.item.disable;
             if (itemIndex == this.currentItem.current()) {
