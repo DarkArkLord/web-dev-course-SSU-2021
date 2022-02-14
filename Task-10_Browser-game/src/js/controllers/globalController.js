@@ -1,4 +1,4 @@
-import { MenuComponent } from "./menuComponent";
+import { MenuComponent } from "./components/menuComponent";
 
 export function GlobalController() {
     let instance = this;

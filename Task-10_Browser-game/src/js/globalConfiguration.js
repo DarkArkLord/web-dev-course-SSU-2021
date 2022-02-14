@@ -2,7 +2,7 @@ import { render } from './render.js'
 import { Commands, ConstrolKeys } from './controls.js'
 import { isInArray } from './utils.js'
 
-import { GlobalController } from './components/globalController.js';
+import { GlobalController } from './controllers/globalController.js';
 
 const mainDisplay = document.getElementById('main_disp');
 

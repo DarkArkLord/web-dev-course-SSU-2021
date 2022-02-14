@@ -1,6 +1,6 @@
-import { HTMLTags } from '../render.js'
-import { Commands } from '../controls.js'
-import { getRandomInt } from '../utils.js'
+import { HTMLTags } from '../../render.js'
+import { Commands } from '../../controls.js'
+import { getRandomInt } from '../../utils.js'
 
 const defaultStyleClasses = {
     table: {
