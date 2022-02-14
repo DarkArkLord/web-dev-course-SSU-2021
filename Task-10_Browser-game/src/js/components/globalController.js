@@ -1,14 +1,11 @@
-export function GlobalController(startController) {
+export function GlobalController() {
     let instance = this;
-    this.currentController = startController;
+    this.currentController = undefined;
     this.controllerStack = [];
-    this.gameData = {};
+    this.gameData = undefined;
 };
 
 GlobalController.prototype = {
-    init() {
-        //
-    },
     executeCommand(command) {
         if (this.currentController) {
             this.currentController.executeCommand(command);
@@ -19,5 +16,14 @@ GlobalController.prototype = {
             return this.currentController.createElement();
         }
         return { element: 'no content' };
-    }
+    },
+    pushController(controller) {
+        if (this.currentController) {
+            this.controllerStack.push(this.currentController);
+        }
+        this.currentController = controller;
+    },
+    popController() {
+        this.currentController = this.controllerStack.pop();
+    },
 };
