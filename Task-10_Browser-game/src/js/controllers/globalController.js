@@ -29,6 +29,7 @@ GlobalController.prototype = {
             this.controllerStack.push(this.currentController);
         }
         this.currentController = controller;
+        this.currentController.init(this);
     },
     popController() {
         this.currentController = this.controllerStack.pop();

@@ -1,4 +1,5 @@
 import { MenuComponent } from "./components/menuComponent";
+import { helpController } from "./helpController";
 
 const items = {
     newGame: {
@@ -27,6 +28,6 @@ mainMenuController.customInit = (mainController) => {
         mainController.popController();
     }
     mainMenuController.items.actions[items.help.value] = function() {
-        alert(items.help.value);
+        mainController.pushController(helpController);
     }
 }
