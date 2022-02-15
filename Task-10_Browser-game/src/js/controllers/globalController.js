@@ -1,4 +1,4 @@
-import { mainMenuComponent } from "./mainMenuComponent";
+import { mainMenuController } from "./mainMenuController";
 
 export function GlobalController() {
     let instance = this;
@@ -10,8 +10,8 @@ export function GlobalController() {
 GlobalController.prototype = {
     init() {
         let mainController = this;
-        mainMenuComponent.init(mainController);
-        mainController.pushController(mainMenuComponent);
+        mainMenuController.init(mainController);
+        mainController.pushController(mainMenuController);
     },
     executeCommand(command) {
         if (this.currentController) {

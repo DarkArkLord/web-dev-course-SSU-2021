@@ -15,18 +15,18 @@ const items = {
     },
 };
 
-export const mainMenuComponent = new MenuComponent([items.newGame, items.continue, items.help], { element: 'Главное меню' });
+export const mainMenuController = new MenuComponent([items.newGame, items.continue, items.help], { element: 'Главное меню' });
 
-mainMenuComponent.customInit = (mainController) => {
+mainMenuController.customInit = (mainController) => {
     items.continue.isActive = () => mainController.controllerStack.length > 0;
 
-    mainMenuComponent.items.actions[items.newGame.value] = function() {
+    mainMenuController.items.actions[items.newGame.value] = function() {
         alert(items.newGame.value);
     }
-    mainMenuComponent.items.actions[items.continue.value] = function() {
+    mainMenuController.items.actions[items.continue.value] = function() {
         mainController.popController();
     }
-    mainMenuComponent.items.actions[items.help.value] = function() {
+    mainMenuController.items.actions[items.help.value] = function() {
         alert(items.help.value);
     }
 }
