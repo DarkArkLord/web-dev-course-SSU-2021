@@ -1,6 +1,6 @@
-import { HTMLTags, ItemTypes } from './render.js'
-import { Commands } from './controls.js'
-import { IndexEnumerator } from './utils.js'
+import { HTMLTags } from '../../render.js'
+import { Commands } from '../../controls.js'
+import { IndexEnumerator } from '../../utils.js'
 
 const defaultstyleClasses = {
     table: 'width_100 align_center',
@@ -13,6 +13,7 @@ const defaultstyleClasses = {
 
 export function MenuComponent(items, headerElement, footerElement, styleClasses = defaultstyleClasses) {
     let instance = this;
+    this.mainController = undefined;
     this.header = headerElement;
     this.footer = footerElement;
     this.items = {
@@ -30,7 +31,7 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
         },
         [Commands.Use]: function() {
             let item = instance.items.list[instance.currentItem.current()];
-            if (item && item.isActive) {
+            if (item && item.isActive()) {
                 let action = instance.items.actions[item.value];
                 if (action) {
                     action();
@@ -44,8 +45,12 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 };
 
 MenuComponent.prototype = {
-    init() {
-        //
+    customInit: function(mainController) {},
+    init(mainController) {
+        this.mainController = mainController;
+        if (this.customInit) {
+            this.customInit(mainController);
+        }
     },
     executeCommand(command) {
         let action = this.commandActions[command];
@@ -56,7 +61,6 @@ MenuComponent.prototype = {
     createElement() {
         let table = {
             tag: HTMLTags.Table,
-            type: ItemTypes.Container,
             attributes: { class: this.styleClasses.table },
             childs: []
         };
@@ -64,11 +68,9 @@ MenuComponent.prototype = {
         if (this.header) {
             let element = {
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Container,
                         childs: [this.header]
                     }
                 ]
@@ -78,7 +80,7 @@ MenuComponent.prototype = {
 
         for (let itemIndex in this.items.list) {
             let item = this.items.list[itemIndex];
-            let elementClass = item.isActive
+            let elementClass = item.isActive()
                 ? this.styleClasses.item.default
                 : this.styleClasses.item.disable;
             if (itemIndex == this.currentItem.current()) {
@@ -86,13 +88,11 @@ MenuComponent.prototype = {
             }
             table.childs.push({
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Value,
                         attributes: { class: elementClass },
-                        value: ['- ' + item.value]
+                        value: '- ' + item.value
                     }
                 ]
             });
@@ -101,11 +101,9 @@ MenuComponent.prototype = {
         if (this.footer) {
             table.childs.push({
                 tag: HTMLTags.TableRow,
-                type: ItemTypes.Container,
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        type: ItemTypes.Container,
                         childs: [this.footer]
                     }
                 ]
