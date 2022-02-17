@@ -24,6 +24,7 @@ mainMenuController.customInit = (mainController) => {
 
     mainMenuController.items.actions[items.newGame.value] = function() {
         mainController.pushController(mapController);
+        mainController.controllerStack = [];
     }
     mainMenuController.items.actions[items.continue.value] = function() {
         mainController.popController();
