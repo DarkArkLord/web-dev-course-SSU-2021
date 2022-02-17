@@ -10,7 +10,7 @@ const defaultStyleClasses = {
     },
 };
 
-const CellType = {
+export const CellType = {
     Player: 'PLAYER',
     Cell: {
         Empty: 'CELL-EMPTY',
@@ -68,7 +68,7 @@ const CellContent = {
     },
 };
 
-function testGenerator(width, height, params) {
+export function testGenerator(width, height, params) {
     let result = {
         map: new Array(height),
         position: { x: 0, y: 0 },
@@ -129,7 +129,7 @@ function testGenerator(width, height, params) {
     return result;
 }
 
-export function MapComponent(width, height, params = { fieldOfView: 12, flagCount: 3 }, generator = testGenerator, css = defaultStyleClasses) {
+export function MapComponent(width, height, params = { fieldOfView: () => 12, flagCount: 3 }, generator = testGenerator, css = defaultStyleClasses) {
     let instance = this;
     this.mainController = undefined;
     this.styleClasses = css;
@@ -232,7 +232,7 @@ MapComponent.prototype = {
             childs: []
         };
 
-        const fov = this.config.params.fieldOfView;
+        const fov = this.config.params.fieldOfView();
         for (let y = -fov; y <= fov; y++) {
             let tableRow = {
                 tag: HTMLTags.TableRow,

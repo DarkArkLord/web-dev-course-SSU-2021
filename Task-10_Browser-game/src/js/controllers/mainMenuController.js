@@ -1,5 +1,6 @@
 import { MenuComponent } from "./components/menuComponent";
 import { helpController } from "./helpController";
+import { mapController } from "./mapController";
 
 const items = {
     newGame: {
@@ -22,7 +23,7 @@ mainMenuController.customInit = (mainController) => {
     items.continue.isActive = () => mainController.controllerStack.length > 0;
 
     mainMenuController.items.actions[items.newGame.value] = function() {
-        alert(items.newGame.value);
+        mainController.pushController(mapController);
     }
     mainMenuController.items.actions[items.continue.value] = function() {
         mainController.popController();
