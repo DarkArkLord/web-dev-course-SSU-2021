@@ -1,6 +1,7 @@
 import { MapComponent, testGenerator, CellType } from "./components/mapComponent";
 import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
+import { createTextController } from "./textController";
 
 const testParams = {
     width: 20,
@@ -30,16 +31,14 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
-                alert("first map");
-                // TODO: Add menu
+                createTextController(["first map"], instance.mainController);
                 return;
             }
             instance.currentMap = instance.mapStack.pop();
         }
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
-                alert("last map");
-                // TODO: Add menu
+                createTextController(["last map"], instance.mainController);
                 return;
             }
             instance.mapStack.push(instance.currentMap);
@@ -47,8 +46,7 @@ MapController.prototype = {
             instance.initCurrentMap(level + 1, instance);
         }
         instance.currentMap.mapObjectActions[CellType.Door.Closed] = function() {
-            alert("closed door");
-            // TODO: Add menu
+            createTextController(["closed door"], instance.mainController);
         }
 
         instance.currentMap.commandActions[Commands.Back] = function() {
