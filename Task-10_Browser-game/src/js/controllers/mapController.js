@@ -5,6 +5,8 @@ import { mainMenuController } from "./mainMenuController";
 const testParams = {
     width: 20,
     height: 20,
+    sizeByLevel: (level) => 10 * level + 10,
+    height: 20,
     fieldOfView: () => 12,
     endLevel: 3,
     generator: testGenerator,
@@ -22,7 +24,7 @@ MapController.prototype = {
     initCurrentMap(level, instance) {
         if (!instance.currentMap) {
             let params = instance.params;
-            instance.currentMap = new MapComponent(params.width * level, params.height * level, { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
+            instance.currentMap = new MapComponent(params.sizeByLevel(level), params.sizeByLevel(level), { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
             instance.currentMap.init(instance.mainController);
         }
 
