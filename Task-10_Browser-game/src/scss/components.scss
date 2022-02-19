@@ -1,0 +1,42 @@
+@import 'vars';
+
+/*
+* Menu
+*/
+
+.menu-default-item {
+    color: $main-text-color;
+}
+
+.menu-current-item {
+    background-color: $current-text-background-color;
+}
+
+.menu-disable-item {
+    color: $disable-text-color;
+}
+
+
+/*
+* Map
+*/
+
+.map-player {
+    color: $white;
+}
+
+.map-flag-not-used {
+    color: $current-text-color;
+}
+
+.map-flag-used {
+    color: $current-text-background-color;
+}
+
+.map-door-open {
+    color: $current-text-color-old;
+}
+
+.map-door-close {
+    color: $current-text-background-color-old;
+}

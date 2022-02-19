@@ -5,9 +5,9 @@ import { IndexEnumerator } from '../../utils.js'
 const defaultstyleClasses = {
     table: 'width_100 align_center',
     item: {
-        default: 'default-menu-item',
-        current: 'current-menu-item',
-        disable: 'disable-menu-item',
+        default: 'menu-default-item',
+        current: 'menu-current-item',
+        disable: 'menu-disable-item',
     },
 };
 

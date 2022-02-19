@@ -31,7 +31,7 @@ export const CellType = {
 const CellContent = {
     [CellType.Player]: {
         Value: '@',
-        Class: '',
+        Class: 'map-player',
     },
     [CellType.Cell.Empty]: {
         Value: '.',
@@ -48,23 +48,23 @@ const CellContent = {
 
     [CellType.Flag.NotUsed]: {
         Value: 'F',
-        Class: '',
+        Class: 'map-flag-not-used',
     },
     [CellType.Flag.Used]: {
         Value: '!',
-        Class: '',
+        Class: 'map-flag-used',
     },
     [CellType.Door.Next]: {
         Value: '>',
-        Class: '',
+        Class: 'map-door-open',
     },
     [CellType.Door.Prev]: {
         Value: '<',
-        Class: '',
+        Class: 'map-door-open',
     },
     [CellType.Door.Closed]: {
         Value: 'X',
-        Class: '',
+        Class: 'map-door-close',
     },
 };
 
@@ -111,14 +111,14 @@ export function testGenerator(width, height, params) {
     }
     result.position = findFreeCell();
 
+    result.doors.prev.position = { x: result.position.x, y: result.position.y };
+    result.map[result.position.y][result.position.x] = CellType.Door.Prev;
+
     for (let i = 0; i < params.flagCount; i++) {
         let flag = { position: findFreeCell(), used: false };
         result.map[flag.position.y][flag.position.x] = CellType.Flag.NotUsed;
         result.flags.list.push(flag);
     }
-
-    result.doors.prev.position = findFreeCell();
-    result.map[result.doors.prev.position.y][result.doors.prev.position.x] = CellType.Door.Prev;
 
     result.doors.next.position = findFreeCell();
     result.doors.next.isOpen = params.flagCount > 0;
