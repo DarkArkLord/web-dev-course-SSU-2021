@@ -31,7 +31,7 @@ export const CellType = {
 const CellContent = {
     [CellType.Player]: {
         Value: '@',
-        Class: '',
+        Class: 'map-player',
     },
     [CellType.Cell.Empty]: {
         Value: '.',
