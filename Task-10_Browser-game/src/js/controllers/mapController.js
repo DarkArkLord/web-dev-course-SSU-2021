@@ -6,7 +6,6 @@ const testParams = {
     width: 20,
     height: 20,
     fieldOfView: () => 12,
-    startLevel: 1,
     endLevel: 3,
     generator: testGenerator,
 };
@@ -20,38 +19,48 @@ export function MapController(params = testParams) {
 }
 
 MapController.prototype = {
-    initCurrentMap(level) {
-        let instance = this;
-        if(!this.currentMap) {
-            let params = this.params;
-            this.currentMap = new MapComponent(params.width * level, params.height * level, { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
-            this.currentMap.init(this.mainController);
+    initCurrentMap(level, instance) {
+        if (!instance.currentMap) {
+            let params = instance.params;
+            instance.currentMap = new MapComponent(params.width * level, params.height * level, { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
+            instance.currentMap.init(instance.mainController);
         }
 
-        this.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
-            alert("prev controller");
+        instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
+            if (instance.mapStack.length < 1) {
+                alert("first map");
+                return;
+            }
+            instance.currentMap = instance.mapStack.pop();
         }
-        this.currentMap.mapObjectActions[CellType.Door.Next] = function() {
-            alert("next controller");
+        instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
+            if (level + 1 > instance.params.endLevel) {
+                alert("last map");
+                return;
+            }
+            instance.mapStack.push(instance.currentMap);
+            instance.currentMap = undefined;
+            instance.initCurrentMap(level + 1, instance);
         }
 
-        this.currentMap.commandActions[Commands.Back] = function() {
+        instance.currentMap.commandActions[Commands.Back] = function() {
             instance.mainController.pushController(mainMenuController);
         }
     },
     init(mainController) {
+        const startLevel = 1;
         this.mainController = mainController;
         this.currentMap = undefined;
         this.mapStack = [];
-        this.initCurrentMap(this.params.startLevel);
+        this.initCurrentMap(startLevel, this);
     },
     executeCommand(command) {
-        if(this.currentMap) {
+        if (this.currentMap) {
             this.currentMap.executeCommand(command);
         }
     },
     createElement() {
-        if(this.currentMap) {
+        if (this.currentMap) {
             return this.currentMap.createElement();
         }
     }
