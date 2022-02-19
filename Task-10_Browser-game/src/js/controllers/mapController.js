@@ -31,6 +31,7 @@ MapController.prototype = {
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
                 alert("first map");
+                // TODO: Add menu
                 return;
             }
             instance.currentMap = instance.mapStack.pop();
@@ -38,11 +39,16 @@ MapController.prototype = {
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
                 alert("last map");
+                // TODO: Add menu
                 return;
             }
             instance.mapStack.push(instance.currentMap);
             instance.currentMap = undefined;
             instance.initCurrentMap(level + 1, instance);
+        }
+        instance.currentMap.mapObjectActions[CellType.Door.Closed] = function() {
+            alert("closed door");
+            // TODO: Add menu
         }
 
         instance.currentMap.commandActions[Commands.Back] = function() {
