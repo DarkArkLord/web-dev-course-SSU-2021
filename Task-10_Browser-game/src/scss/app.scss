@@ -1,4 +1,5 @@
 @import 'vars';
+@import 'components';
 * {
     font-family: Consolas;
     background-color: $body-background-color;
@@ -55,16 +56,6 @@ body *::selection {
 
 .game_button:hover {
     background-color: $active-button-background-color;
-}
-
-.default-menu-item {
-    color: $main-text-color;
-}
-.current-menu-item {
-    background-color: $current-text-background-color;
-}
-.disable-menu-item {
-    color: $disable-text-color;
 }
 
 .no-border {

@@ -48,23 +48,23 @@ const CellContent = {
 
     [CellType.Flag.NotUsed]: {
         Value: 'F',
-        Class: '',
+        Class: 'map-flag-not-used',
     },
     [CellType.Flag.Used]: {
         Value: '!',
-        Class: '',
+        Class: 'map-flag-used',
     },
     [CellType.Door.Next]: {
         Value: '>',
-        Class: '',
+        Class: 'map-door-open',
     },
     [CellType.Door.Prev]: {
         Value: '<',
-        Class: '',
+        Class: 'map-door-open',
     },
     [CellType.Door.Closed]: {
         Value: 'X',
-        Class: '',
+        Class: 'map-door-close',
     },
 };
 
