@@ -2,7 +2,7 @@ import { MapComponent, testGenerator, CellType } from "./components/mapComponent
 import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
 import { createTextController } from "./textController";
-import { getRandomValueWithProbability } from "../utils";
+import { getRandomVariantWithProbability } from "../utils";
 
 const testParams = {
     width: 20,
@@ -55,7 +55,7 @@ MapController.prototype = {
         }
 
         instance.currentMap.mapObjectActions[CellType.Cell.Empty] = function() {
-            let event = getRandomValueWithProbability([
+            let event = getRandomVariantWithProbability([
                 {
                     probability: 9,
                     value: undefined

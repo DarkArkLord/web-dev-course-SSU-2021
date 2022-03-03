@@ -36,7 +36,7 @@ export function getRandomInt(min, max) {
     return ((Math.random() * (max + 1 - min)) + min) | 0;
 }
 
-export function getRandomValueWithProbability(values) {
+export function getRandomVariantWithProbability(values) {
     let maxProbability = values.map(value => value.probability).reduce((acc, value) => acc + value, 0);
     let result = getRandomInt(1, maxProbability);
     let i = 0, prev = 1, cur = values[i].probability;
