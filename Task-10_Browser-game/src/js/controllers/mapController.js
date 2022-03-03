@@ -29,6 +29,8 @@ MapController.prototype = {
             instance.currentMap.init(instance.mainController);
         }
 
+        // Cell Actions
+
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
                 createTextController(["first map"], instance.mainController);
@@ -36,6 +38,7 @@ MapController.prototype = {
             }
             instance.currentMap = instance.mapStack.pop();
         }
+
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
                 createTextController(["last map"], instance.mainController);
@@ -45,9 +48,16 @@ MapController.prototype = {
             instance.currentMap = undefined;
             instance.initCurrentMap(level + 1, instance);
         }
+
         instance.currentMap.mapObjectActions[CellType.Door.Closed] = function() {
             createTextController(["closed door"], instance.mainController);
         }
+
+        instance.currentMap.mapObjectActions[CellType.Cell.Empty] = function() {
+            //createTextController(["default event"], instance.mainController);
+        }
+
+        // Button Actions
 
         instance.currentMap.commandActions[Commands.Back] = function() {
             instance.mainController.pushController(mainMenuController);
