@@ -57,7 +57,7 @@ MapController.prototype = {
         instance.currentMap.mapObjectActions[CellType.Cell.Empty] = function() {
             let event = getRandomVariantWithProbability([
                 {
-                    probability: 9,
+                    probability: 19,
                     value: undefined
                 },
                 {
