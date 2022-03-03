@@ -2,6 +2,7 @@ import { MapComponent, testGenerator, CellType } from "./components/mapComponent
 import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
 import { createTextController } from "./textController";
+import { getRandomValueWithProbability } from "../utils";
 
 const testParams = {
     width: 20,
@@ -54,7 +55,22 @@ MapController.prototype = {
         }
 
         instance.currentMap.mapObjectActions[CellType.Cell.Empty] = function() {
-            //createTextController(["default event"], instance.mainController);
+            let event = getRandomValueWithProbability([
+                {
+                    probability: 9,
+                    value: undefined
+                },
+                {
+                    probability: 1,
+                    value: function() {
+                        createTextController(["default event"], instance.mainController);
+                    }
+                }
+            ]);
+
+            if(event) {
+                event();
+            }
         }
 
         // Button Actions
