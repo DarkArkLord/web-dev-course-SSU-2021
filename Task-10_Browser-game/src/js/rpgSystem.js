@@ -16,8 +16,7 @@ export function getDiceExpressionValue(expression) {
 }
 
 export function getMainDiceValue() {
-    let result = getDiceExpressionValue({ count: 3, dice: { mim: -3, max: 3 }, mod: 0 });
-    return result.result;
+    return getDiceExpressionValue({ count: 3, dice: { mim: -3, max: 3 }, mod: 0 });
 }
 
 /* STATES */
