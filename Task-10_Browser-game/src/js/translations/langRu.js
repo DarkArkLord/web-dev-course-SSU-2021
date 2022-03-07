@@ -31,6 +31,12 @@ export const translations = {
                     LEGS: () => 'Поножи',
                 },
             },
+            WEAPON: {
+                KNIFE: () => 'Нож',
+                SWORD: () => 'Меч',
+                AXE: () => 'Топор',
+                BOW: () => 'Лук',
+            }
         },
     },
 };

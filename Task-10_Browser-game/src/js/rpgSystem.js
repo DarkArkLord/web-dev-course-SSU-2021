@@ -123,6 +123,15 @@ export const ArmorPartDefence = {
     [ArmorParts.legs]: (lvl, type) => lvl * type,
 };
 
+/* WEAPON */
+
+export const WeaponTypes = {
+    knife: 'ITEM-EQUIP-WEAPON-KNIFE',
+    sword: 'ITEM-EQUIP-WEAPON-SWORD',
+    axe: 'ITEM-EQUIP-WEAPON-AXE',
+    bow: 'ITEM-EQUIP-WEAPON-BOW',
+};
+
 /* COMMON */
 
 export function getDamageByStrength(strength) {
