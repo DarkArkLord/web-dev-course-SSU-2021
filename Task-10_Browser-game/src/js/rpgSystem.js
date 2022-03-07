@@ -66,3 +66,11 @@ export function getStatesTemplate() {
 
     return states;
 }
+
+export const BodyPartId = {
+    head: 'CHAR-PART-HEAD',
+    body: 'CHAR-PART-BODY',
+    hands: 'CHAR-PART-HANDS',
+    legs: 'CHAR-PART-LEGS',
+    vitalOrgans: 'CHAR-PART-VITAL',
+}
