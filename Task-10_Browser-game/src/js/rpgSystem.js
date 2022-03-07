@@ -21,7 +21,7 @@ export function getMainDiceValue() {
 
 /* STATES */
 
-export const StateIds = {
+export const States = {
     strength: 'CHAR-STATE-STR',
     dexterity: 'CHAR-STATE-DEX',
     intelligence: 'CHAR-STATE-INT',
@@ -41,13 +41,13 @@ export function getStatesTemplate() {
     }
 
     let states = {
-        [StateIds.strength]: getDefValues(StateIds.strength), // damage, weight
-        [StateIds.dexterity]: getDefValues(StateIds.dexterity), // stelth, dodge
-        [StateIds.intelligence]: getDefValues(StateIds.intelligence), // magick
-        [StateIds.constitution]: getDefValues(StateIds.constitution), // hp
-        [StateIds.perception]: getDefValues(StateIds.perception), // perseprion, gathering
-        [StateIds.meleeWeapon]: getDefValues(StateIds.meleeWeapon), // melee attack, parry
-        [StateIds.rangedWeapon]: getDefValues(StateIds.rangedWeapon), // ranged attack
+        [States.strength]: getDefValues(States.strength), // damage, weight
+        [States.dexterity]: getDefValues(States.dexterity), // stelth, dodge
+        [States.intelligence]: getDefValues(States.intelligence), // magick
+        [States.constitution]: getDefValues(States.constitution), // hp
+        [States.perception]: getDefValues(States.perception), // perseprion, gathering
+        [States.meleeWeapon]: getDefValues(States.meleeWeapon), // melee attack, parry
+        [States.rangedWeapon]: getDefValues(States.rangedWeapon), // ranged attack
     };
 
     return states;
@@ -55,7 +55,7 @@ export function getStatesTemplate() {
 
 /* BODY TYPES */
 
-export const BodyPartId = {
+export const BodyParts = {
     head: 'CHAR-PART-HEAD',
     body: 'CHAR-PART-BODY',
     hands: 'CHAR-PART-HANDS',
@@ -64,35 +64,35 @@ export const BodyPartId = {
 };
 
 export const BodyPartAttackProbability = [
-    { attackProbability: 1, value: BodyPartId.head },
-    { attackProbability: 4, value: BodyPartId.body },
-    { attackProbability: 3, value: BodyPartId.hands },
-    { attackProbability: 2, value: BodyPartId.legs },
+    { attackProbability: 1, value: BodyParts.head },
+    { attackProbability: 4, value: BodyParts.body },
+    { attackProbability: 3, value: BodyParts.hands },
+    { attackProbability: 2, value: BodyParts.legs },
 ];
 
 export const BodyPartAttackPenalty = {
-    [BodyPartId.head]: -6,
-    [BodyPartId.body]: 0,
-    [BodyPartId.hands]: -2,
-    [BodyPartId.legs]: -4,
-    [BodyPartId.vitalOrgans]: -8,
+    [BodyParts.head]: -6,
+    [BodyParts.body]: 0,
+    [BodyParts.hands]: -2,
+    [BodyParts.legs]: -4,
+    [BodyParts.vitalOrgans]: -8,
 };
 
 /* ARMOR */
 
-export const ArmorTypeId = {
+export const ArmorTypes = {
     softArmor: 'ITEM-EQUIP-ARMOR-SOFT',
     hardArmor: 'ITEM-EQUIP-ARMOR-HARD',
 };
 
 export const ArmorPenalty = {
-    [ArmorTypeId.softArmor]: 0,
-    [ArmorTypeId.hardArmor]: -1,
+    [ArmorTypes.softArmor]: 0,
+    [ArmorTypes.hardArmor]: -1,
 };
 
 export const ArmorDefence = {
-    [ArmorTypeId.softArmor]: 1,
-    [ArmorTypeId.hardArmor]: 2,
+    [ArmorTypes.softArmor]: 1,
+    [ArmorTypes.hardArmor]: 2,
 };
 
 /* COMMON */
