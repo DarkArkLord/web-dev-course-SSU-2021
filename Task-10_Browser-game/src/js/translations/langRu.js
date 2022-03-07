@@ -20,8 +20,16 @@ export const translations = {
     ITEM: {
         EQUIP: {
             ARMOR: {
-                SOFT: () => 'Легкая',
-                HARD: () => 'Тяжелая',
+                TYPE: {
+                    SOFT: () => 'Легкая',
+                    HARD: () => 'Тяжелая',
+                },
+                PART: {
+                    HEAD: () => 'Шлем',
+                    BODY: () => 'Нагрудник',
+                    HANDS: () => 'Нарукавники',
+                    LEGS: () => 'Поножи',
+                },
             },
         },
     },

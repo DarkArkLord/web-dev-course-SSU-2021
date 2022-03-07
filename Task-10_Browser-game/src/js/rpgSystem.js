@@ -81,8 +81,8 @@ export const BodyPartAttackPenalty = {
 /* ARMOR */
 
 export const ArmorTypes = {
-    softArmor: 'ITEM-EQUIP-ARMOR-SOFT',
-    hardArmor: 'ITEM-EQUIP-ARMOR-HARD',
+    softArmor: 'ITEM-EQUIP-ARMOR-TYPE-SOFT',
+    hardArmor: 'ITEM-EQUIP-ARMOR-TYPE-HARD',
 };
 
 export const ArmorPenalty = {
@@ -95,11 +95,32 @@ export const ArmorDefence = {
     [ArmorTypes.hardArmor]: 2,
 };
 
+export const ArmorParts = {
+    head: 'ITEM-EQUIP-ARMOR-PART-HEAD',
+    body: 'ITEM-EQUIP-ARMOR-PART-BODY',
+    hands: 'ITEM-EQUIP-ARMOR-PART-HANDS',
+    legs: 'ITEM-EQUIP-ARMOR-PART-LEGS',
+}
+
+export const BodyToArmorParts = {
+    [BodyParts.head]: ArmorParts.head,
+    [BodyParts.body]: ArmorParts.body,
+    [BodyParts.hands]: ArmorParts.hands,
+    [BodyParts.legs]: ArmorParts.legs,
+}
+
+export const ArmorToBodyParts = {
+    [ArmorParts.head]: BodyParts.head,
+    [ArmorParts.body]: BodyParts.body,
+    [ArmorParts.hands]: BodyParts.hands,
+    [ArmorParts.legs]: BodyParts.legs,
+}
+
 export const ArmorPartMultiplicator = {
-    head: 1,
-    body: 2,
-    hands: 1,
-    legs: 1,
+    [ArmorParts.head]: 1,
+    [ArmorParts.body]: 2,
+    [ArmorParts.hands]: 1,
+    [ArmorParts.legs]: 1,
 };
 
 /* COMMON */
