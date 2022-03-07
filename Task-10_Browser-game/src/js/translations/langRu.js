@@ -17,4 +17,12 @@ export const translations = {
             VITAL: () => 'Важные органы',
         }
     },
+    ITEM: {
+        EQUIP: {
+            ARMOR: {
+                SOFT: () => 'Легкая',
+                HARD: () => 'Тяжелая',
+            },
+        },
+    },
 };

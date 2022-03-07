@@ -78,6 +78,23 @@ export const BodyPartAttackPenalty = {
     [BodyPartId.vitalOrgans]: -8,
 };
 
+/* ARMOR */
+
+export const ArmorTypeId = {
+    softArmor: 'ITEM-EQUIP-ARMOR-SOFT',
+    hardArmor: 'ITEM-EQUIP-ARMOR-HARD',
+};
+
+export const ArmorPenalty = {
+    [ArmorTypeId.softArmor]: 0,
+    [ArmorTypeId.hardArmor]: -1,
+};
+
+export const ArmorDefence = {
+    [ArmorTypeId.softArmor]: 1,
+    [ArmorTypeId.hardArmor]: 2,
+};
+
 /* COMMON */
 
 export function getDamageByStrength(strength) {
