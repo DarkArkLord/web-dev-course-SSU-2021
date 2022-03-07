@@ -116,11 +116,11 @@ export const ArmorToBodyParts = {
     [ArmorParts.legs]: BodyParts.legs,
 }
 
-export const ArmorPartAdditional = {
-    [ArmorParts.head]: (lvl) => - Math.ceil(lvl / 3),
-    [ArmorParts.body]: (lvl) => Math.ceil(lvl / 3),
-    [ArmorParts.hands]: (lvl) => 0,
-    [ArmorParts.legs]: (lvl) => 0,
+export const ArmorPartDefence = {
+    [ArmorParts.head]: (lvl, type) => lvl * type - Math.ceil(lvl / 3),
+    [ArmorParts.body]: (lvl, type) => lvl * type + Math.ceil(lvl / 3),
+    [ArmorParts.hands]: (lvl, type) => lvl * type,
+    [ArmorParts.legs]: (lvl, type) => lvl * type,
 };
 
 /* COMMON */
