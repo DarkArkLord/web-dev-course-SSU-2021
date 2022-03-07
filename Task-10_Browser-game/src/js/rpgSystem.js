@@ -1,14 +1,38 @@
+import { getRandomInt } from "./utils";
+
+/* DICES */
+
+export function getDiceExpressionValue(expression) {
+    let result = expression.mod || 0;
+    let values = [];
+
+    for (let i = 0; i < expression.count; i++) {
+        let value = getRandomInt(expression.dice.min, expression.dice.max);
+        result += value;
+        values.push(value);
+    }
+
+    return { result, values, mod: expression.mod };
+}
+
+export function getMainDiceValue() {
+    let result = getDiceExpressionValue({ count: 3, dice: { mim: -3, max: 3 }, mod: 0 });
+    return result.result;
+}
+
+/* STATES */
+
 export function getDamageByStrength(strength) {
     const baseStrength = 10;
     const modToDice = 4;
-    let result = { dices: 1, mod: 0 };
+    let result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
     let delta = strength - baseStrength;
     if (delta < 0) {
         result.mod = Math.sign(delta) * Math.round(Math.abs(delta) / 2);
     } else {
         result.mod = delta;
         while (result.mod > 2) {
-            result.dices += 1;
+            result.count += 1;
             result.mod -= modToDice;
         }
     }
