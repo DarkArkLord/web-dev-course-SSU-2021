@@ -13,5 +13,5 @@ export function getTranslation(language, id) {
         if (!translation) return '!ERROR!';
         translation = translation[step];
     }
-    return translation;
+    return translation();
 }
