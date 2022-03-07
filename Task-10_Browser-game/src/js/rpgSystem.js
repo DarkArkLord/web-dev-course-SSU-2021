@@ -65,9 +65,9 @@ export const BodyParts = {
 
 export const BodyPartAttackProbability = [
     { attackProbability: 1, value: BodyParts.head },
-    { attackProbability: 4, value: BodyParts.body },
-    { attackProbability: 3, value: BodyParts.hands },
-    { attackProbability: 2, value: BodyParts.legs },
+    { attackProbability: 15, value: BodyParts.body },
+    { attackProbability: 10, value: BodyParts.hands },
+    { attackProbability: 5, value: BodyParts.legs },
 ];
 
 export const BodyPartAttackPenalty = {
