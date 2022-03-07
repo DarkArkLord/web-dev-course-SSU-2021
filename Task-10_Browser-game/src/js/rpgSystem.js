@@ -77,4 +77,19 @@ export const BodyPartId = {
     hands: 'CHAR-PART-HANDS',
     legs: 'CHAR-PART-LEGS',
     vitalOrgans: 'CHAR-PART-VITAL',
-}
+};
+
+export const BodyPartAttackProbability = [
+    { attackProbability: 1, value: BodyPartId.head },
+    { attackProbability: 4, value: BodyPartId.body },
+    { attackProbability: 3, value: BodyPartId.hands },
+    { attackProbability: 2, value: BodyPartId.legs },
+];
+
+export const BodyPartAttackPenalty = {
+    [BodyPartId.head]: -6,
+    [BodyPartId.body]: 0,
+    [BodyPartId.hands]: -2,
+    [BodyPartId.legs]: -4,
+    [BodyPartId.vitalOrgans]: -8,
+};
