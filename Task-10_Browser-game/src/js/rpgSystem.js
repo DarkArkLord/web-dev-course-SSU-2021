@@ -54,14 +54,18 @@ export function getStatesTemplate() {
     const statesDefExpMult = 1;
     const statesDefExp = 0;
 
+    function getDefValues(id) {
+        return { id, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp };
+    }
+
     let states = {
-        strength: { id: StateIds.strength, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // damage, weight
-        dexterity: { id: StateIds.dexterity, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // stelth, dodge
-        intelligence: { id: StateIds.intelligence, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // magick
-        constitution: { id: StateIds.constitution, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // hp
-        perception: { id: StateIds.perception, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // perseprion, gathering
-        meleeWeapon: { id: StateIds.meleeWeapon, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // melee attack, parry
-        rangedWeapon: { id: StateIds.rangedWeapon, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp }, // ranged attack
+        [StateIds.strength]: getDefValues(StateIds.strength), // damage, weight
+        [StateIds.dexterity]: getDefValues(StateIds.dexterity), // stelth, dodge
+        [StateIds.intelligence]: getDefValues(StateIds.intelligence), // magick
+        [StateIds.constitution]: getDefValues(StateIds.constitution), // hp
+        [StateIds.perception]: getDefValues(StateIds.perception), // perseprion, gathering
+        [StateIds.meleeWeapon]: getDefValues(StateIds.meleeWeapon), // melee attack, parry
+        [StateIds.rangedWeapon]: getDefValues(StateIds.rangedWeapon), // ranged attack
     };
 
     return states;
