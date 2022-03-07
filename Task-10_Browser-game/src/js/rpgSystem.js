@@ -132,6 +132,13 @@ export const WeaponTypes = {
     bow: 'ITEM-EQUIP-WEAPON-BOW',
 };
 
+export const WeaponDamage = {
+    [WeaponTypes.knife]: (lvl) => lvl,
+    [WeaponTypes.sword]: (lvl) => lvl,
+    [WeaponTypes.axe]: (lvl) => lvl,
+    [WeaponTypes.bow]: (lvl) => lvl,
+};
+
 /* COMMON */
 
 export function getDamageByStrength(strength) {
