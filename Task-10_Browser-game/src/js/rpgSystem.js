@@ -116,11 +116,11 @@ export const ArmorToBodyParts = {
     [ArmorParts.legs]: BodyParts.legs,
 }
 
-export const ArmorPartMultiplicator = {
-    [ArmorParts.head]: 1,
-    [ArmorParts.body]: 2,
-    [ArmorParts.hands]: 1,
-    [ArmorParts.legs]: 1,
+export const ArmorPartAdditional = {
+    [ArmorParts.head]: (lvl) => - Math.ceil(lvl / 3),
+    [ArmorParts.body]: (lvl) => Math.ceil(lvl / 3),
+    [ArmorParts.hands]: (lvl) => 0,
+    [ArmorParts.legs]: (lvl) => 0,
 };
 
 /* COMMON */
