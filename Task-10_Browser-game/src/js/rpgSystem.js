@@ -22,23 +22,6 @@ export function getMainDiceValue() {
 
 /* STATES */
 
-export function getDamageByStrength(strength) {
-    const baseStrength = 10;
-    const modToDice = 4;
-    let result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
-    let delta = strength - baseStrength;
-    if (delta < 0) {
-        result.mod = Math.sign(delta) * Math.round(Math.abs(delta) / 2);
-    } else {
-        result.mod = delta;
-        while (result.mod > 2) {
-            result.count += 1;
-            result.mod -= modToDice;
-        }
-    }
-    return result;
-}
-
 export const StateIds = {
     strength: 'CHAR-STATE-STR',
     dexterity: 'CHAR-STATE-DEX',
@@ -71,6 +54,8 @@ export function getStatesTemplate() {
     return states;
 }
 
+/* BODY TYPES */
+
 export const BodyPartId = {
     head: 'CHAR-PART-HEAD',
     body: 'CHAR-PART-BODY',
@@ -93,3 +78,22 @@ export const BodyPartAttackPenalty = {
     [BodyPartId.legs]: -4,
     [BodyPartId.vitalOrgans]: -8,
 };
+
+/* COMMON */
+
+export function getDamageByStrength(strength) {
+    const baseStrength = 10;
+    const modToDice = 4;
+    let result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
+    let delta = strength - baseStrength;
+    if (delta < 0) {
+        result.mod = Math.sign(delta) * Math.round(Math.abs(delta) / 2);
+    } else {
+        result.mod = delta;
+        while (result.mod > 2) {
+            result.count += 1;
+            result.mod -= modToDice;
+        }
+    }
+    return result;
+}
