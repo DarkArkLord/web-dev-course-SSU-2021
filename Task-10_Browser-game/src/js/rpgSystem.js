@@ -95,6 +95,13 @@ export const ArmorDefence = {
     [ArmorTypes.hardArmor]: 2,
 };
 
+export const ArmorPartMultiplicator = {
+    head: 1,
+    body: 2,
+    hands: 1,
+    legs: 1,
+};
+
 /* COMMON */
 
 export function getDamageByStrength(strength) {
