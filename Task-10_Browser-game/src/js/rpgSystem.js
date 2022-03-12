@@ -115,12 +115,20 @@ export const ArmorToBodyParts = {
     [ArmorParts.hands]: BodyParts.hands,
     [ArmorParts.legs]: BodyParts.legs,
 }
+
 // TODO: Сделать броню типа щитов - снимается уроном и восстанавливается после боя
-export const ArmorPartDefence = {
+export const ArmorPartShields = {
     [ArmorParts.head]: (lvl, type) => lvl * type - Math.ceil(lvl / 3),
     [ArmorParts.body]: (lvl, type) => lvl * type + Math.ceil(lvl / 3),
     [ArmorParts.hands]: (lvl, type) => lvl * type,
     [ArmorParts.legs]: (lvl, type) => lvl * type,
+};
+
+export const ArmorPartHealth = {
+    [ArmorParts.head]: (lvl, type) => lvl - Math.ceil(lvl / 3),
+    [ArmorParts.body]: (lvl, type) => lvl + Math.ceil(lvl / 3),
+    [ArmorParts.hands]: (lvl, type) => lvl,
+    [ArmorParts.legs]: (lvl, type) => lvl,
 };
 
 /* WEAPON */
