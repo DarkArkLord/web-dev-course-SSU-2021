@@ -47,6 +47,7 @@ export function MenuComponent(items, headerElement, footerElement, styleClasses 
 MenuComponent.prototype = {
     customInit: function(mainController) {},
     init(mainController) {
+        this.currentItem.reset();
         this.mainController = mainController;
         if (this.customInit) {
             this.customInit(mainController);
