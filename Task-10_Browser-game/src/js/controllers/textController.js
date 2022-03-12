@@ -53,6 +53,7 @@ export function createTextControllerByHtml(elements, config = { buttons: Buttons
     result.first = result.list[0];
     return result;
 }
+
 export function createTextController(textElements, config = { buttons: ButtonsConfig.both, addCounter: true }) {
     const elements = textElements.map(value => { return { element: value }; });
     return createTextControllerByHtml(elements, config);
