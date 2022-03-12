@@ -1,16 +1,3 @@
-import { MenuComponent } from "./components/menuComponent";
+import { createTextController, ButtonsConfig } from "./textController";
 
-const items = {
-    back: {
-        value: "Назад",
-        isActive: () => true,
-    },
-};
-
-export const helpController = new MenuComponent([items.back], { element: 'Помостч' });
-
-helpController.customInit = (mainController) => {
-    helpController.items.actions[items.back.value] = function() {
-        mainController.popController();
-    }
-}
+export const helpController = createTextController(['Помостч', ], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;

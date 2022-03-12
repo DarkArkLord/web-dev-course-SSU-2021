@@ -1,7 +1,7 @@
 import { MapComponent, testGenerator, CellType } from "./components/mapComponent";
 import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
-import { createTextController } from "./textController";
+import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
 
 const testParams = {
@@ -34,7 +34,8 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
-                createTextController(["first map"], instance.mainController);
+                let eventCntroller = createTextController(['first map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                instance.mainController.pushController(eventCntroller);
                 return;
             }
             instance.currentMap = instance.mapStack.pop();
@@ -42,7 +43,8 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
-                createTextController(["last map"], instance.mainController);
+                let eventCntroller = createTextController(['last map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                instance.mainController.pushController(eventCntroller);
                 return;
             }
             instance.mapStack.push(instance.currentMap);
@@ -51,7 +53,8 @@ MapController.prototype = {
         }
 
         instance.currentMap.mapObjectActions[CellType.Door.Closed] = function() {
-            createTextController(["closed door"], instance.mainController);
+            let eventCntroller = createTextController(['closed door'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+            instance.mainController.pushController(eventCntroller);
         }
 
         instance.currentMap.mapObjectActions[CellType.Cell.Empty] = function() {
@@ -63,12 +66,13 @@ MapController.prototype = {
                 {
                     probability: 1,
                     value: function() {
-                        createTextController(["default event"], instance.mainController);
+                        let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                        instance.mainController.pushController(eventCntroller);
                     }
                 }
             ]);
 
-            if(event) {
+            if (event) {
                 event();
             }
         }
