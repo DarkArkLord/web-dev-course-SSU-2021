@@ -85,7 +85,7 @@ export const ArmorTypes = {
     hardArmor: 'ITEM-EQUIP-ARMOR-TYPE-HARD',
 };
 
-export const ArmorPenalty = {
+export const ArmorDexPenalty = {
     [ArmorTypes.softArmor]: 0,
     [ArmorTypes.hardArmor]: -1,
 };
@@ -140,8 +140,8 @@ export const WeaponTypes = {
     bow: 'ITEM-EQUIP-WEAPON-BOW',
 };
 
-export const WeaponDamage = {
-    [WeaponTypes.knife]: (lvl) => lvl,
+export const WeaponBaseDamage = {
+    [WeaponTypes.knife]: (lvl) => Math.ceil(lvl / 2),
     [WeaponTypes.sword]: (lvl) => lvl,
     [WeaponTypes.axe]: (lvl) => lvl,
     [WeaponTypes.bow]: (lvl) => lvl,
