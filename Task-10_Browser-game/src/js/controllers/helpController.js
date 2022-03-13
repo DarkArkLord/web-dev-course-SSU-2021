@@ -4,9 +4,9 @@ import { createTextController, createTextControllerByHtml, ButtonsConfig } from 
 
 import { HTMLTags } from "../render";
 import { getTranslation, languages } from "../translations/translation";
-import { ArmorTypes, ArmorParts, ArmorDefence, ArmorPartHealth, ArmorPartShields, WeaponTypes, WeaponDamage } from "../rpgSystem";
+import { ArmorTypes, ArmorParts, ArmorDefence, ArmorPartHealth, ArmorPartShields, WeaponTypes, WeaponBaseDamage, WeaponDamageMultiplicator } from "../rpgSystem";
 
-function getTestArmorWeaponValues(startValue = 1, count = 10) {
+function getTestArmorWeaponValues() {
     const content = {
         tag: HTMLTags.Table,
         attributes: { class: 'width_100 align_center' },
@@ -102,9 +102,7 @@ function getTestArmorWeaponValues(startValue = 1, count = 10) {
         ]
     };
 
-    for (let i = 0; i < count; i++) {
-        const lvl = startValue + i;
-
+    function addTableRow(lvl) {
         function getArmor(level, type, part) {
             let health = ArmorPartHealth[part](level, ArmorDefence[type]);
             let shields = ArmorPartShields[part](level, ArmorDefence[type]);
@@ -112,7 +110,10 @@ function getTestArmorWeaponValues(startValue = 1, count = 10) {
         }
 
         function getWeapon(level, type) {
-            return WeaponDamage[type](level);
+            let dmg = WeaponBaseDamage[type](level);
+            let health = WeaponDamageMultiplicator[type].health(dmg);
+            let shields = WeaponDamageMultiplicator[type].shields(dmg);
+            return `${dmg}/${health}/${shields}`;
         }
 
         content.childs.push({
@@ -174,7 +175,12 @@ function getTestArmorWeaponValues(startValue = 1, count = 10) {
         });
     }
 
+    addTableRow(1);
+    for (let lvl = 10; lvl <= 150; lvl += 10) {
+        addTableRow(lvl);
+    }
+
     return createTextControllerByHtml([content], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
 }
 
-export const helpController = getTestArmorWeaponValues(1, 10);
+export const helpController = getTestArmorWeaponValues();

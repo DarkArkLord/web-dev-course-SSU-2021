@@ -147,6 +147,45 @@ export const WeaponBaseDamage = {
     [WeaponTypes.bow]: (lvl) => lvl,
 };
 
+const wdmDelta = 0.2;
+const wdmValues = {
+    [WeaponTypes.knife]: {
+        health: 1 - wdmDelta,
+        shields: 1 - wdmDelta
+    },
+    [WeaponTypes.sword]: {
+        health: 1 + wdmDelta,
+        shields: 1 - wdmDelta
+    },
+    [WeaponTypes.axe]: {
+        health: 1 - wdmDelta,
+        shields: 1 + wdmDelta
+    },
+    [WeaponTypes.bow]: {
+        health: 1 + wdmDelta,
+        shields: 1
+    },
+};
+
+export const WeaponDamageMultiplicator = {
+    [WeaponTypes.knife]: {
+        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.knife].health),
+        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.knife].shields),
+    },
+    [WeaponTypes.sword]: {
+        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.sword].health),
+        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.sword].shields),
+    },
+    [WeaponTypes.axe]: {
+        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.axe].health),
+        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.axe].shields),
+    },
+    [WeaponTypes.bow]: {
+        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.bow].health),
+        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.bow].shields),
+    },
+};
+
 /* COMMON */
 
 export function getDamageByStrength(strength) {
