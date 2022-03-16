@@ -20,10 +20,6 @@ export const translations = {
     ITEM: {
         EQUIP: {
             ARMOR: {
-                TYPE: {
-                    SOFT: () => 'Легкая',
-                    HARD: () => 'Тяжелая',
-                },
                 PART: {
                     HEAD: () => 'Шлем',
                     BODY: () => 'Нагрудник',
@@ -35,7 +31,6 @@ export const translations = {
                 KNIFE: () => 'Нож',
                 SWORD: () => 'Меч',
                 AXE: () => 'Топор',
-                BOW: () => 'Лук',
             }
         },
     },

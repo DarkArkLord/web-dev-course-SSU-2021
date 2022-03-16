@@ -80,21 +80,6 @@ export const BodyPartAttackPenalty = {
 
 /* ARMOR */
 
-export const ArmorTypes = {
-    softArmor: 'ITEM-EQUIP-ARMOR-TYPE-SOFT',
-    hardArmor: 'ITEM-EQUIP-ARMOR-TYPE-HARD',
-};
-
-export const ArmorDexPenalty = {
-    [ArmorTypes.softArmor]: 0,
-    [ArmorTypes.hardArmor]: -1,
-};
-
-export const ArmorDefence = {
-    [ArmorTypes.softArmor]: 1,
-    [ArmorTypes.hardArmor]: 2,
-};
-
 export const ArmorParts = {
     head: 'ITEM-EQUIP-ARMOR-PART-HEAD',
     body: 'ITEM-EQUIP-ARMOR-PART-BODY',
@@ -102,33 +87,26 @@ export const ArmorParts = {
     legs: 'ITEM-EQUIP-ARMOR-PART-LEGS',
 }
 
-export const BodyToArmorParts = {
-    [BodyParts.head]: ArmorParts.head,
-    [BodyParts.body]: ArmorParts.body,
-    [BodyParts.hands]: ArmorParts.hands,
-    [BodyParts.legs]: ArmorParts.legs,
-}
-
-export const ArmorToBodyParts = {
-    [ArmorParts.head]: BodyParts.head,
-    [ArmorParts.body]: BodyParts.body,
-    [ArmorParts.hands]: BodyParts.hands,
-    [ArmorParts.legs]: BodyParts.legs,
-}
-
-// TODO: Сделать броню типа щитов - снимается уроном и восстанавливается после боя
-export const ArmorPartShields = {
-    [ArmorParts.head]: (lvl, type) => lvl * type - Math.ceil(lvl / 3),
-    [ArmorParts.body]: (lvl, type) => lvl * type + Math.ceil(lvl / 3),
-    [ArmorParts.hands]: (lvl, type) => lvl * type,
-    [ArmorParts.legs]: (lvl, type) => lvl * type,
+export const ArmorBodyPartsMapping = {
+    BodyToArmor: {
+        [BodyParts.head]: ArmorParts.head,
+        [BodyParts.body]: ArmorParts.body,
+        [BodyParts.hands]: ArmorParts.hands,
+        [BodyParts.legs]: ArmorParts.legs,
+    },
+    ArmorToBodyParts: {
+        [ArmorParts.head]: BodyParts.head,
+        [ArmorParts.body]: BodyParts.body,
+        [ArmorParts.hands]: BodyParts.hands,
+        [ArmorParts.legs]: BodyParts.legs,
+    },
 };
 
-export const ArmorPartHealth = {
-    [ArmorParts.head]: (lvl, type) => lvl - Math.ceil(lvl / 3),
-    [ArmorParts.body]: (lvl, type) => lvl + Math.ceil(lvl / 3),
-    [ArmorParts.hands]: (lvl, type) => lvl,
-    [ArmorParts.legs]: (lvl, type) => lvl,
+export const ArmorPartDefence = {
+    [ArmorParts.head]: (lvl) => lvl - Math.ceil(lvl / 3) + 1,
+    [ArmorParts.body]: (lvl) => lvl + Math.ceil(lvl / 3),
+    [ArmorParts.hands]: (lvl) => lvl,
+    [ArmorParts.legs]: (lvl) => lvl,
 };
 
 /* WEAPON */
@@ -137,21 +115,19 @@ export const WeaponTypes = {
     knife: 'ITEM-EQUIP-WEAPON-KNIFE',
     sword: 'ITEM-EQUIP-WEAPON-SWORD',
     axe: 'ITEM-EQUIP-WEAPON-AXE',
-    bow: 'ITEM-EQUIP-WEAPON-BOW',
 };
 
 export const WeaponBaseDamage = {
-    [WeaponTypes.knife]: (lvl) => Math.ceil(lvl / 2),
+    [WeaponTypes.knife]: (lvl) => Math.ceil(lvl * 4 / 5),
     [WeaponTypes.sword]: (lvl) => lvl,
     [WeaponTypes.axe]: (lvl) => lvl,
-    [WeaponTypes.bow]: (lvl) => lvl,
 };
 
 const wdmDelta = 0.2;
 const wdmValues = {
     [WeaponTypes.knife]: {
-        health: 1 - wdmDelta,
-        shields: 1 - wdmDelta
+        health: 1 - wdmDelta / 2,
+        shields: 1 - wdmDelta / 2
     },
     [WeaponTypes.sword]: {
         health: 1 + wdmDelta,
@@ -161,28 +137,20 @@ const wdmValues = {
         health: 1 - wdmDelta,
         shields: 1 + wdmDelta
     },
-    [WeaponTypes.bow]: {
-        health: 1 + wdmDelta,
-        shields: 1
-    },
 };
 
 export const WeaponDamageMultiplicator = {
     [WeaponTypes.knife]: {
-        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.knife].health),
-        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.knife].shields),
+        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.knife].health),
+        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.knife].shields),
     },
     [WeaponTypes.sword]: {
-        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.sword].health),
-        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.sword].shields),
+        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.sword].health),
+        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.sword].shields),
     },
     [WeaponTypes.axe]: {
-        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.axe].health),
-        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.axe].shields),
-    },
-    [WeaponTypes.bow]: {
-        health: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.bow].health),
-        shields: (dmg) => Math.floor(dmg * wdmValues[WeaponTypes.bow].shields),
+        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.axe].health),
+        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.axe].shields),
     },
 };
 

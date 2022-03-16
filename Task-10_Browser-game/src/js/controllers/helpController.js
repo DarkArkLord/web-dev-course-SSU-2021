@@ -4,7 +4,7 @@ import { createTextController, createTextControllerByHtml, ButtonsConfig } from 
 
 import { HTMLTags } from "../render";
 import { getTranslation, languages } from "../translations/translation";
-import { ArmorTypes, ArmorParts, ArmorDefence, ArmorPartHealth, ArmorPartShields, WeaponTypes, WeaponBaseDamage, WeaponDamageMultiplicator } from "../rpgSystem";
+import { ArmorParts, ArmorPartDefence, WeaponTypes, WeaponBaseDamage, WeaponDamageMultiplicator } from "../rpgSystem";
 
 function getTestArmorWeaponValues() {
     const content = {
@@ -16,17 +16,17 @@ function getTestArmorWeaponValues() {
                 childs: [
                     {
                         tag: HTMLTags.TableData,
-                        attributes: { rowspan: 3 },
+                        attributes: { rowspan: 2 },
                         value: 'Level'
                     },
                     {
                         tag: HTMLTags.TableData,
-                        attributes: { colspan: 8 },
+                        attributes: { colspan: 4 },
                         value: 'Armor'
                     },
                     {
                         tag: HTMLTags.TableData,
-                        attributes: { colspan: 4, rowspan: 2 },
+                        attributes: { colspan: 3 },
                         value: 'Weapon'
                     },
                 ]
@@ -34,37 +34,6 @@ function getTestArmorWeaponValues() {
             {
                 tag: HTMLTags.TableRow,
                 childs: [
-                    {
-                        tag: HTMLTags.TableData,
-                        attributes: { colspan: 4 },
-                        value: getTranslation(languages.ru, ArmorTypes.softArmor)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        attributes: { colspan: 4 },
-                        value: getTranslation(languages.ru, ArmorTypes.hardArmor)
-                    },
-                ]
-            },
-            {
-                tag: HTMLTags.TableRow,
-                childs: [
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, ArmorParts.head)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, ArmorParts.body)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, ArmorParts.hands)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, ArmorParts.legs)
-                    },
                     {
                         tag: HTMLTags.TableData,
                         value: getTranslation(languages.ru, ArmorParts.head)
@@ -93,20 +62,14 @@ function getTestArmorWeaponValues() {
                         tag: HTMLTags.TableData,
                         value: getTranslation(languages.ru, WeaponTypes.axe)
                     },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, WeaponTypes.bow)
-                    },
                 ]
             },
         ]
     };
 
     function addTableRow(lvl) {
-        function getArmor(level, type, part) {
-            let health = ArmorPartHealth[part](level, ArmorDefence[type]);
-            let shields = ArmorPartShields[part](level, ArmorDefence[type]);
-            return `${health}/${shields}`;
+        function getArmor(level, part) {
+            return `${ArmorPartDefence[part](level)}`;
         }
 
         function getWeapon(level, type) {
@@ -125,35 +88,19 @@ function getTestArmorWeaponValues() {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.softArmor, ArmorParts.head)
+                    value: getArmor(lvl, ArmorParts.head)
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.softArmor, ArmorParts.body)
+                    value: getArmor(lvl, ArmorParts.body)
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.softArmor, ArmorParts.hands)
+                    value: getArmor(lvl, ArmorParts.hands)
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.softArmor, ArmorParts.legs)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.hardArmor, ArmorParts.head)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.hardArmor, ArmorParts.body)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.hardArmor, ArmorParts.hands)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getArmor(lvl, ArmorTypes.hardArmor, ArmorParts.legs)
+                    value: getArmor(lvl, ArmorParts.legs)
                 },
                 {
                     tag: HTMLTags.TableData,
@@ -166,10 +113,6 @@ function getTestArmorWeaponValues() {
                 {
                     tag: HTMLTags.TableData,
                     value: getWeapon(lvl, WeaponTypes.axe)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getWeapon(lvl, WeaponTypes.bow)
                 },
             ]
         });
