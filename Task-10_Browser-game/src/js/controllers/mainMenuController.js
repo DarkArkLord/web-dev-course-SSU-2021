@@ -22,7 +22,7 @@ export const mainMenuController = new MenuComponent([items.newGame, items.contin
 
 mainMenuController.customInit = (mainController) => {
     mainMenuController.commandActions[Commands.Back] = function() {
-        if(mainController.controllerStack.length > 1) {
+        if(mainController.controllerStack.length > 0) {
             mainController.popController();
         }
     }
@@ -30,8 +30,8 @@ mainMenuController.customInit = (mainController) => {
     items.continue.isActive = () => mainController.controllerStack.length > 0;
 
     mainMenuController.items.actions[items.newGame.value] = function() {
-        mainController.controllerStack = [];
         mainController.pushController(townMenuController);
+        mainController.controllerStack = [];
     }
     mainMenuController.items.actions[items.continue.value] = function() {
         mainController.popController();
