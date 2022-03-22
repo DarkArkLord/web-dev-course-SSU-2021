@@ -32,8 +32,9 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
-                let eventCntroller = createTextController(['first map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                instance.mainController.pushController(eventCntroller);
+                // let eventCntroller = createTextController(['first map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                debugger;
+                instance.mainController.popController();
                 return;
             }
             instance.currentMap = instance.mapStack.pop();
@@ -99,4 +100,4 @@ MapController.prototype = {
     }
 };
 
-export const mapController = new MapController();
+export const testMapController = new MapController();

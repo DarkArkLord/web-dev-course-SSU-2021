@@ -1,6 +1,6 @@
 import { MenuComponent } from "./components/menuComponent";
 import { helpController } from "./helpController";
-import { mapController } from "./mapController";
+import { townMenuController } from "./townController";
 
 const items = {
     newGame: {
@@ -23,7 +23,7 @@ mainMenuController.customInit = (mainController) => {
     items.continue.isActive = () => mainController.controllerStack.length > 0;
 
     mainMenuController.items.actions[items.newGame.value] = function() {
-        mainController.pushController(mapController);
+        mainController.pushController(townMenuController);
         mainController.controllerStack = [];
     }
     mainMenuController.items.actions[items.continue.value] = function() {
