@@ -1,7 +1,9 @@
 import { MenuComponent } from "./components/menuComponent";
 import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
-import { testMapController } from "./mapController";
+import { MapController, testMapController } from "./mapController";
+import { testGenerator } from "./components/mapComponent";
+import { getRange } from "../utils";
 
 const townMenuControllerItems = {
     toMap: {
@@ -22,7 +24,7 @@ export const townMenuController = new MenuComponent([
         townMenuControllerItems.toMap,
         townMenuControllerItems.toBattle,
         townMenuControllerItems.other
-    ], { element: 'Главное меню' });
+    ], { element: 'Город' });
 
 townMenuController.customInit = (mainController) => {
     townMenuController.commandActions[Commands.Back] = function() {
@@ -30,7 +32,25 @@ townMenuController.customInit = (mainController) => {
     }
 
     townMenuController.items.actions[townMenuControllerItems.toMap.value] = function() {
-        mainController.pushController(testMapController);
+        let mapLevelItems = getRange(mainController.gameData.level)
+            .map(lvl => {
+                return {
+                    level: lvl,
+                    value: `Уровень ${lvl}`,
+                    isActive: () => true,
+                };
+            });
+
+        let selectLevelController = new MenuComponent(mapLevelItems, { element: 'Выберите урорвень' });
+        mapLevelItems.forEach(lvl => {
+            selectLevelController.items.actions[lvl.value] = function() {
+                let mapController = new MapController();
+                mainController.popController();
+                mainController.pushController(mapController);
+            };
+        });
+
+        mainController.pushController(selectLevelController);
     }
     townMenuController.items.actions[townMenuControllerItems.toBattle.value] = function() {
         // smth
