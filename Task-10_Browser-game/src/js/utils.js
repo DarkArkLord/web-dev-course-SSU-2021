@@ -53,3 +53,7 @@ export function getRandomVariantWithProbability(values) {
     }
     return values[i].value;
 }
+
+export function getRange(count, start = 0) {
+    return [...Array(count).keys()].map(x => x + start);
+}
