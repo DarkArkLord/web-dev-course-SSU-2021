@@ -7,9 +7,9 @@ import { getRandomVariantWithProbability } from "../utils";
 const testParams = {
     width: 20,
     height: 20,
-    sizeByLevel: (level) => 10 * level + 10,
-    height: 20,
+    sizeByLevel: (level) => 5 * level + 10,
     fieldOfView: () => 12,
+    startLevel: 1,
     endLevel: 3,
     generator: testGenerator,
 };
@@ -84,11 +84,10 @@ MapController.prototype = {
         }
     },
     init(mainController) {
-        const startLevel = 1;
         this.mainController = mainController;
         this.currentMap = undefined;
         this.mapStack = [];
-        this.initCurrentMap(startLevel, this);
+        this.initCurrentMap(this.params.startLevel, this);
     },
     executeCommand(command) {
         if (this.currentMap) {
