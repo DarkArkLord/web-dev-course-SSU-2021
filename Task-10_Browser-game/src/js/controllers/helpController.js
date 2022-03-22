@@ -4,7 +4,7 @@ import { createTextController, createTextControllerByHtml, ButtonsConfig } from 
 
 import { HTMLTags } from "../render";
 import { getTranslation, languages } from "../translations/translation";
-import { ArmorParts, ArmorPartDefence, WeaponTypes, WeaponBaseDamage, WeaponDamageMultiplicator } from "../rpgSystem";
+import { ArmorParts, ArmorPartDefence, WeaponBaseDamage } from "../rpgSystem";
 
 function getTestArmorWeaponValues() {
     const content = {
@@ -26,7 +26,7 @@ function getTestArmorWeaponValues() {
                     },
                     {
                         tag: HTMLTags.TableData,
-                        attributes: { colspan: 3 },
+                        attributes: { rowspan: 2 },
                         value: 'Weapon'
                     },
                 ]
@@ -50,18 +50,6 @@ function getTestArmorWeaponValues() {
                         tag: HTMLTags.TableData,
                         value: getTranslation(languages.ru, ArmorParts.legs)
                     },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, WeaponTypes.knife)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, WeaponTypes.sword)
-                    },
-                    {
-                        tag: HTMLTags.TableData,
-                        value: getTranslation(languages.ru, WeaponTypes.axe)
-                    },
                 ]
             },
         ]
@@ -72,11 +60,9 @@ function getTestArmorWeaponValues() {
             return `${ArmorPartDefence[part](level)}`;
         }
 
-        function getWeapon(level, type) {
-            let dmg = WeaponBaseDamage[type](level);
-            let health = WeaponDamageMultiplicator[type].health(dmg);
-            let shields = WeaponDamageMultiplicator[type].shields(dmg);
-            return `${dmg}/${health}/${shields}`;
+        function getWeapon(level) {
+            let dmg = WeaponBaseDamage(level);
+            return `${dmg}`;
         }
 
         content.childs.push({
@@ -104,16 +90,8 @@ function getTestArmorWeaponValues() {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: getWeapon(lvl, WeaponTypes.knife)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getWeapon(lvl, WeaponTypes.sword)
-                },
-                {
-                    tag: HTMLTags.TableData,
-                    value: getWeapon(lvl, WeaponTypes.axe)
-                },
+                    value: getWeapon(lvl)
+                }
             ]
         });
     }

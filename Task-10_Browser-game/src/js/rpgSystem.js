@@ -94,7 +94,7 @@ export const ArmorBodyPartsMapping = {
         [BodyParts.hands]: ArmorParts.hands,
         [BodyParts.legs]: ArmorParts.legs,
     },
-    ArmorToBodyParts: {
+    ArmorToBody: {
         [ArmorParts.head]: BodyParts.head,
         [ArmorParts.body]: BodyParts.body,
         [ArmorParts.hands]: BodyParts.hands,
@@ -111,48 +111,9 @@ export const ArmorPartDefence = {
 
 /* WEAPON */
 
-export const WeaponTypes = {
-    knife: 'ITEM-EQUIP-WEAPON-KNIFE',
-    sword: 'ITEM-EQUIP-WEAPON-SWORD',
-    axe: 'ITEM-EQUIP-WEAPON-AXE',
-};
-
-export const WeaponBaseDamage = {
-    [WeaponTypes.knife]: (lvl) => Math.ceil(lvl * 4 / 5),
-    [WeaponTypes.sword]: (lvl) => lvl,
-    [WeaponTypes.axe]: (lvl) => lvl,
-};
-
-const wdmDelta = 0.2;
-const wdmValues = {
-    [WeaponTypes.knife]: {
-        health: 1 - wdmDelta / 2,
-        shields: 1 - wdmDelta / 2
-    },
-    [WeaponTypes.sword]: {
-        health: 1 + wdmDelta,
-        shields: 1 - wdmDelta
-    },
-    [WeaponTypes.axe]: {
-        health: 1 - wdmDelta,
-        shields: 1 + wdmDelta
-    },
-};
-
-export const WeaponDamageMultiplicator = {
-    [WeaponTypes.knife]: {
-        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.knife].health),
-        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.knife].shields),
-    },
-    [WeaponTypes.sword]: {
-        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.sword].health),
-        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.sword].shields),
-    },
-    [WeaponTypes.axe]: {
-        health: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.axe].health),
-        shields: (dmg) => Math.ceil(dmg * wdmValues[WeaponTypes.axe].shields),
-    },
-};
+export function WeaponBaseDamage(level) {
+    return level + 1;
+}
 
 /* COMMON */
 
