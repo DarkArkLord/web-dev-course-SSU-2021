@@ -10,6 +10,11 @@ export function GlobalController() {
 };
 
 GlobalController.prototype = {
+    resetGameData() {
+        this.gameData = {
+            level: 1
+        };
+    },
     init() {
         let mainController = this;
         mainMenuController.init(mainController);
