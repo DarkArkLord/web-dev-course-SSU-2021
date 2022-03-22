@@ -1,6 +1,6 @@
 import { createTextController, createTextControllerByHtml, ButtonsConfig } from "./textController";
 
-// export const helpController = createTextController(['Помостч', ], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+export const helpController = createTextController(['Помостч', ], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
 
 import { HTMLTags } from "../render";
 import { getTranslation, languages } from "../translations/translation";
@@ -108,4 +108,4 @@ function getTestArmorWeaponValues() {
     return createTextControllerByHtml([content], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
 }
 
-export const helpController = getTestArmorWeaponValues();
+// export const helpController = getTestArmorWeaponValues();
