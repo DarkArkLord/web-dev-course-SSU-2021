@@ -5,8 +5,6 @@ import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
 
 const testParams = {
-    width: 20,
-    height: 20,
     sizeByLevel: (level) => 5 * level + 10,
     fieldOfView: () => 12,
     startLevel: 1,
