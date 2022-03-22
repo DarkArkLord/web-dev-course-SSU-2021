@@ -3,28 +3,41 @@ import { Commands } from "../controls";
 import { mainMenuController } from "./mainMenuController";
 import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
+import { HTMLTags } from "../render";
+
+const defaultStyleClasses = {
+    table: {
+        main: 'align_center no-border',
+        row: 'align_center'
+    },
+};
 
 const testParams = {
     sizeByLevel: (level) => 5 * level + 10,
     fieldOfView: () => 12,
+    mainLevel: 1,
     startLevel: 1,
     endLevel: 3,
     generator: testGenerator,
 };
 
-export function MapController(params = testParams) {
+export function MapController(params = testParams, css = defaultStyleClasses) {
     let instance = this;
     this.mainController = undefined;
     this.params = params;
     this.mapStack = [];
     this.currentMap = undefined;
+    this.currentMapLevel = undefined;
+    this.css = css;
 }
 
 MapController.prototype = {
     initCurrentMap(level, instance) {
         if (!instance.currentMap) {
             let params = instance.params;
-            instance.currentMap = new MapComponent(params.sizeByLevel(level), params.sizeByLevel(level), { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
+            let size = params.sizeByLevel(level);
+            instance.currentMapLevel = level;
+            instance.currentMap = new MapComponent(size, size, { fieldOfView: params.fieldOfView, flagCount: level }, params.generator);
             instance.currentMap.init(instance.mainController);
         }
 
@@ -94,8 +107,36 @@ MapController.prototype = {
         }
     },
     createElement() {
+        let instance = this;
         if (this.currentMap) {
-            return this.currentMap.createElement();
+            let mapElement = instance.currentMap.createElement();
+            let table = {
+                tag: HTMLTags.Table,
+                attributes: { class: instance.css.table.main },
+                childs: [
+                    {
+                        tag: HTMLTags.TableRow,
+                        attributes: { class: instance.css.table.row },
+                        childs: [
+                            {
+                                tag: HTMLTags.TableData,
+                                childs: [{ element: `Уровень ${instance.params.mainLevel}, комната ${instance.currentMapLevel}` }]
+                            }
+                        ]
+                    },
+                    {
+                        tag: HTMLTags.TableRow,
+                        attributes: { class: instance.css.table.row },
+                        childs: [
+                            {
+                                tag: HTMLTags.TableData,
+                                childs: [mapElement]
+                            }
+                        ]
+                    }
+                ]
+            };
+            return table;
         }
     }
 };
