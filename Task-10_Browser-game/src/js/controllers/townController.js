@@ -32,7 +32,7 @@ townMenuController.customInit = (mainController) => {
     }
 
     townMenuController.items.actions[townMenuControllerItems.toMap.value] = function() {
-        let mapLevelItems = getRange(mainController.gameData.level)
+        let mapLevelItems = getRange(mainController.gameData.level, 1)
             .map(lvl => {
                 return {
                     level: lvl,

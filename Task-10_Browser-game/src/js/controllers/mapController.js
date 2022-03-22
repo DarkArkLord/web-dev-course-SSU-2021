@@ -46,7 +46,6 @@ MapController.prototype = {
         instance.currentMap.mapObjectActions[CellType.Door.Prev] = function() {
             if (instance.mapStack.length < 1) {
                 // let eventCntroller = createTextController(['first map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                debugger;
                 instance.mainController.popController();
                 return;
             }
@@ -55,8 +54,11 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
-                let eventCntroller = createTextController(['last map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                instance.mainController.pushController(eventCntroller);
+                //let eventCntroller = createTextController(['last map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                if(instance.params.mainLevel == instance.mainController.gameData.level) {
+                    instance.mainController.gameData.level++;
+                }
+                instance.mainController.popController();
                 return;
             }
             instance.mapStack.push(instance.currentMap);
