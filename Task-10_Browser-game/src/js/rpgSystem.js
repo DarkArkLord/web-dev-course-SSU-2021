@@ -53,31 +53,6 @@ export function getStatesTemplate() {
     return states;
 }
 
-/* BODY TYPES */
-
-export const BodyParts = {
-    head: 'CHAR-PART-HEAD',
-    body: 'CHAR-PART-BODY',
-    hands: 'CHAR-PART-HANDS',
-    legs: 'CHAR-PART-LEGS',
-    vitalOrgans: 'CHAR-PART-VITAL',
-};
-
-export const BodyPartAttackProbability = [
-    { attackProbability: 1, value: BodyParts.head },
-    { attackProbability: 15, value: BodyParts.body },
-    { attackProbability: 10, value: BodyParts.hands },
-    { attackProbability: 5, value: BodyParts.legs },
-];
-
-export const BodyPartAttackPenalty = {
-    [BodyParts.head]: -6,
-    [BodyParts.body]: 0,
-    [BodyParts.hands]: -2,
-    [BodyParts.legs]: -4,
-    [BodyParts.vitalOrgans]: -8,
-};
-
 /* ARMOR */
 
 export const ArmorParts = {
@@ -87,24 +62,9 @@ export const ArmorParts = {
     legs: 'ITEM-EQUIP-ARMOR-PART-LEGS',
 }
 
-export const ArmorBodyPartsMapping = {
-    BodyToArmor: {
-        [BodyParts.head]: ArmorParts.head,
-        [BodyParts.body]: ArmorParts.body,
-        [BodyParts.hands]: ArmorParts.hands,
-        [BodyParts.legs]: ArmorParts.legs,
-    },
-    ArmorToBody: {
-        [ArmorParts.head]: BodyParts.head,
-        [ArmorParts.body]: BodyParts.body,
-        [ArmorParts.hands]: BodyParts.hands,
-        [ArmorParts.legs]: BodyParts.legs,
-    },
-};
-
 export const ArmorPartDefence = {
-    [ArmorParts.head]: (lvl) => lvl - Math.ceil(lvl / 3) + 1,
-    [ArmorParts.body]: (lvl) => lvl + Math.ceil(lvl / 3),
+    [ArmorParts.head]: (lvl) => lvl - Math.ceil(lvl / 3),
+    [ArmorParts.body]: (lvl) => lvl + Math.ceil(lvl / 3) + 1,
     [ArmorParts.hands]: (lvl) => lvl,
     [ArmorParts.legs]: (lvl) => lvl,
 };

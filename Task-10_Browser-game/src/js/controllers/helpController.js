@@ -96,7 +96,11 @@ function getTestArmorWeaponValues() {
         });
     }
 
+    addTableRow(0);
     addTableRow(1);
+    addTableRow(2);
+    addTableRow(3);
+    addTableRow(4);
     for (let lvl = 10; lvl <= 150; lvl += 10) {
         addTableRow(lvl);
     }
