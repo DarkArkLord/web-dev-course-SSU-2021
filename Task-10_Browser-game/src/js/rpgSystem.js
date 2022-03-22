@@ -37,7 +37,7 @@ export function getStatesTemplate() {
     const statesDefExp = 0;
 
     function getDefValues(id) {
-        return { id, value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp };
+        return { value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp };
     }
 
     let states = {
@@ -51,6 +51,16 @@ export function getStatesTemplate() {
     };
 
     return states;
+}
+
+export function addStateExp(statesList, stateName, exp) {
+    let state = statesList[stateName];
+    let nextLevelExp = (state.value + 1) * state.expMultiplier;
+    state.exp += exp;
+    if(state.exp >= nextLevelExp) {
+        state.value++;
+        state.exp = 0;
+    }
 }
 
 /* ARMOR */
