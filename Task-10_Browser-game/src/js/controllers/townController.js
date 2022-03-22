@@ -42,6 +42,11 @@ townMenuController.customInit = (mainController) => {
             });
 
         let selectLevelController = new MenuComponent(mapLevelItems, { element: 'Выберите урорвень' });
+
+        selectLevelController.commandActions[Commands.Back] = function() {
+            mainController.popController();
+        }
+
         mapLevelItems.forEach(lvl => {
             selectLevelController.items.actions[lvl.value] = function() {
                 const mapParams = {
