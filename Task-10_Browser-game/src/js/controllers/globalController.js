@@ -15,7 +15,7 @@ GlobalController.prototype = {
     resetGameData() {
         this.gameData = {
             level: 1,
-            character: getDefaultCharacter(),
+            character: getDefaultCharacter('Игрок'),
         };
     },
     init() {
