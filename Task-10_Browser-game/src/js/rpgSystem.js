@@ -36,18 +36,15 @@ export function getStatesTemplate() {
     const statesDefExpMult = 1;
     const statesDefExp = 0;
 
-    function getDefValues(id) {
+    function getDefValues() {
         return { value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp };
     }
 
     let states = {
         [States.strength]: getDefValues(States.strength), // damage, weight
-        [States.dexterity]: getDefValues(States.dexterity), // stelth, dodge
+        [States.dexterity]: getDefValues(States.dexterity), // melee attack, dodge
         [States.intelligence]: getDefValues(States.intelligence), // magick
         [States.constitution]: getDefValues(States.constitution), // hp
-        [States.perception]: getDefValues(States.perception), // perseprion, gathering
-        [States.meleeWeapon]: getDefValues(States.meleeWeapon), // melee attack, parry
-        [States.rangedWeapon]: getDefValues(States.rangedWeapon), // ranged attack
     };
 
     return states;
@@ -57,7 +54,7 @@ export function addStateExp(statesList, stateName, exp) {
     let state = statesList[stateName];
     let nextLevelExp = (state.value + 1) * state.expMultiplier;
     state.exp += exp;
-    if(state.exp >= nextLevelExp) {
+    if (state.exp >= nextLevelExp) {
         state.value++;
         state.exp = 0;
     }
@@ -102,4 +99,18 @@ export function getDamageByStrength(strength) {
         }
     }
     return result;
+}
+
+export function getDefaultCharacter() {
+    let character = {
+        states: getStatesTemplate(),
+        armor: {
+            [ArmorParts.head]: 0,
+            [ArmorParts.body]: 0,
+            [ArmorParts.hands]: 0,
+            [ArmorParts.legs]: 0,
+        },
+        weapon: 0
+    };
+    return character;
 }

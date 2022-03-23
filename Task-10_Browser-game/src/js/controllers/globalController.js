@@ -1,18 +1,21 @@
 import { mainMenuController } from "./mainMenuController";
+import { getDefaultCharacter } from "../rpgSystem";
 
 export function GlobalController() {
     let instance = this;
     this.currentController = undefined;
     this.controllerStack = [];
     this.gameData = {
-        level: 1
+        level: 1,
+        character: getDefaultCharacter(),
     };
 };
 
 GlobalController.prototype = {
     resetGameData() {
         this.gameData = {
-            level: 1
+            level: 1,
+            character: getDefaultCharacter(),
         };
     },
     init() {
