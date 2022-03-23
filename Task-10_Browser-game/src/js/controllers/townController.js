@@ -85,7 +85,7 @@ townMenuController.customInit = (mainController) => {
 
         mapLevelItems.forEach(lvl => {
             selectLevelController.items.actions[lvl.value] = function() {
-                let battleController = new BattleController(lvl);
+                let battleController = new BattleController(lvl.level);
                 mainController.popController();
                 mainController.pushController(battleController);
             };

@@ -1,6 +1,7 @@
 import * as rpgSystem from "../rpgSystem";
 import { getRandomVariantWithProbability } from "../utils";
 import { MenuComponent } from "./components/menuComponent";
+import { HTMLTags } from "../render";
 
 export function getDefaultCharacter(name) {
     let character = {
@@ -213,7 +214,28 @@ BattleController.prototype = {
         this.menu.executeCommand(command);
     },
     createElement() {
-        this.menu.header = { element: '123' };
+        this.menu.header = {
+            tag: HTMLTags.Table,
+            childs: [
+                {
+                    tag: HTMLTags.TableRow,
+                    childs: [
+                        {
+                            tag: HTMLTags.TableData,
+                            childs: [
+                                { element: this.level }
+                            ]
+                        },
+                        {
+                            tag: HTMLTags.TableData,
+                            childs: [
+                                { element: this.level }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
         return this.menu.createElement();
     }
 };
