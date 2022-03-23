@@ -1,4 +1,5 @@
 import * as rpgSystem from "../rpgSystem";
+import { getRandomVariantWithProbability } from "../utils";
 
 export function getDefaultCharacter(name) {
     let character = {
@@ -43,6 +44,85 @@ export function getMaxHP(character) {
     }
 
     return hp;
+}
+
+function getEnemy(level) {
+    let character = getDefaultCharacter('Враг');
+    while (level > 0) {
+        getRandomVariantWithProbability([
+            {
+                probability: 8,
+                value: function() {
+                    getRandomVariantWithProbability([
+                        {
+                            probability: 3,
+                            value: function() {
+                                character.armor[rpgSystem.ArmorParts.head]++;
+                            }
+                        },
+                        {
+                            probability: 1,
+                            value: function() {
+                                character.armor[rpgSystem.ArmorParts.body]++;
+                            }
+                        },
+                        {
+                            probability: 2,
+                            value: function() {
+                                character.armor[rpgSystem.ArmorParts.hands]++;
+                            }
+                        },
+                        {
+                            probability: 2,
+                            value: function() {
+                                character.armor[rpgSystem.ArmorParts.legs]++;
+                            }
+                        },
+                    ])();
+                }
+            },
+            {
+                probability: 2,
+                value: function() {
+                    character.weapon++;
+                }
+            },
+            {
+                probability: 1,
+                value: function() {
+                    getRandomVariantWithProbability([
+                        {
+                            probability: 1,
+                            value: function() {
+                                character.states[rpgSystem.States.strength].value++;
+                            }
+                        },
+                        {
+                            probability: 1,
+                            value: function() {
+                                character.states[rpgSystem.States.dexterity].value++;
+                            }
+                        },
+                        {
+                            probability: 1,
+                            value: function() {
+                                character.states[rpgSystem.States.intelligence].value++;
+                            }
+                        },
+                        {
+                            probability: 1,
+                            value: function() {
+                                character.states[rpgSystem.States.constitution].value++;
+                            }
+                        },
+                    ])();
+                }
+            },
+        ])();
+        level--;
+    }
+    character.hp = getMaxHP(character);
+    return character;
 }
 
 function getDamage(target, damage) {
