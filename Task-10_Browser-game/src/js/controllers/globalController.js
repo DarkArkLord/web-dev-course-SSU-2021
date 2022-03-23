@@ -1,5 +1,5 @@
 import { mainMenuController } from "./mainMenuController";
-import { getDefaultCharacter } from "../rpgSystem";
+import { getDefaultCharacter } from "./battleController";
 
 export function GlobalController() {
     let instance = this;
