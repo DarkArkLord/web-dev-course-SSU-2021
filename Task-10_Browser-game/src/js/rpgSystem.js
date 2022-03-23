@@ -26,9 +26,6 @@ export const States = {
     dexterity: 'CHAR-STATE-DEX',
     intelligence: 'CHAR-STATE-INT',
     constitution: 'CHAR-STATE-CON',
-    perception: 'CHAR-STATE-PER',
-    meleeWeapon: 'CHAR-STATE-MW',
-    rangedWeapon: 'CHAR-STATE-RW',
 };
 
 export function getStatesTemplate() {
@@ -99,4 +96,42 @@ export function getDamageByStrength(strength) {
         }
     }
     return result;
+}
+
+function getHealthByArmor(stateValue, armorPart, armorLevel) {
+    let armor = ArmorPartDefence[armorPart](armorLevel);
+    return stateValue * armor;
+}
+
+function getShieldByArmor(stateValue, armorPart, armorLevel) {
+    let armor = ArmorPartDefence[armorPart](armorLevel);
+    return armor;
+}
+
+export function getMaxHP(character) {
+    let constitution = character.states[States.constitution].value;
+    let health = 0;
+    let shield = 0;
+    for (const part in character.armor) {
+        const level = character.armor[part];
+        health += getHealthByArmor(constitution, part, level);
+        shield += getShieldByArmor(constitution, part, level);
+    }
+
+    let hp = {
+        health: {
+            max: health,
+            current: health,
+        },
+        shield:  {
+            max: shield,
+            current: shield,
+        },
+    };
+
+    if(character.hp) {
+        hp.health.current = Math.round(character.hp.health.current * hp.health.max / character.hp.health.max);
+    }
+
+    return hp;
 }

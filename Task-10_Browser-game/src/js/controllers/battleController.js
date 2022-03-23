@@ -1,4 +1,4 @@
-import { getStatesTemplate, ArmorParts } from "../rpgSystem";
+import { getStatesTemplate, ArmorParts, getMaxHP } from "../rpgSystem";
 
 export function getDefaultCharacter() {
     let character = {
@@ -9,7 +9,9 @@ export function getDefaultCharacter() {
             [ArmorParts.hands]: 0,
             [ArmorParts.legs]: 0,
         },
-        weapon: 0
+        weapon: 0,
+        hp: undefined
     };
+    character.hp = getMaxHP(character);
     return character;
 }
