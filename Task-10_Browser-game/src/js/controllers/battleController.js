@@ -1,5 +1,6 @@
 import * as rpgSystem from "../rpgSystem";
 import { getRandomVariantWithProbability } from "../utils";
+import { MenuComponent } from "./components/menuComponent";
 
 export function getDefaultCharacter(name) {
     let character = {
@@ -175,3 +176,44 @@ function attack(attacker, target, logs) {
     rpgSystem.addStateExp(targetDex, 1);
     logs.push('--- --- --- --- ---');
 }
+
+const battleItems = {
+    attack: {
+        value: "Атаковать",
+        isActive: () => true,
+    },
+    run: {
+        value: "Сбежать",
+        isActive: () => true,
+    },
+};
+
+export function BattleController(level) {
+    let instance = this;
+    this.level = level;
+    this.enemy = getEnemy(level);
+    this.menu = new MenuComponent([battleItems.attack, battleItems.run]);
+    this.menu.customInit = (mainController) => {
+        instance.menu.items.actions[battleItems.attack.value] = function() {
+            alert('attack');
+        };
+        instance.menu.items.actions[battleItems.run.value] = function() {
+            mainController.popController();
+        };
+    };
+}
+
+BattleController.prototype = {
+    init(mainController) {
+        this.mainController = mainController;
+        this.menu.init(mainController);
+        mainController.gameData.character.hp.shield.current = mainController.gameData.character.hp.shield.max;
+    },
+    executeCommand(command) {
+        this.menu.executeCommand(command);
+    },
+    createElement() {
+        this.menu.header = { element: '123' };
+        return this.menu.createElement();
+    }
+};

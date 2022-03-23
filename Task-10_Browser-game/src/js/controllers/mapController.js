@@ -4,6 +4,7 @@ import { mainMenuController } from "./mainMenuController";
 import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
 import { HTMLTags } from "../render";
+import { BattleController } from "./battleController";
 
 const defaultStyleClasses = {
     table: {
@@ -81,8 +82,10 @@ MapController.prototype = {
                 {
                     probability: 1,
                     value: function() {
-                        let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                        instance.mainController.pushController(eventCntroller);
+                        // let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                        let enemyLevel = (instance.params.mainLevel - 1) * 3 + level;
+                        let battleController = new BattleController(enemyLevel);
+                        instance.mainController.pushController(battleController);
                     }
                 }
             ]);
