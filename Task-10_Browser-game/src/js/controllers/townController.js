@@ -70,7 +70,7 @@ townMenuController.customInit = (mainController) => {
         mainController.pushController(selectLevelController);
     }
     townMenuController.items.actions[townMenuControllerItems.toBattle.value] = function() {
-        let mapLevelItems = getRange(mainController.gameData.level, 1)
+        let mapLevelItems = getRange(mainController.gameData.level * 3, 1)
             .map(lvl => {
                 return {
                     level: lvl,

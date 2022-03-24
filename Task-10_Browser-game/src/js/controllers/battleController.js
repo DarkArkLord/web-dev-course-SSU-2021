@@ -311,6 +311,7 @@ export function BattleController(level, isInBattle) {
                 let controller = createEndBatteController(winText, instance.logs);
                 mainController.popController();
                 mainController.pushController(controller);
+                mainController.gameData.character.hp = getMaxHP(mainController.gameData.character);
                 return;
             }
             if (instance.mainController.gameData.character.hp.health.current < 1) {
@@ -320,6 +321,7 @@ export function BattleController(level, isInBattle) {
                     mainController.popController();
                 }
                 mainController.pushController(controller);
+                mainController.gameData.character.hp = getMaxHP(mainController.gameData.character);
                 mainController.gameData.character.hp.shield.current = mainController.gameData.character.hp.shield.max;
                 mainController.gameData.character.hp.health.current = mainController.gameData.character.hp.health.max;
                 return;
@@ -330,6 +332,7 @@ export function BattleController(level, isInBattle) {
                 let controller = createEndBatteController(winText, instance.logs);
                 mainController.popController();
                 mainController.pushController(controller);
+                mainController.gameData.character.hp = getMaxHP(mainController.gameData.character);
                 return;
             }
             if (instance.mainController.gameData.character.hp.health.current < 1) {
@@ -339,6 +342,7 @@ export function BattleController(level, isInBattle) {
                     mainController.popController();
                 }
                 mainController.pushController(controller);
+                mainController.gameData.character.hp = getMaxHP(mainController.gameData.character);
                 mainController.gameData.character.hp.shield.current = mainController.gameData.character.hp.shield.max;
                 mainController.gameData.character.hp.health.current = mainController.gameData.character.hp.health.max;
                 return;
