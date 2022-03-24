@@ -28,7 +28,7 @@ module.exports = {
         app: path.resolve(environment.paths.source, 'js', 'app.js'),
     },
     output: {
-        filename: 'js/[name].js',
+        filename: '[name].js',
         path: environment.paths.output,
     },
     module: {
@@ -46,7 +46,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
+            filename: '[name].css',
         }),
         new ImageMinimizerPlugin({
             test: /\.(jpe?g|png|gif|svg)$/i,
