@@ -32,6 +32,7 @@
         "sass-lint": "^1.13.1",
         "sass-loader": "^12.3.0",
         "terser-webpack-plugin": "^5.2.5",
+        "ts-loader": "^9.2.8",
         "webpack": "^5.64.0",
         "webpack-bundle-analyzer": "^4.5.0",
         "webpack-cli": "^4.9.1",
@@ -59,8 +60,5 @@
         "lint:js": "eslint --ext .js src/js/",
         "stats": "webpack --config configuration/webpack.prod.config.js --mode=production --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
     },
-    "target": "web",
-    "dependencies": {
-        "ts-loader": "^9.2.8"
-    }
+    "target": "web"
 }
