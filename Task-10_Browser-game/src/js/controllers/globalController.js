@@ -1,23 +1,35 @@
+import { townMenuController } from "./townController";
 import { mainMenuController } from "./mainMenuController";
+import { getDefaultPlayer } from "./battleController";
 
 export function GlobalController() {
     let instance = this;
     this.currentController = undefined;
     this.controllerStack = [];
     this.gameData = {
-        level: 1
+        level: 1,
+        character: getDefaultPlayer(),
     };
+    this.load();
 };
 
 GlobalController.prototype = {
     resetGameData() {
         this.gameData = {
-            level: 1
+            level: 1,
+            character: getDefaultPlayer(),
         };
+    },
+    save() {
+        window.localStorage.setItem('save', JSON.stringify(this.gameData));
+    },
+    load() {
+        this.gameData = JSON.parse(window.localStorage.getItem('save'));
     },
     init() {
         let mainController = this;
         mainMenuController.init(mainController);
+        mainController.pushController(townMenuController);
         mainController.pushController(mainMenuController);
     },
     executeCommand(command) {

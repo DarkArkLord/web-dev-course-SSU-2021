@@ -16,7 +16,7 @@ export function getDiceExpressionValue(expression) {
 }
 
 export function getMainDiceValue() {
-    return getDiceExpressionValue({ count: 3, dice: { mim: -3, max: 3 }, mod: 0 });
+    return getDiceExpressionValue({ count: 3, dice: { min: -3, max: 3 }, mod: 0 });
 }
 
 /* STATES */
@@ -26,9 +26,6 @@ export const States = {
     dexterity: 'CHAR-STATE-DEX',
     intelligence: 'CHAR-STATE-INT',
     constitution: 'CHAR-STATE-CON',
-    perception: 'CHAR-STATE-PER',
-    meleeWeapon: 'CHAR-STATE-MW',
-    rangedWeapon: 'CHAR-STATE-RW',
 };
 
 export function getStatesTemplate() {
@@ -36,30 +33,26 @@ export function getStatesTemplate() {
     const statesDefExpMult = 1;
     const statesDefExp = 0;
 
-    function getDefValues(id) {
+    function getDefValues() {
         return { value: statesDefValue, expMultiplier: statesDefExpMult, experience: statesDefExp };
     }
 
     let states = {
         [States.strength]: getDefValues(States.strength), // damage, weight
-        [States.dexterity]: getDefValues(States.dexterity), // stelth, dodge
+        [States.dexterity]: getDefValues(States.dexterity), // melee attack, dodge
         [States.intelligence]: getDefValues(States.intelligence), // magick
         [States.constitution]: getDefValues(States.constitution), // hp
-        [States.perception]: getDefValues(States.perception), // perseprion, gathering
-        [States.meleeWeapon]: getDefValues(States.meleeWeapon), // melee attack, parry
-        [States.rangedWeapon]: getDefValues(States.rangedWeapon), // ranged attack
     };
 
     return states;
 }
 
-export function addStateExp(statesList, stateName, exp) {
-    let state = statesList[stateName];
+export function addStateExp(state, exp) {
     let nextLevelExp = (state.value + 1) * state.expMultiplier;
-    state.exp += exp;
-    if(state.exp >= nextLevelExp) {
+    state.experience += exp;
+    if (state.experience >= nextLevelExp) {
         state.value++;
-        state.exp = 0;
+        state.experience = 0;
     }
 }
 
@@ -102,4 +95,14 @@ export function getDamageByStrength(strength) {
         }
     }
     return result;
+}
+
+export function getHealthByArmor(stateValue, armorPart, armorLevel) {
+    let armor = ArmorPartDefence[armorPart](armorLevel);
+    return stateValue * armor;
+}
+
+export function getShieldByArmor(stateValue, armorPart, armorLevel) {
+    let armor = ArmorPartDefence[armorPart](armorLevel);
+    return armor;
 }

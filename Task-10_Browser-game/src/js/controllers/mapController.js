@@ -4,6 +4,7 @@ import { mainMenuController } from "./mainMenuController";
 import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
 import { HTMLTags } from "../render";
+import { BattleController } from "./battleController";
 
 const defaultStyleClasses = {
     table: {
@@ -54,11 +55,12 @@ MapController.prototype = {
 
         instance.currentMap.mapObjectActions[CellType.Door.Next] = function() {
             if (level + 1 > instance.params.endLevel) {
-                //let eventCntroller = createTextController(['last map'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                if(instance.params.mainLevel == instance.mainController.gameData.level) {
-                    instance.mainController.gameData.level++;
-                }
                 instance.mainController.popController();
+                if (instance.params.mainLevel == instance.mainController.gameData.level) {
+                    instance.mainController.gameData.level++;
+                    let newLevelController = createTextController([`Уровень ${instance.mainController.gameData.level} открыт!`], { buttons: ButtonsConfig.onlyNext, addCounter: false }).first;
+                    instance.mainController.pushController(newLevelController);
+                }
                 return;
             }
             instance.mapStack.push(instance.currentMap);
@@ -80,8 +82,10 @@ MapController.prototype = {
                 {
                     probability: 1,
                     value: function() {
-                        let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
-                        instance.mainController.pushController(eventCntroller);
+                        // let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
+                        let enemyLevel = (instance.params.mainLevel - 1) * 3 + level;
+                        let battleController = new BattleController(enemyLevel, true);
+                        instance.mainController.pushController(battleController);
                     }
                 }
             ]);
