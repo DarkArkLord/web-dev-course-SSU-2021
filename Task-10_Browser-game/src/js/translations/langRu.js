@@ -23,7 +23,7 @@ export const translations = {
                 PART: {
                     HEAD: () => 'Шлем',
                     BODY: () => 'Нагрудник',
-                    HANDS: () => 'Нарукавники',
+                    HANDS: () => 'Наручи',
                     LEGS: () => 'Поножи',
                 },
             },
