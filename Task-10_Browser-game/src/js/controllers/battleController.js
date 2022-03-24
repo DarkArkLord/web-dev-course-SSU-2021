@@ -3,7 +3,7 @@ import { getRandomVariantWithProbability } from "../utils";
 import { MenuComponent } from "./components/menuComponent";
 import { HTMLTags } from "../render";
 
-export function getDefaultCharacter(name) {
+function getDefaultCharacter(name) {
     let character = {
         name: name,
         states: rpgSystem.getStatesTemplate(),
@@ -16,7 +16,6 @@ export function getDefaultCharacter(name) {
         weapon: 0,
         hp: undefined
     };
-    character.hp = getMaxHP(character);
     return character;
 }
 
@@ -46,6 +45,17 @@ export function getMaxHP(character) {
     }
 
     return hp;
+}
+
+export function getDefaultPlayer() {
+    let character = getDefaultCharacter('Игрок');
+    character.armor[rpgSystem.ArmorParts.head] = 1;
+    character.armor[rpgSystem.ArmorParts.body] = 1;
+    character.armor[rpgSystem.ArmorParts.hands] = 1;
+    character.armor[rpgSystem.ArmorParts.legs] = 1;
+    character.weapon = 1;
+    character.hp = getMaxHP(character);
+    return character;
 }
 
 function getEnemy(level) {
@@ -178,6 +188,60 @@ function attack(attacker, target, logs) {
     logs.push('--- --- --- --- ---');
 }
 
+function characterToTable(character) {
+    return {
+        tag: HTMLTags.Table,
+        attributes: { class: 'width_100 align_center' },
+        childs: [
+            {
+                tag: HTMLTags.TableRow,
+                childs: [
+                    {
+                        tag: HTMLTags.TableData,
+                        attributes: { colspan: 2 },
+                        childs: [
+                            { element: character.name }
+                        ]
+                    }
+                ]
+            },
+            {
+                tag: HTMLTags.TableRow,
+                childs: [
+                    {
+                        tag: HTMLTags.TableData,
+                        childs: [
+                            { element: `Щит: ${character.hp.shield.current}/${character.hp.shield.max}` }
+                        ]
+                    }
+                ]
+            },
+            {
+                tag: HTMLTags.TableRow,
+                childs: [
+                    {
+                        tag: HTMLTags.TableData,
+                        childs: [
+                            { element: `Жизнь: ${character.hp.health.current}/${character.hp.health.max}` }
+                        ]
+                    }
+                ]
+            },
+            // {
+            //     tag: HTMLTags.TableRow,
+            //     childs: [
+            //         {
+            //             tag: HTMLTags.TableData,
+            //             childs: [
+            //                 { element: JSON.stringify(character) }
+            //             ]
+            //         }
+            //     ]
+            // }
+        ]
+    };
+}
+
 const battleItems = {
     attack: {
         value: "Атаковать",
@@ -216,20 +280,29 @@ BattleController.prototype = {
     createElement() {
         this.menu.header = {
             tag: HTMLTags.Table,
+            attributes: { class: 'width_100 align_center' },
             childs: [
                 {
                     tag: HTMLTags.TableRow,
                     childs: [
                         {
                             tag: HTMLTags.TableData,
-                            childs: [
-                                { element: this.level }
-                            ]
+                            childs: [characterToTable(this.enemy)]
                         },
                         {
                             tag: HTMLTags.TableData,
+                            childs: [characterToTable(this.mainController.gameData.character)]
+                        }
+                    ]
+                },
+                {
+                    tag: HTMLTags.TableRow,
+                    childs: [
+                        {
+                            tag: HTMLTags.TableData,
+                            attributes: { colspan: 2 },
                             childs: [
-                                { element: this.level }
+                                { element: 'Логи' }
                             ]
                         }
                     ]

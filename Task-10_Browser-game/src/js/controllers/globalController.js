@@ -1,5 +1,5 @@
 import { mainMenuController } from "./mainMenuController";
-import { getDefaultCharacter } from "./battleController";
+import { getDefaultPlayer } from "./battleController";
 
 export function GlobalController() {
     let instance = this;
@@ -7,7 +7,7 @@ export function GlobalController() {
     this.controllerStack = [];
     this.gameData = {
         level: 1,
-        character: getDefaultCharacter(),
+        character: getDefaultPlayer(),
     };
 };
 
@@ -15,7 +15,7 @@ GlobalController.prototype = {
     resetGameData() {
         this.gameData = {
             level: 1,
-            character: getDefaultCharacter('Игрок'),
+            character: getDefaultPlayer(),
         };
     },
     init() {
