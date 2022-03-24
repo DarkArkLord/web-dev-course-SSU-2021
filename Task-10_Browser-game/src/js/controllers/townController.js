@@ -102,7 +102,7 @@ townMenuController.customInit = (mainController) => {
         mainController.pushController(selectLevelController);
     }
     townMenuController.items.actions[townMenuControllerItems.states.value] = function() {
-        let controller = createStatesController(mainController.gameData.character);
+        let controller = createStatesController(mainController.gameData.character, true);
         mainController.pushController(controller);
     }
     townMenuController.items.actions[townMenuControllerItems.other.value] = function() {

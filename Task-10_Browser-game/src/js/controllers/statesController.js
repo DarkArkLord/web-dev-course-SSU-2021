@@ -3,21 +3,29 @@ import { HTMLTags } from "../render";
 import * as rpg from "../rpgSystem";
 import { getTranslation, languages } from "../translations/translation";
 
-export function createStatesController(character) {
-    function getStateRow(state) {
-        return {
+export function createStatesController(character, stateDetails = false) {
+    function getStateRow(stateName) {
+        let state = character.states[stateName];
+        let result = {
             tag: HTMLTags.TableRow,
             childs: [
                 {
                     tag: HTMLTags.TableData,
-                    value: getTranslation(languages.ru, state)
+                    value: getTranslation(languages.ru, stateName)
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: character.states[state].value
-                }
+                    value: state.value
+                },
             ]
         };
+        if (stateDetails) {
+            result.childs.push({
+                tag: HTMLTags.TableData,
+                value: `${state.experience}/${rpg.expForLevelUpForState(state)}`
+            });
+        }
+        return result;
     }
 
     function getArmorRow(part) {

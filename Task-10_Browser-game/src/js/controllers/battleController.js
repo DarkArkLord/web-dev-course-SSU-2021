@@ -358,7 +358,7 @@ export function BattleController(level, isInBattle) {
             }
         };
         instance.menu.items.actions[battleItems.states.value] = function() {
-            let controller = createStatesController(mainController.gameData.character);
+            let controller = createStatesController(mainController.gameData.character, true);
             mainController.pushController(controller);
         };
         instance.menu.items.actions[battleItems.enemyStates.value] = function() {

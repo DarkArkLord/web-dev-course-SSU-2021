@@ -103,7 +103,7 @@ MapController.prototype = {
         }
 
         instance.currentMap.commandActions[Commands.Use] = function() {
-            let controller = createStatesController(instance.mainController.gameData.character);
+            let controller = createStatesController(instance.mainController.gameData.character, true);
             instance.mainController.pushController(controller);
         }
     },

@@ -47,8 +47,12 @@ export function getStatesTemplate() {
     return states;
 }
 
+export function expForLevelUpForState(state) {
+    return (state.value + 1) * state.expMultiplier;
+}
+
 export function addStateExp(state, exp) {
-    let nextLevelExp = (state.value + 1) * state.expMultiplier;
+    let nextLevelExp = expForLevelUpForState(state);
     state.experience += exp;
     if (state.experience >= nextLevelExp) {
         state.value++;
