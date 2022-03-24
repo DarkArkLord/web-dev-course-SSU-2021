@@ -16,7 +16,7 @@ export function getDiceExpressionValue(expression) {
 }
 
 export function getMainDiceValue() {
-    return getDiceExpressionValue({ count: 3, dice: { mim: -3, max: 3 }, mod: 0 });
+    return getDiceExpressionValue({ count: 3, dice: { min: -3, max: 3 }, mod: 0 });
 }
 
 /* STATES */
@@ -49,10 +49,10 @@ export function getStatesTemplate() {
 
 export function addStateExp(state, exp) {
     let nextLevelExp = (state.value + 1) * state.expMultiplier;
-    state.exp += exp;
-    if (state.exp >= nextLevelExp) {
+    state.experience += exp;
+    if (state.experience >= nextLevelExp) {
         state.value++;
-        state.exp = 0;
+        state.experience = 0;
     }
 }
 

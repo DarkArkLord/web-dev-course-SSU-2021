@@ -146,6 +146,9 @@ function getDamage(target, damage) {
         }
     }
     target.hp.health.current -= damage;
+    if (damage > 0) {
+        rpgSystem.addStateExp(target.states[rpgSystem.States.constitution], 1);
+    }
 
 }
 
@@ -166,7 +169,7 @@ function attack(attacker, target, logs) {
         rpgSystem.addStateExp(attakerDex, mod);
         let tempStp = (attacker.states[rpgSystem.States.strength].value + mod) * rpgSystem.WeaponBaseDamage(attacker.weapon);
         let damageDice = rpgSystem.getDamageByStrength(tempStp);
-        let damage = rpgSystem.getDiceExpressionValue(damageDice);
+        let damage = rpgSystem.getDiceExpressionValue(damageDice).result;
         logs.push(`Успешный удар на ${damage} урона`);
         getDamage(target, damage);
     } else {
@@ -175,7 +178,7 @@ function attack(attacker, target, logs) {
         if (mod >= 1) {
             let tempStp = (target.states[rpgSystem.States.strength].value + mod) * rpgSystem.WeaponBaseDamage(target.weapon);
             let damageDice = rpgSystem.getDamageByStrength(tempStp);
-            let damage = rpgSystem.getDiceExpressionValue(damageDice);
+            let damage = rpgSystem.getDiceExpressionValue(damageDice).result;
             logs.push(`Контратака на ${damage} урона`);
             getDamage(attacker, damage);
         } else {
@@ -188,8 +191,8 @@ function attack(attacker, target, logs) {
     logs.push('--- --- --- --- ---');
 }
 
-function characterToTable(character) {
-    return {
+function characterToTable(character, DEBUG = false) {
+    let table = {
         tag: HTMLTags.Table,
         attributes: { class: 'width_100 align_center' },
         childs: [
@@ -227,19 +230,22 @@ function characterToTable(character) {
                     }
                 ]
             },
-            // {
-            //     tag: HTMLTags.TableRow,
-            //     childs: [
-            //         {
-            //             tag: HTMLTags.TableData,
-            //             childs: [
-            //                 { element: JSON.stringify(character) }
-            //             ]
-            //         }
-            //     ]
-            // }
         ]
     };
+    if (DEBUG) {
+        table.childs.push({
+            tag: HTMLTags.TableRow,
+            childs: [
+                {
+                    tag: HTMLTags.TableData,
+                    childs: [
+                        { element: JSON.stringify(character) }
+                    ]
+                }
+            ]
+        });
+    }
+    return table;
 }
 
 const battleItems = {
@@ -257,10 +263,33 @@ export function BattleController(level) {
     let instance = this;
     this.level = level;
     this.enemy = getEnemy(level);
+    this.logs = [];
     this.menu = new MenuComponent([battleItems.attack, battleItems.run]);
     this.menu.customInit = (mainController) => {
         instance.menu.items.actions[battleItems.attack.value] = function() {
-            alert('attack');
+            attack(instance.mainController.gameData.character, instance.enemy, instance.logs);
+            if (instance.enemy.hp.health.current < 1) {
+                alert('win');
+                mainController.popController();
+                return;
+            }
+            if (instance.mainController.gameData.character.hp.health.current < 1) {
+                alert('lose');
+                mainController.popController();
+                return;
+            }
+
+            attack(instance.enemy, instance.mainController.gameData.character, instance.logs);
+            if (instance.enemy.hp.health.current < 1) {
+                alert('win');
+                mainController.popController();
+                return;
+            }
+            if (instance.mainController.gameData.character.hp.health.current < 1) {
+                alert('lose');
+                mainController.popController();
+                return;
+            }
         };
         instance.menu.items.actions[battleItems.run.value] = function() {
             mainController.popController();
@@ -302,7 +331,11 @@ BattleController.prototype = {
                             tag: HTMLTags.TableData,
                             attributes: { colspan: 2 },
                             childs: [
-                                { element: 'Логи' }
+                                {
+                                    tag: HTMLTags.TextArea,
+                                    attributes: { cols: 100, rows: 10 },
+                                    value: this.logs.join('\n')
+                                }
                             ]
                         }
                     ]
