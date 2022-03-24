@@ -28,6 +28,8 @@ export const townMenuController = new MenuComponent([
     ], { element: 'Город' });
 
 townMenuController.customInit = (mainController) => {
+    mainController.save();
+
     townMenuController.commandActions[Commands.Back] = function() {
         mainController.pushController(mainMenuController);
     }
@@ -96,4 +98,10 @@ townMenuController.customInit = (mainController) => {
     townMenuController.items.actions[townMenuControllerItems.other.value] = function() {
         // smth
     }
+}
+
+const executeAction = townMenuController.executeCommand;
+townMenuController.executeCommand = (command) => {
+    townMenuController.mainController.save();
+    executeAction.call(townMenuController, command);
 }

@@ -27,7 +27,7 @@ mainMenuController.customInit = (mainController) => {
         }
     }
 
-    items.continue.isActive = () => mainController.controllerStack.length > 0;
+    items.continue.isActive = () => mainController.gameData;
 
     mainMenuController.items.actions[items.newGame.value] = function() {
         mainController.pushController(townMenuController);
