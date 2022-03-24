@@ -2,6 +2,7 @@ import * as rpgSystem from "../rpgSystem";
 import { getRandomVariantWithProbability } from "../utils";
 import { MenuComponent } from "./components/menuComponent";
 import { HTMLTags } from "../render";
+import { createTextControllerByHtml, ButtonsConfig } from "./textController";
 
 function getDefaultCharacter(name) {
     let character = {
@@ -248,6 +249,40 @@ function characterToTable(character, DEBUG = false) {
     return table;
 }
 
+function createEndBatteController(message, logs) {
+    let content = {
+        tag: HTMLTags.Table,
+        attributes: { class: 'width_100 align_center' },
+        childs: [
+            {
+                tag: HTMLTags.TableRow,
+                childs: [
+                    {
+                        tag: HTMLTags.TableData,
+                        value: message
+                    }
+                ]
+            },
+            {
+                tag: HTMLTags.TableRow,
+                childs: [
+                    {
+                        tag: HTMLTags.TableData,
+                        childs: [
+                            {
+                                tag: HTMLTags.TextArea,
+                                attributes: { cols: 100, rows: 20 },
+                                value: logs.join('\n')
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+    return createTextControllerByHtml([content], { buttons: ButtonsConfig.onlyNext, addCounter: false }).first;
+}
+
 const battleItems = {
     attack: {
         value: "Атаковать",
@@ -259,8 +294,12 @@ const battleItems = {
     },
 };
 
-export function BattleController(level) {
+const winText = 'Вы победили!';
+const loseText = 'Вы проиграли и будете воскрешены в городе!'
+
+export function BattleController(level, isInBattle) {
     let instance = this;
+    this.isInBattle = isInBattle;
     this.level = level;
     this.enemy = getEnemy(level);
     this.logs = [];
@@ -269,25 +308,39 @@ export function BattleController(level) {
         instance.menu.items.actions[battleItems.attack.value] = function() {
             attack(instance.mainController.gameData.character, instance.enemy, instance.logs);
             if (instance.enemy.hp.health.current < 1) {
-                alert('win');
+                let controller = createEndBatteController(winText, instance.logs);
                 mainController.popController();
+                mainController.pushController(controller);
                 return;
             }
             if (instance.mainController.gameData.character.hp.health.current < 1) {
-                alert('lose');
+                let controller = createEndBatteController(loseText, instance.logs);
                 mainController.popController();
+                if(isInBattle) {
+                    mainController.popController();
+                }
+                mainController.pushController(controller);
+                mainController.gameData.character.hp.shield.current = mainController.gameData.character.hp.shield.max;
+                mainController.gameData.character.hp.health.current = mainController.gameData.character.hp.health.max;
                 return;
             }
 
             attack(instance.enemy, instance.mainController.gameData.character, instance.logs);
             if (instance.enemy.hp.health.current < 1) {
-                alert('win');
+                let controller = createEndBatteController(winText, instance.logs);
                 mainController.popController();
+                mainController.pushController(controller);
                 return;
             }
             if (instance.mainController.gameData.character.hp.health.current < 1) {
-                alert('lose');
+                let controller = createEndBatteController(loseText, instance.logs);
                 mainController.popController();
+                if(isInBattle) {
+                    mainController.popController();
+                }
+                mainController.pushController(controller);
+                mainController.gameData.character.hp.shield.current = mainController.gameData.character.hp.shield.max;
+                mainController.gameData.character.hp.health.current = mainController.gameData.character.hp.health.max;
                 return;
             }
         };

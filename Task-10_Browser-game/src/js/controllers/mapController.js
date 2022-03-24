@@ -84,7 +84,7 @@ MapController.prototype = {
                     value: function() {
                         // let eventCntroller = createTextController(['default event'], { buttons: ButtonsConfig.onlyBack, addCounter: false }).first;
                         let enemyLevel = (instance.params.mainLevel - 1) * 3 + level;
-                        let battleController = new BattleController(enemyLevel);
+                        let battleController = new BattleController(enemyLevel, true);
                         instance.mainController.pushController(battleController);
                     }
                 }
