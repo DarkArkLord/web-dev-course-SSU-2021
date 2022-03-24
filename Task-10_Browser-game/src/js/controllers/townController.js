@@ -5,6 +5,7 @@ import { MapController } from "./mapController";
 import { testGenerator } from "./components/mapComponent";
 import { getRange } from "../utils";
 import { BattleController } from "./battleController";
+import { createStatesController } from "./statesController";
 
 const townMenuControllerItems = {
     toMap: {
@@ -13,6 +14,10 @@ const townMenuControllerItems = {
     },
     toBattle: {
         value: "Искать врагов",
+        isActive: () => true,
+    },
+    states: {
+        value: "Характеристики",
         isActive: () => true,
     },
     other: {
@@ -24,6 +29,7 @@ const townMenuControllerItems = {
 export const townMenuController = new MenuComponent([
         townMenuControllerItems.toMap,
         townMenuControllerItems.toBattle,
+        townMenuControllerItems.states,
         townMenuControllerItems.other
     ], { element: 'Город' });
 
@@ -94,6 +100,10 @@ townMenuController.customInit = (mainController) => {
         });
 
         mainController.pushController(selectLevelController);
+    }
+    townMenuController.items.actions[townMenuControllerItems.states.value] = function() {
+        let controller = createStatesController(mainController.gameData.character);
+        mainController.pushController(controller);
     }
     townMenuController.items.actions[townMenuControllerItems.other.value] = function() {
         // smth

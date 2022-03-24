@@ -5,6 +5,7 @@ import { createTextController, ButtonsConfig } from "./textController";
 import { getRandomVariantWithProbability } from "../utils";
 import { HTMLTags } from "../render";
 import { BattleController } from "./battleController";
+import { createStatesController } from "./statesController";
 
 const defaultStyleClasses = {
     table: {
@@ -99,6 +100,11 @@ MapController.prototype = {
 
         instance.currentMap.commandActions[Commands.Back] = function() {
             instance.mainController.pushController(mainMenuController);
+        }
+
+        instance.currentMap.commandActions[Commands.Use] = function() {
+            let controller = createStatesController(instance.mainController.gameData.character);
+            instance.mainController.pushController(controller);
         }
     },
     init(mainController) {
