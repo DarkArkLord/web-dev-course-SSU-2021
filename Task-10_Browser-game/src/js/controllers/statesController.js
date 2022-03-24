@@ -3,7 +3,7 @@ import { HTMLTags } from "../render";
 import * as rpg from "../rpgSystem";
 import { getTranslation, languages } from "../translations/translation";
 
-export function createStatesController(character, stateDetails = false) {
+export function createStatesController(character) {
     function getStateRow(stateName) {
         let state = character.states[stateName];
         let result = {
@@ -15,16 +15,18 @@ export function createStatesController(character, stateDetails = false) {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: state.value
+                    value: state.value.toString()
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: state.experience.toString()
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: rpg.expForLevelUpForState(state)
                 },
             ]
         };
-        if (stateDetails) {
-            result.childs.push({
-                tag: HTMLTags.TableData,
-                value: `${state.experience}/${rpg.expForLevelUpForState(state)}`
-            });
-        }
         return result;
     }
 
@@ -41,15 +43,15 @@ export function createStatesController(character, stateDetails = false) {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: level
+                    value: level.toString()
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: rpg.ArmorPartDefence[part](level)
+                    value: rpg.ArmorPartDefence[part](level).toString()
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: `${health}/${shield}`
+                    value: `${health.toString()}/${shield.toString()}`
                 }
             ]
         };
@@ -72,7 +74,7 @@ export function createStatesController(character, stateDetails = false) {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: character.weapon
+                    value: character.weapon.toString()
                 },
                 {
                     tag: HTMLTags.TableData,
@@ -126,6 +128,27 @@ export function createStatesController(character, stateDetails = false) {
                                 tag: HTMLTags.Table,
                                 attributes: { class: 'width_100 align_center' },
                                 childs: [
+                                    {
+                                        tag: HTMLTags.TableRow,
+                                        childs: [
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Название'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Уровень'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Опыт'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Для нового уровня'
+                                            },
+                                        ]
+                                    },
                                     getStateRow(rpg.States.strength),
                                     getStateRow(rpg.States.dexterity),
                                     getStateRow(rpg.States.intelligence),
@@ -141,10 +164,58 @@ export function createStatesController(character, stateDetails = false) {
                                 tag: HTMLTags.Table,
                                 attributes: { class: 'width_100 align_center' },
                                 childs: [
+                                    {
+                                        tag: HTMLTags.TableRow,
+                                        childs: [
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Название'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Уровень'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Базовая защита'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Здоровье/Щиты'
+                                            },
+                                        ]
+                                    },
                                     getArmorRow(rpg.ArmorParts.head),
                                     getArmorRow(rpg.ArmorParts.body),
                                     getArmorRow(rpg.ArmorParts.hands),
                                     getArmorRow(rpg.ArmorParts.legs),
+                                    {
+                                        tag: HTMLTags.TableRow,
+                                        childs: [
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                attributes: { colspan: 4 },
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        tag: HTMLTags.TableRow,
+                                        childs: [
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Название'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                value: 'Уровень'
+                                            },
+                                            {
+                                                tag: HTMLTags.TableData,
+                                                attributes: { colspan: 2 },
+                                                value: 'Урон'
+                                            }
+                                        ]
+                                    },
                                     getWeaponRow()
                                 ]
                             }
