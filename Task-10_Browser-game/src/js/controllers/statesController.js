@@ -29,6 +29,9 @@ export function createStatesController(character, stateDetails = false) {
     }
 
     function getArmorRow(part) {
+        let level = character.armor[part];
+        let health = rpg.getHealthByArmor(character.states[rpg.States.constitution].value, part, level);
+        let shield = rpg.getShieldByArmor(character.states[rpg.States.constitution].value, part, level);
         return {
             tag: HTMLTags.TableRow,
             childs: [
@@ -38,13 +41,28 @@ export function createStatesController(character, stateDetails = false) {
                 },
                 {
                     tag: HTMLTags.TableData,
-                    value: character.armor[part]
+                    value: level
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: rpg.ArmorPartDefence[part](level)
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: `${health}/${shield}`
                 }
             ]
         };
     }
 
     function getWeaponRow() {
+        let baseDamage = rpg.WeaponBaseDamage(character.weapon);
+        let damageExp = rpg.getDamageByStrength(character.states[rpg.States.strength].value * baseDamage);
+        let damageModStr = damageExp.mod != 0
+            ? ((damageExp.mod > 0 ? '+' : '') + damageExp.mod)
+            : '';
+        let damageStr = `${damageExp.count}d6${damageModStr}`;
+        let damageRange = `${damageExp.count * damageExp.dice.min + damageExp.mod}-${damageExp.count * damageExp.dice.max + damageExp.mod}`;
         return {
             tag: HTMLTags.TableRow,
             childs: [
@@ -55,7 +73,15 @@ export function createStatesController(character, stateDetails = false) {
                 {
                     tag: HTMLTags.TableData,
                     value: character.weapon
-                }
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: damageStr
+                },
+                {
+                    tag: HTMLTags.TableData,
+                    value: damageRange
+                },
             ]
         };
     }
