@@ -25,7 +25,7 @@ const htmlPluginEntries = templateFiles.map((template) => new HTMLWebpackPlugin(
 
 module.exports = {
     entry: {
-        app: path.resolve(environment.paths.source, 'js', 'app.js'),
+        app: path.resolve(environment.paths.source, 'ts', 'app.ts'),
     },
     output: {
         filename: '[name].js',
@@ -41,6 +41,11 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: ['babel-loader'],
+            },
+            {
+                test: /\.ts$/,
+                exclude: /node_modules/,
+                use: ['ts-loader'],
             },
         ],
     },
