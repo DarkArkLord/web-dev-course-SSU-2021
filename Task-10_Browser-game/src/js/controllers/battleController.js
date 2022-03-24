@@ -3,6 +3,7 @@ import { getRandomVariantWithProbability } from "../utils";
 import { MenuComponent } from "./components/menuComponent";
 import { HTMLTags } from "../render";
 import { createTextControllerByHtml, ButtonsConfig } from "./textController";
+import { createStatesController } from "./statesController";
 
 function getDefaultCharacter(name) {
     let character = {
@@ -288,6 +289,14 @@ const battleItems = {
         value: "Атаковать",
         isActive: () => true,
     },
+    states: {
+        value: "Характеристики",
+        isActive: () => true,
+    },
+    enemyStates: {
+        value: "Характеристики врага",
+        isActive: () => true,
+    },
     run: {
         value: "Сбежать",
         isActive: () => true,
@@ -303,7 +312,7 @@ export function BattleController(level, isInBattle) {
     this.level = level;
     this.enemy = getEnemy(level);
     this.logs = [];
-    this.menu = new MenuComponent([battleItems.attack, battleItems.run]);
+    this.menu = new MenuComponent([battleItems.attack, battleItems.states, battleItems.enemyStates, battleItems.run]);
     this.menu.customInit = (mainController) => {
         instance.menu.items.actions[battleItems.attack.value] = function() {
             attack(instance.mainController.gameData.character, instance.enemy, instance.logs);
@@ -347,6 +356,14 @@ export function BattleController(level, isInBattle) {
                 mainController.gameData.character.hp.health.current = mainController.gameData.character.hp.health.max;
                 return;
             }
+        };
+        instance.menu.items.actions[battleItems.states.value] = function() {
+            let controller = createStatesController(mainController.gameData.character);
+            mainController.pushController(controller);
+        };
+        instance.menu.items.actions[battleItems.enemyStates.value] = function() {
+            let controller = createStatesController(instance.enemy);
+            mainController.pushController(controller);
         };
         instance.menu.items.actions[battleItems.run.value] = function() {
             mainController.popController();
