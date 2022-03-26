@@ -38,19 +38,14 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
             },
             {
-                test: /\.js$/,
+                test: /\.(j|t)sx?$/,
                 exclude: /node_modules/,
                 use: ['babel-loader'],
-            },
-            {
-                test: /\.ts$/,
-                exclude: /node_modules/,
-                use: ['ts-loader'],
-            },
+            }
         ],
     },
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     plugins: [
         new MiniCssExtractPlugin({
