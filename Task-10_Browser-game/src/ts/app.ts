@@ -1,6 +1,8 @@
 import '../scss/styles.scss';
 import { RenderItemBuilder, HTMLTags } from './render';
 
+import './test'
+
 let htmlBuilder = RenderItemBuilder.create;
 let textBuilder = RenderItemBuilder.createText;
 
