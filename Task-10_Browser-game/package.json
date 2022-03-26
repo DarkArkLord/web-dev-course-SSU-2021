@@ -6,6 +6,7 @@
     "homepage": "https://github.com/ShadowOfFallenLord/web-dev-course-SSU-2021/tree/master/Task-10_Browser-game",
     "devDependencies": {
         "@babel/core": "^7.16.0",
+        "@babel/plugin-transform-react-jsx": "^7.17.3",
         "@babel/preset-env": "^7.16.0",
         "@babel/preset-typescript": "^7.16.7",
         "autoprefixer": "^10.4.0",
