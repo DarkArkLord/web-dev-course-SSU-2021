@@ -1,19 +1,40 @@
-// import { React } from "./render";
+const mainDisplay = document.getElementById('main_disp');
+mainDisplay.innerHTML = '';
 
-// declare namespace JSX {
-//     interface IntrinsicElements {
-//         foo: any;
-//     }
-// }
+let result: HTMLElement;
+result =
+    <table>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>4</td>
+        </tr>
+    </table>;
 
-// const title = "Hello World";
-// let result =
-//     <div>
-//         <h1>{title}</h1>
-//         <h2>This is a template written in TSX, then compiled to JSX by tsc (the Typescript compiler), and finally
-//             injected into a web page using a script</h2>
-//     </div>;
+mainDisplay.append(result);
 
-// const mainDisplay = document.getElementById('main_disp');
-// mainDisplay.innerHTML = '';
-// mainDisplay.append(result);
+result = <button class="game_button">123</button>
+result.onclick = () => alert(123);
+
+enum HTMLTags {
+    Table = 'table',
+    TableRow = 'tr',
+    TableData = 'td',
+    h2 = 'h2',
+    TextArea = 'textarea',
+    Button = 'button',
+    Div = 'div',
+}
+
+result = 
+<HTMLTags.Table>
+    <HTMLTags.TableRow>
+        <HTMLTags.TableData>1</HTMLTags.TableData>
+        <HTMLTags.TableData>2</HTMLTags.TableData>
+    </HTMLTags.TableRow>
+</HTMLTags.Table>
+
+mainDisplay.append(result);
