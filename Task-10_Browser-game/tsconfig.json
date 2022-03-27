@@ -4,7 +4,7 @@
         "noImplicitAny": true,
         "module": "es6",
         "target": "es5",
-        "jsx": "react",
+        "jsx": "react-native",
         "allowJs": true,
         "moduleResolution": "node",
         "typeRoots": [
