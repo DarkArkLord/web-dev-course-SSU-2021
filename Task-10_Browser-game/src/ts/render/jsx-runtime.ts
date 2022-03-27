@@ -13,9 +13,11 @@ function addChild(parent: HTMLElement, child: Render.TChildToAdd): void {
 }
 
 export function render(tag: Render.TTag, attributes?: any, ...childs: Render.TChilds): HTMLElement {
-    let element = (tag instanceof Function)
-        ? (tag as Function)(attributes, ...childs)
-        : document.createElement(tag as string);
+    if (tag instanceof Function) {
+        return (tag as Function)(attributes, ...childs);
+    }
+
+    let element = document.createElement(tag as string);
 
     if (attributes) {
         for (const name in attributes) {
@@ -51,4 +53,6 @@ export function jsxs(tag: Render.TTag, config: any) {
     return render(tag, attributes, ...childs);
 }
 
-export const Fragment = 'FRAGMET-TAG';
+export function Fragment(attributes?: any, ...childs: Render.TChilds) {
+    return childs;
+}
