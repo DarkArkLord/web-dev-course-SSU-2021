@@ -8,7 +8,12 @@ export enum Commands {
     Other = 'OTHER',
 };
 
-export const ConstrolKeys = {
+
+type TControlKeyList = {
+    [key in Commands]: Array<string>;
+}
+
+export const ConstrolKeys = <TControlKeyList>{
     [Commands.Use]: [
         'KeyE',
         'Enter',
