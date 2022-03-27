@@ -1,4 +1,4 @@
-import { Commands, ConstrolKeys } from './controls'
+import { ConstrolKeys } from './controls'
 
 const mainDisplay = document.getElementById('main_disp');
 
