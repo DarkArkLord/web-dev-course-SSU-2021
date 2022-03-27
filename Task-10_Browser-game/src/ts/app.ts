@@ -1,2 +1,3 @@
 import '../scss/styles.scss';
-import './demo'
+import './globalConfiguration';
+import './demo';
