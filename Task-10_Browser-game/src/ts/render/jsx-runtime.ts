@@ -1,5 +1,21 @@
-export function render(tag: string, attributes?: any, ...childs: Array<HTMLElement | string>): HTMLElement {
-    let element = document.createElement(tag);
+function addChild(parent: HTMLElement, child: Render.TChildToAdd): void {
+    if (Array.isArray(child)) {
+        for (const innerChild of child) {
+            addChild(parent, innerChild);
+        }
+    } else {
+        parent.appendChild(
+            child instanceof HTMLElement
+                ? child
+                : document.createTextNode(child)
+        );
+    }
+}
+
+export function render(tag: Render.TTag, attributes?: any, ...childs: Render.TChilds): HTMLElement {
+    let element = (tag instanceof Function)
+        ? (tag as Function)(attributes, ...childs)
+        : document.createElement(tag as string);
 
     if (attributes) {
         for (const name in attributes) {
@@ -9,32 +25,30 @@ export function render(tag: string, attributes?: any, ...childs: Array<HTMLEleme
     }
 
     for (const child of childs) {
-        element.appendChild(
-            child instanceof HTMLElement
-                ? child
-                : document.createTextNode(child)
-        );
+        addChild(element, child);
     }
 
     return element;
 }
 
-export function jsx(tag: string, config: any) {
-    let attributes = {...config};
+export function jsx(tag: Render.TTag, config: any) {
+    let attributes = { ...config };
     let childs = [];
-    if(attributes.children) {
+    if (attributes.children) {
         delete attributes.children;
         childs.push(config.children);
     }
     return render(tag, attributes, ...childs);
 }
 
-export function jsxs(tag: string, config: any) {
-    let attributes = {...config};
+export function jsxs(tag: Render.TTag, config: any) {
+    let attributes = { ...config };
     let childs = [];
-    if(attributes.children) {
+    if (attributes.children) {
         delete attributes.children;
         childs = config.children;
     }
     return render(tag, attributes, ...childs);
 }
+
+export const Fragment = 'FRAGMET-TAG';
