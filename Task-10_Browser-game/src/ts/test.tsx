@@ -16,8 +16,11 @@ result =
 
 mainDisplay.append(result);
 
-result = <button class="game_button">123</button>
-result.onclick = () => alert(123);
+const tclass = 'game_button';
+result = <button class={tclass}>{tclass}</button>
+result.onclick = () => alert(tclass);
+
+mainDisplay.append(result);
 
 enum HTMLTags {
     Table = 'table',
@@ -32,8 +35,8 @@ enum HTMLTags {
 result = 
 <HTMLTags.Table>
     <HTMLTags.TableRow>
-        <HTMLTags.TableData>1</HTMLTags.TableData>
-        <HTMLTags.TableData>2</HTMLTags.TableData>
+        <HTMLTags.TableData>t1</HTMLTags.TableData>
+        <HTMLTags.TableData>t2</HTMLTags.TableData>
     </HTMLTags.TableRow>
 </HTMLTags.Table>
 
