@@ -1,4 +1,4 @@
-import { ConstrolKeys } from './controls'
+import { Commands, ConstrolKeys } from './controls'
 
 const mainDisplay = document.getElementById('main_disp');
 
@@ -35,5 +35,7 @@ document.addEventListener('keydown', function (e) {
         }
     }
 
-    action(Commands.Other);
+    // action(Commands.Other);
 });
+
+renderMenu();
