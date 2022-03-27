@@ -15,7 +15,7 @@ declare interface IMainController {
     popController(): void;
 
     init(): void;
-    executeCommand(command: Commands): void;
+    executeCommand(command: string): void;
     createElement(): HTMLElement;
 }
 
@@ -23,6 +23,6 @@ declare interface IController {
     customInit(mainController: IMainController): void;
     onPush(mainController: IMainController): void;
     onPop(): void;
-    executeCommand(command: Commands): void;
     createElement(): void;
+    executeCommand(command: string): void;
 }

@@ -1,3 +1,13 @@
+export enum Commands {
+    Up = 'UP',
+    Down = 'DOWN',
+    Right = 'RIGHT',
+    Left = 'LEFT',
+    Use = 'USE',
+    Back = 'BACK',
+    Other = 'OTHER',
+};
+
 type TControlKeyList = {
     [key in Commands]: Array<string>;
 }
