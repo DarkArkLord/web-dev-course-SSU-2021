@@ -1,10 +1,10 @@
-declare type MainGameData = {
+declare type TGameData = {
     level: number,
 };
 
-declare interface IMainController {
-    gameData: MainGameData;
-    currentController: IController;
+declare interface IGlobalController {
+    gameData: TGameData;
+    currentController?: IController;
     controllerStack: Array<IController>;
 
     resetGameData(): void;
@@ -14,15 +14,14 @@ declare interface IMainController {
     pushController(controller: IController): void;
     popController(): void;
 
-    init(): void;
     executeCommand(command: string): void;
     createElement(): HTMLElement;
 }
 
 declare interface IController {
-    customInit(mainController: IMainController): void;
-    onPush(mainController: IMainController): void;
+    onPush(globalController: IGlobalController): void;
     onPop(): void;
-    createElement(): void;
+
     executeCommand(command: string): void;
+    createElement(): HTMLElement;
 }
