@@ -1,19 +1,18 @@
+import { GlobalController } from './controllers/globalController';
 import { Commands, ConstrolKeys } from './controls'
 
 const mainDisplay = document.getElementById('main_disp');
 
-//
+const globalController = new GlobalController();
 
 function renderMenu() {
     mainDisplay.innerHTML = '';
-    // let elemenet = mainController.createElement();
-    let elemenet = document.createTextNode('123');
-    mainDisplay.appendChild(elemenet);
+    let element = globalController.createElement();
+    mainDisplay.appendChild(element);
 }
 
 function action(command: Commands) {
-    // mainController.executeCommand(command);
-    alert(command);
+    globalController.executeCommand(command);
     renderMenu();
 }
 
