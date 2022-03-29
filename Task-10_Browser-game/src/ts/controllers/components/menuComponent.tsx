@@ -67,14 +67,18 @@ export class MenuComponent extends BaseController {
         };
         this.commandActions[Commands.Use] = function () {
             let currentIndex = instance.currentItem.current();
-            let item = instance.items.list[currentIndex];
-            if (item && item.isActive()) {
-                let action = instance.items.actions[item.value];
-                if (action) {
-                    action();
-                }
-            }
+            this.useItem(currentIndex);
         };
+    }
+
+    private useItem(index: number) {
+        let item = this.items.list[index];
+        if (item && item.isActive()) {
+            let action = this.items.actions[item.value];
+            if (action) {
+                action();
+            }
+        }
     }
 
     onPush(globalController: IGlobalController): void {
@@ -102,7 +106,8 @@ export class MenuComponent extends BaseController {
                     <ul>
                         {instance.items.list.map((item, index) => {
                             let elementClass = getItemClass(item, index, instance.currentItem);
-                            let element = <li class={elementClass}>{item.value}</li>;
+                            let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
+                            element.onclick = () => instance.useItem(index);
                             return element;
                         })}
                     </ul>
