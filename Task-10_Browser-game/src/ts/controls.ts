@@ -5,7 +5,7 @@ export enum Commands {
     Left = 'LEFT',
     Use = 'USE',
     Back = 'BACK',
-    Other = 'OTHER',
+    // Other = 'OTHER',
 };
 
 type TControlKeyList = {
