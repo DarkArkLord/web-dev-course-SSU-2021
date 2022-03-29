@@ -4,6 +4,7 @@ import { Commands } from "../../controls";
 
 const CSS = {
     table: 'width_100 align_center',
+    list: 'menu-container align_center',
     item: {
         default: 'menu-default-item',
         current: 'menu-current-item',
@@ -103,7 +104,7 @@ export class MenuComponent extends BaseController {
         function ItemsListComponent() {
             return <tr>
                 <td>
-                    <ul>
+                    <ul class={CSS.list}>
                         {instance.items.list.map((item, index) => {
                             let elementClass = getItemClass(item, index, instance.currentItem);
                             let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
