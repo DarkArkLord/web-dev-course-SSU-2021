@@ -49,7 +49,7 @@ export class GlobalController implements IGlobalController {
     }
     createElement(): HTMLElement {
         if(this.currentController) {
-            this.currentController.createElement();
+            return this.currentController.createElement();
         }
         return render('div', null, 'no content');
     }
