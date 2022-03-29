@@ -45,6 +45,9 @@ module.exports = {
         ],
     },
     resolve: {
+        alias: {
+            renderLib: path.resolve(environment.paths.source, 'ts', 'render')
+        },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     plugins: [

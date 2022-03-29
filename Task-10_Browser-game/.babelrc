@@ -11,7 +11,7 @@
             {
                 "throwIfNamespace": false,
                 "runtime": "automatic",
-                "importSource": "./render"
+                "importSource": "renderLib"
             }
         ]
     ]
