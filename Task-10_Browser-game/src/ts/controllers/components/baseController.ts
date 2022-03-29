@@ -19,13 +19,8 @@ export abstract class BaseController implements IController {
         };
     }
 
-    customInit(): void { }
-
     onPush(globalController: IGlobalController): void {
         this.globalController = globalController;
-        if (this.customInit) {
-            this.customInit();
-        }
     }
     onPop(): void {
         //
