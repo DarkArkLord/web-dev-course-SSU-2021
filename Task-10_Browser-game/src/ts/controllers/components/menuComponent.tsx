@@ -67,7 +67,7 @@ export class MenuComponent extends BaseController {
         };
         this.commandActions[Commands.Use] = function () {
             let currentIndex = instance.currentItem.current();
-            this.useItem(currentIndex);
+            instance.useItem(currentIndex);
         };
     }
 
