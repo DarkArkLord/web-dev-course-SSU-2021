@@ -5,6 +5,36 @@ const mainDisplay = document.getElementById('main_disp');
 
 const globalController = new GlobalController();
 
+/* --- --- --- --- --- --- --- */
+
+import { render } from './render/jsx-runtime';
+import { MenuComponent } from './controllers/components/menuComponent';
+
+const items = {
+    i1: {
+        value: 'i1',
+        isActive: () => true,
+    },
+    i2: {
+        value: 'i2',
+        isActive: () => false,
+    },
+    i3: {
+        value: 'i3',
+        isActive: () => true,
+    },
+};
+
+const menu = new MenuComponent([items.i1, items.i2, items.i3], render('div', null, 'head'), render('div', null, 'foot'));
+
+Object.values(items).forEach(item => {
+    menu.items.actions[item.value] = () => alert(item.value);
+});
+
+globalController.pushController(menu);
+
+/* --- --- --- --- --- --- --- */
+
 function renderMenu() {
     mainDisplay.innerHTML = '';
     let element = globalController.createElement();
