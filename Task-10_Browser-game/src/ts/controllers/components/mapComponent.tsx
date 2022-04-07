@@ -93,6 +93,10 @@ type TMap = {
     }
 };
 
+type TMapObjectActions = { [arg: string]: (position: TPoint) => void };
+
+type TMoveFunc = (value: number) => number;
+
 function testMapGenerator(width: number, height: number, params: any): TMap {
     let result: TMap = {
         map: new Array(height),
@@ -155,8 +159,88 @@ function testMapGenerator(width: number, height: number, params: any): TMap {
 }
 
 export class MapComponent extends BaseController {
-    constructor() {
+    width: number;
+    height: number;
+    params: any;
+    map: TMap;
+    mapObjectActions: TMapObjectActions;
+
+    constructor(width: number, height: number, params: any = { fieldOfView: () => 12, flagCount: 3 }) {
         super();
+
+        let instance = this;
+
+        this.width = width;
+        this.height = height;
+        this.params = params;
+
+        this.map = testMapGenerator(width, height, params);
+
+        this.mapObjectActions = {
+            [CellType.Flag.NotUsed]: function (position) {
+                if (instance.map.flags.notUsedCount > 0) {
+                    instance.map.map[position.y][position.x] = CellType.Flag.Used;
+                    let flag = instance.map.flags.list.find(value =>
+                        value.position.x == position.x && value.position.y == position.y);
+                    if (flag) {
+                        flag.used = true;
+                        instance.map.flags.notUsedCount--;
+                        if (instance.map.flags.notUsedCount < 1) {
+                            instance.map.doors.next.isOpen = true;
+                            let doorPos = instance.map.doors.next.position;
+                            instance.map.map[doorPos.y][doorPos.x] = CellType.Door.Next;
+                        }
+                    }
+                }
+            },
+            [CellType.Door.Prev]: function (position) {
+                alert('prev');
+            },
+            [CellType.Door.Next]: function (position) {
+                alert('next');
+            },
+            [CellType.Door.Closed]: function (position) {
+                alert('closed');
+            },
+        };
+
+        this.commandActions[Commands.Up] = function () {
+            instance.tryMove(instance.map.position, x => x, y => y - 1);
+            instance.tryUseObject(instance.map.position);
+        };
+        this.commandActions[Commands.Down] = function () {
+            instance.tryMove(instance.map.position, x => x, y => y + 1);
+            instance.tryUseObject(instance.map.position);
+        };
+        this.commandActions[Commands.Left] = function () {
+            instance.tryMove(instance.map.position, x => x - 1, y => y);
+            instance.tryUseObject(instance.map.position);
+        };
+        this.commandActions[Commands.Right] = function () {
+            instance.tryMove(instance.map.position, x => x + 1, y => y);
+            instance.tryUseObject(instance.map.position);
+        };
+    }
+
+    private isInMap(x: number, y: number): boolean {
+        return y >= 0 || y < this.height
+            && x >= 0 || x < this.width;
+    }
+    private tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
+        const x = xMove(position.x);
+        const y = yMove(position.y);
+        if (this.isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
+            position.x = x;
+            position.y = y;
+        }
+    }
+    private tryUseObject(position: TPoint) {
+        if (!this.isInMap(position.x, position.y)) return;
+        const cell = this.map.map[position.y][position.x];
+        const action = this.mapObjectActions[cell];
+        if (action) {
+            action(position);
+        }
     }
 
     createElement(): HTMLElement {
