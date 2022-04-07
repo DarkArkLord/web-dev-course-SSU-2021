@@ -204,43 +204,43 @@ export class MapComponent extends BaseController {
             },
         };
 
+        function isInMap(x: number, y: number): boolean {
+            return y >= 0 || y < this.height
+                && x >= 0 || x < this.width;
+        }
+        function tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
+            const x = xMove(position.x);
+            const y = yMove(position.y);
+            if (isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
+                position.x = x;
+                position.y = y;
+            }
+        }
+        function tryUseObject(position: TPoint) {
+            if (!isInMap(position.x, position.y)) return;
+            const cell = this.map.map[position.y][position.x];
+            const action = this.mapObjectActions[cell];
+            if (action) {
+                action(position);
+            }
+        }
+
         this.commandActions[Commands.Up] = function () {
-            instance.tryMove(instance.map.position, x => x, y => y - 1);
-            instance.tryUseObject(instance.map.position);
+            tryMove(instance.map.position, x => x, y => y - 1);
+            tryUseObject(instance.map.position);
         };
         this.commandActions[Commands.Down] = function () {
-            instance.tryMove(instance.map.position, x => x, y => y + 1);
-            instance.tryUseObject(instance.map.position);
+            tryMove(instance.map.position, x => x, y => y + 1);
+            tryUseObject(instance.map.position);
         };
         this.commandActions[Commands.Left] = function () {
-            instance.tryMove(instance.map.position, x => x - 1, y => y);
-            instance.tryUseObject(instance.map.position);
+            tryMove(instance.map.position, x => x - 1, y => y);
+            tryUseObject(instance.map.position);
         };
         this.commandActions[Commands.Right] = function () {
-            instance.tryMove(instance.map.position, x => x + 1, y => y);
-            instance.tryUseObject(instance.map.position);
+            tryMove(instance.map.position, x => x + 1, y => y);
+            tryUseObject(instance.map.position);
         };
-    }
-
-    private isInMap(x: number, y: number): boolean {
-        return y >= 0 || y < this.height
-            && x >= 0 || x < this.width;
-    }
-    private tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
-        const x = xMove(position.x);
-        const y = yMove(position.y);
-        if (this.isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
-            position.x = x;
-            position.y = y;
-        }
-    }
-    private tryUseObject(position: TPoint) {
-        if (!this.isInMap(position.x, position.y)) return;
-        const cell = this.map.map[position.y][position.x];
-        const action = this.mapObjectActions[cell];
-        if (action) {
-            action(position);
-        }
     }
 
     createElement(): HTMLElement {
