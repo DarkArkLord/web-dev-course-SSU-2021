@@ -8,30 +8,11 @@ const globalController = new GlobalController();
 /* --- --- --- --- --- --- --- */
 
 import { render } from './render/jsx-runtime';
-import { MenuComponent } from './controllers/components/menuComponent';
+import { MapComponent } from './controllers/components/mapComponent';
 
-const items = {
-    i1: {
-        value: 'i1',
-        isActive: () => true,
-    },
-    i2: {
-        value: 'i2',
-        isActive: () => false,
-    },
-    i3: {
-        value: 'i3',
-        isActive: () => true,
-    },
-};
+const map = new MapComponent(10, 10);
 
-const menu = new MenuComponent([items.i1, items.i2, items.i3], render('div', null, 'head'), render('div', null, 'foot'));
-
-Object.values(items).forEach(item => {
-    menu.items.actions[item.value] = () => alert(item.value);
-});
-
-globalController.pushController(menu);
+globalController.pushController(map);
 
 /* --- --- --- --- --- --- --- */
 
