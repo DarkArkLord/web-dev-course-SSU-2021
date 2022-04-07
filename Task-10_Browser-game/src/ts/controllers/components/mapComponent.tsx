@@ -64,7 +64,7 @@ const CellContent: TCellContentList = {
         class: CSS.map.none,
     },
     [CellType.Cell.Invisible]: {
-        value: '&nbsp;',
+        value: '\u00A0', // ' ', // '&nbsp;',
         class: CSS.map.none,
     },
     [CellType.Flag.NotUsed]: {
@@ -216,15 +216,15 @@ export class MapComponent extends BaseController {
         function tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
             const x = xMove(position.x);
             const y = yMove(position.y);
-            if (this.isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
+            if (instance.isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
                 position.x = x;
                 position.y = y;
             }
         }
         function tryUseObject(position: TPoint) {
-            if (!this.isInMap(position.x, position.y)) return;
-            const cell = this.map.map[position.y][position.x];
-            const action = this.mapObjectActions[cell];
+            if (!instance.isInMap(position.x, position.y)) return;
+            const cell = instance.map.map[position.y][position.x];
+            const action = instance.mapObjectActions[cell];
             if (action) {
                 action(position);
             }
@@ -249,8 +249,8 @@ export class MapComponent extends BaseController {
     }
 
     isInMap(x: number, y: number): boolean {
-        return y >= 0 || y < this.height
-            && x >= 0 || x < this.width;
+        return y >= 0 && y < this.height
+            && x >= 0 && x < this.width;
     }
 
     createElement(): HTMLElement {
@@ -264,7 +264,7 @@ export class MapComponent extends BaseController {
             }
             x += instance.map.position.x;
             y += instance.map.position.y;
-            if (!this.isInMap(x, y)) {
+            if (!instance.isInMap(x, y)) {
                 return CellContent[CellType.Cell.Invisible];
             }
             let cell = instance.map.map[y][x];

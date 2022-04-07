@@ -10,7 +10,7 @@ const globalController = new GlobalController();
 import { render } from './render/jsx-runtime';
 import { MapComponent } from './controllers/components/mapComponent';
 
-const map = new MapComponent(10, 10);
+const map = new MapComponent(30, 30);
 
 globalController.pushController(map);
 
