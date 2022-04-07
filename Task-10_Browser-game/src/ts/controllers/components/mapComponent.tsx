@@ -1,6 +1,7 @@
 import { BaseController } from "./baseController";
 import { Commands } from "../../controls";
 import { getRandomInt } from "../../utils/random";
+import { getRange } from "../../utils/common";
 
 const CSS = {
     table: {
@@ -40,7 +41,16 @@ export const CellType = {
     },
 };
 
-const CellContent = {
+type TCellContent = {
+    value: string,
+    class: string
+};
+
+type TCellContentList = {
+    [value: string]: TCellContent
+};
+
+const CellContent: TCellContentList = {
     [CellType.Player]: {
         value: '@',
         class: CSS.map.player,
@@ -203,21 +213,16 @@ export class MapComponent extends BaseController {
                 alert('closed');
             },
         };
-
-        function isInMap(x: number, y: number): boolean {
-            return y >= 0 || y < this.height
-                && x >= 0 || x < this.width;
-        }
         function tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
             const x = xMove(position.x);
             const y = yMove(position.y);
-            if (isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
+            if (this.isInMap(x, y) && this.map.map[y][x] != CellType.Cell.Wall) {
                 position.x = x;
                 position.y = y;
             }
         }
         function tryUseObject(position: TPoint) {
-            if (!isInMap(position.x, position.y)) return;
+            if (!this.isInMap(position.x, position.y)) return;
             const cell = this.map.map[position.y][position.x];
             const action = this.mapObjectActions[cell];
             if (action) {
@@ -243,7 +248,44 @@ export class MapComponent extends BaseController {
         };
     }
 
+    isInMap(x: number, y: number): boolean {
+        return y >= 0 || y < this.height
+            && x >= 0 || x < this.width;
+    }
+
     createElement(): HTMLElement {
-        return null;
+        let instance = this;
+        let fov = this.params.fieldOfView();
+        let cellOffsets = getRange(fov + 1 + fov, -fov);
+
+        function getCellContent(x: number, y: number) {
+            if (x == 0 && y == 0) {
+                return CellContent[CellType.Player];
+            }
+            x += instance.map.position.x;
+            y += instance.map.position.y;
+            if (!this.isInMap(x, y)) {
+                return CellContent[CellType.Cell.Invisible];
+            }
+            let cell = instance.map.map[y][x];
+            return CellContent[cell];
+        }
+
+        function CellData(attributes: any): HTMLElement {
+            let currentCell = getCellContent(attributes.x as number, attributes.y as number);
+            let cellClass = [CSS.table.data, currentCell.class].join(' ');
+            return <td class={cellClass}>{currentCell.value}</td>
+        }
+
+        function CellRow(attributes: any): HTMLElement {
+            let y = attributes.y as number;
+            return <tr class={CSS.table.row}>
+                {cellOffsets.map(x => <CellData x={x} y={y} />)}
+            </tr>
+        }
+
+        return <table class={CSS.table.main}>
+            {cellOffsets.map(y => <CellRow y={y} />)}
+        </table>;
     }
 }
