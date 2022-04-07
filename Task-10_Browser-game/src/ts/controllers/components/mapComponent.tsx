@@ -107,6 +107,9 @@ type TMapObjectActions = { [arg: string]: (position: TPoint) => void };
 
 type TMoveFunc = (value: number) => number;
 
+/*
+* TODO: Внести карту в компонент, а генератор вынести в контроллер
+*/
 function testMapGenerator(width: number, height: number, params: any): TMap {
     let result: TMap = {
         map: new Array(height),
