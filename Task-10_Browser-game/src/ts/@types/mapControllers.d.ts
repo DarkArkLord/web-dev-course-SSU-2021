@@ -1,6 +1,6 @@
 declare type TCellContent = {
     value: string,
-    class: string
+    classes: string[]
 };
 
 declare type TCellContentList = {

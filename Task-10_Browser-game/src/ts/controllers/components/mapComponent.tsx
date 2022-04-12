@@ -44,39 +44,39 @@ export const CellType = {
 const CellContent: TCellContentList = {
     [CellType.Player]: {
         value: '@',
-        class: CSS.map.player,
+        classes: [CSS.map.player],
     },
     [CellType.Cell.Empty]: {
         value: '.',
-        class: CSS.map.none,
+        classes: [],
     },
     [CellType.Cell.Wall]: {
         value: '#',
-        class: CSS.map.none,
+        classes: [],
     },
     [CellType.Cell.Invisible]: {
         value: '\u00A0', // ' ', // '&nbsp;',
-        class: CSS.map.none,
+        classes: [],
     },
     [CellType.Flag.NotUsed]: {
         value: 'F',
-        class: CSS.map.flag.notUsed,
+        classes: [CSS.map.flag.notUsed],
     },
     [CellType.Flag.Used]: {
         value: '!',
-        class: CSS.map.flag.used,
+        classes: [CSS.map.flag.used],
     },
     [CellType.Door.Next]: {
         value: '>',
-        class: CSS.map.door.open,
+        classes: [CSS.map.door.open],
     },
     [CellType.Door.Prev]: {
         value: '<',
-        class: CSS.map.door.open,
+        classes: [CSS.map.door.open],
     },
     [CellType.Door.Closed]: {
         value: 'X',
-        class: CSS.map.door.close,
+        classes: [CSS.map.door.close],
     },
 };
 
@@ -261,7 +261,7 @@ export class MapComponent extends BaseController {
 
         function CellData(attributes: any): HTMLElement {
             let currentCell = getCellContent(attributes.x as number, attributes.y as number);
-            let cellClass = [CSS.table.data, currentCell.class].join(' ');
+            let cellClass = [CSS.table.data, ...currentCell.classes].join(' ');
             return <td class={cellClass}>{currentCell.value}</td>
         }
 
