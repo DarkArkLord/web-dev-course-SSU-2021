@@ -8,7 +8,7 @@ const globalController = new GlobalController();
 /* --- --- --- --- --- --- --- */
 
 import { render } from './render/jsx-runtime';
-import { MapComponent } from './controllers/components/mapComponent';
+import { MapComponent } from './controllers/components/maps/rndMapWithFlagsComponent';
 
 const map = new MapComponent(30, 30);
 

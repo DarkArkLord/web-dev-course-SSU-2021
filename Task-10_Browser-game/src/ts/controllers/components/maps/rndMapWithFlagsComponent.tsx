@@ -1,6 +1,6 @@
-import { Commands } from "../../controls";
-import { getRandomInt } from "../../utils/random";
-import { BaseMapComponent } from "./baseMapComponent";
+import { Commands } from "../../../controls";
+import { getRandomInt } from "../../../utils/random";
+import { BaseMapComponent } from "../baseMapComponent";
 
 const CSS = {
     map: {
