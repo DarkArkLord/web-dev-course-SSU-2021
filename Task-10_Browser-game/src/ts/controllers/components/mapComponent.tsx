@@ -41,15 +41,6 @@ export const CellType = {
     },
 };
 
-type TCellContent = {
-    value: string,
-    class: string
-};
-
-type TCellContentList = {
-    [value: string]: TCellContent
-};
-
 const CellContent: TCellContentList = {
     [CellType.Player]: {
         value: '@',
@@ -89,8 +80,6 @@ const CellContent: TCellContentList = {
     },
 };
 
-type TPoint = { x: number, y: number };
-
 type TFlag = { position: TPoint, used: boolean };
 
 type TMap = {
@@ -102,10 +91,6 @@ type TMap = {
         next: { position: TPoint, isOpen: boolean },
     }
 };
-
-type TMapObjectActions = { [arg: string]: (position: TPoint) => void };
-
-type TMoveFunc = (value: number) => number;
 
 /*
 * TODO: Внести карту в компонент, а генератор вынести в контроллер
