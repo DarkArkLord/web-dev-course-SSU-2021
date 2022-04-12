@@ -1,14 +1,8 @@
-import { BaseController } from "./baseController";
 import { Commands } from "../../controls";
 import { getRandomInt } from "../../utils/random";
-import { getRange } from "../../utils/common";
+import { BaseMapComponent } from "./baseMapComponent";
 
 const CSS = {
-    table: {
-        main: 'align_center no-border',
-        row: 'align_center',
-        data: 'width_19',
-    },
     map: {
         none: '',
         player: 'map-player',
@@ -82,7 +76,7 @@ const CellContent: TCellContentList = {
 
 type TFlag = { position: TPoint, used: boolean };
 
-type TMap = {
+type TGeneratedMap = {
     map: string[][],
     position: TPoint,
     flags: { notUsedCount: number, list: TFlag[] },
@@ -95,8 +89,8 @@ type TMap = {
 /*
 * TODO: Внести карту в компонент, а генератор вынести в контроллер
 */
-function testMapGenerator(width: number, height: number, params: any): TMap {
-    let result: TMap = {
+function testMapGenerator(width: number, height: number, params: any): TGeneratedMap {
+    let result: TGeneratedMap = {
         map: new Array(height),
         position: { x: 0, y: 0 },
         flags: { notUsedCount: params.flagCount, list: [] },
@@ -156,37 +150,41 @@ function testMapGenerator(width: number, height: number, params: any): TMap {
     return result;
 }
 
-export class MapComponent extends BaseController {
-    width: number;
-    height: number;
+export class MapComponent extends BaseMapComponent {
     params: any;
-    map: TMap;
-    mapObjectActions: TMapObjectActions;
+    flags: TFlag[];
+    notUsedFlagsCount: number;
+    doors: {
+        prev: { position: TPoint, isOpen: boolean },
+        next: { position: TPoint, isOpen: boolean },
+    };
 
-    constructor(width: number, height: number, params: any = { fieldOfView: () => 12, flagCount: 3 }) {
-        super();
+    constructor(width: number, height: number, params: any = { flagCount: 3 }) {
+        super(width, height);
 
         let instance = this;
-
-        this.width = width;
-        this.height = height;
         this.params = params;
 
-        this.map = testMapGenerator(width, height, params);
+        let generatedResult = testMapGenerator(width, height, params);
+        this.map = generatedResult.map;
+        this.flags = generatedResult.flags.list;
+        this.notUsedFlagsCount = generatedResult.flags.notUsedCount;
+        this.doors = generatedResult.doors;
+        this.position = generatedResult.position;
 
         this.mapObjectActions = {
             [CellType.Flag.NotUsed]: function (position) {
-                if (instance.map.flags.notUsedCount > 0) {
-                    instance.map.map[position.y][position.x] = CellType.Flag.Used;
-                    let flag = instance.map.flags.list.find(value =>
+                if (instance.notUsedFlagsCount > 0) {
+                    instance.map[position.y][position.x] = CellType.Flag.Used;
+                    let flag = instance.flags.find(value =>
                         value.position.x == position.x && value.position.y == position.y);
                     if (flag) {
                         flag.used = true;
-                        instance.map.flags.notUsedCount--;
-                        if (instance.map.flags.notUsedCount < 1) {
-                            instance.map.doors.next.isOpen = true;
-                            let doorPos = instance.map.doors.next.position;
-                            instance.map.map[doorPos.y][doorPos.x] = CellType.Door.Next;
+                        instance.notUsedFlagsCount--;
+                        if (instance.notUsedFlagsCount < 1) {
+                            instance.doors.next.isOpen = true;
+                            let doorPos = instance.doors.next.position;
+                            instance.map[doorPos.y][doorPos.x] = CellType.Door.Next;
                         }
                     }
                 }
@@ -201,79 +199,35 @@ export class MapComponent extends BaseController {
                 alert('closed');
             },
         };
-        function tryMove(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc) {
-            const x = xMove(position.x);
-            const y = yMove(position.y);
-            if (instance.isInMap(x, y) && instance.map.map[y][x] != CellType.Cell.Wall) {
-                position.x = x;
-                position.y = y;
-            }
-        }
-        function tryUseObject(position: TPoint) {
-            if (!instance.isInMap(position.x, position.y)) return;
-            const cell = instance.map.map[position.y][position.x];
-            const action = instance.mapObjectActions[cell];
-            if (action) {
-                action(position);
-            }
-        }
 
         this.commandActions[Commands.Up] = function () {
-            tryMove(instance.map.position, x => x, y => y - 1);
-            tryUseObject(instance.map.position);
+            instance.tryMoveNotIn(instance.position, x => x, y => y - 1, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
         };
         this.commandActions[Commands.Down] = function () {
-            tryMove(instance.map.position, x => x, y => y + 1);
-            tryUseObject(instance.map.position);
+            instance.tryMoveNotIn(instance.position, x => x, y => y + 1, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
         };
         this.commandActions[Commands.Left] = function () {
-            tryMove(instance.map.position, x => x - 1, y => y);
-            tryUseObject(instance.map.position);
+            instance.tryMoveNotIn(instance.position, x => x - 1, y => y, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
         };
         this.commandActions[Commands.Right] = function () {
-            tryMove(instance.map.position, x => x + 1, y => y);
-            tryUseObject(instance.map.position);
+            instance.tryMoveNotIn(instance.position, x => x + 1, y => y, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
         };
     }
 
-    isInMap(x: number, y: number): boolean {
-        return y >= 0 && y < this.height
-            && x >= 0 && x < this.width;
-    }
-
-    createElement(): HTMLElement {
-        let instance = this;
-        let fov = this.params.fieldOfView();
-        let cellOffsets = getRange(fov + 1 + fov, -fov);
-
-        function getCellContent(x: number, y: number) {
-            if (x == 0 && y == 0) {
-                return CellContent[CellType.Player];
-            }
-            x += instance.map.position.x;
-            y += instance.map.position.y;
-            if (!instance.isInMap(x, y)) {
-                return CellContent[CellType.Cell.Invisible];
-            }
-            let cell = instance.map.map[y][x];
-            return CellContent[cell];
+    getCellContent(x: number, y: number) {
+        if (x == 0 && y == 0) {
+            return CellContent[CellType.Player];
         }
-
-        function CellData(attributes: any): HTMLElement {
-            let currentCell = getCellContent(attributes.x as number, attributes.y as number);
-            let cellClass = [CSS.table.data, ...currentCell.classes].join(' ');
-            return <td class={cellClass}>{currentCell.value}</td>
+        x += this.position.x;
+        y += this.position.y;
+        if (!this.isInMap(x, y)) {
+            return CellContent[CellType.Cell.Invisible];
         }
-
-        function CellRow(attributes: any): HTMLElement {
-            let y = attributes.y as number;
-            return <tr class={CSS.table.row}>
-                {cellOffsets.map(x => <CellData x={x} y={y} />)}
-            </tr>
-        }
-
-        return <table class={CSS.table.main}>
-            {cellOffsets.map(y => <CellRow y={y} />)}
-        </table>;
+        let cell = this.map[y][x];
+        return CellContent[cell];
     }
 }
