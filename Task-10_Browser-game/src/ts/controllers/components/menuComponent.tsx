@@ -36,39 +36,41 @@ function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerat
 }
 
 export class MenuComponent extends BaseController {
-    header: HTMLElement;
-    footer: HTMLElement;
-    items: TMenuItem[];
-    actions: TMenuItemsActions;
-    currentItem: NumberEnumerator;
+    menuConfig: {
+        header: HTMLElement;
+        footer: HTMLElement;
+        items: TMenuItem[];
+        actions: TMenuItemsActions;
+        currentItem: NumberEnumerator;
+    };
 
     constructor(items: TMenuItem[], header?: HTMLElement, footer?: HTMLElement) {
         super();
         let instance = this;
 
-        this.header = header;
-        this.footer = footer;
+        this.menuConfig.header = header;
+        this.menuConfig.footer = footer;
 
-        this.items = items;
+        this.menuConfig.items = items;
 
-        this.currentItem = new NumberEnumerator(0, items.length - 1, 0);
+        this.menuConfig.currentItem = new NumberEnumerator(0, items.length - 1, 0);
 
         this.commandActions[Commands.Up] = function () {
-            instance.currentItem.prev();
+            instance.menuConfig.currentItem.prev();
         };
         this.commandActions[Commands.Down] = function () {
-            instance.currentItem.next();
+            instance.menuConfig.currentItem.next();
         };
         this.commandActions[Commands.Use] = function () {
-            let currentIndex = instance.currentItem.current();
+            let currentIndex = instance.menuConfig.currentItem.current();
             instance.useItem(currentIndex);
         };
     }
 
     private useItem(index: number) {
-        let item = this.items[index];
+        let item = this.menuConfig.items[index];
         if (item && item.isActive()) {
-            let action = this.actions[item.value];
+            let action = this.menuConfig.actions[item.value];
             if (action) {
                 action();
             }
@@ -77,17 +79,17 @@ export class MenuComponent extends BaseController {
 
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);
-        this.currentItem.reset();
+        this.menuConfig.currentItem.reset();
     }
 
     createElement(): HTMLElement {
         let instance = this;
 
         function HeaderComponent() {
-            if (instance.header) {
+            if (instance.menuConfig.header) {
                 return <tr>
                     <td>
-                        {instance.header}
+                        {instance.menuConfig.header}
                     </td>
                 </tr>;
             }
@@ -98,8 +100,8 @@ export class MenuComponent extends BaseController {
             return <tr>
                 <td>
                     <ul class={CSS.list}>
-                        {instance.items.map((item, index) => {
-                            let elementClass = getItemClass(item, index, instance.currentItem);
+                        {instance.menuConfig.items.map((item, index) => {
+                            let elementClass = getItemClass(item, index, instance.menuConfig.currentItem);
                             let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
                             element.onclick = () => instance.useItem(index);
                             return element;
@@ -110,10 +112,10 @@ export class MenuComponent extends BaseController {
         }
 
         function FooterComponent() {
-            if (instance.footer) {
+            if (instance.menuConfig.footer) {
                 return <tr>
                     <td>
-                        {instance.footer}
+                        {instance.menuConfig.footer}
                     </td>
                 </tr>;
             }
