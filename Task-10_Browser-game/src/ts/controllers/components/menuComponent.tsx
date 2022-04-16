@@ -47,13 +47,13 @@ export class MenuComponent extends BaseController {
     constructor(items: TMenuItem[], header?: HTMLElement, footer?: HTMLElement) {
         super();
         let instance = this;
-
-        this.menuConfig.header = header;
-        this.menuConfig.footer = footer;
-
-        this.menuConfig.items = items;
-
-        this.menuConfig.currentItem = new NumberEnumerator(0, items.length - 1, 0);
+        this.menuConfig = {
+            header: header,
+            footer: footer,
+            items: items,
+            actions: {},
+            currentItem: new NumberEnumerator(0, items.length - 1, 0),
+        };
 
         this.commandActions[Commands.Up] = function () {
             instance.menuConfig.currentItem.prev();
