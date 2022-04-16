@@ -21,11 +21,6 @@ type TMenuItemsActions = {
     [value: string]: () => void
 };
 
-type TMenuItems = {
-    list: TMenuItem[],
-    actions: TMenuItemsActions,
-}
-
 function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerator) {
     let classes = [
         item.isActive()
@@ -43,7 +38,8 @@ function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerat
 export class MenuComponent extends BaseController {
     header: HTMLElement;
     footer: HTMLElement;
-    items: TMenuItems;
+    items: TMenuItem[];
+    actions: TMenuItemsActions;
     currentItem: NumberEnumerator;
 
     constructor(items: TMenuItem[], header?: HTMLElement, footer?: HTMLElement) {
@@ -53,10 +49,7 @@ export class MenuComponent extends BaseController {
         this.header = header;
         this.footer = footer;
 
-        this.items = {
-            list: items,
-            actions: {}
-        };
+        this.items = items;
 
         this.currentItem = new NumberEnumerator(0, items.length - 1, 0);
 
@@ -73,9 +66,9 @@ export class MenuComponent extends BaseController {
     }
 
     private useItem(index: number) {
-        let item = this.items.list[index];
+        let item = this.items[index];
         if (item && item.isActive()) {
-            let action = this.items.actions[item.value];
+            let action = this.actions[item.value];
             if (action) {
                 action();
             }
@@ -105,7 +98,7 @@ export class MenuComponent extends BaseController {
             return <tr>
                 <td>
                     <ul class={CSS.list}>
-                        {instance.items.list.map((item, index) => {
+                        {instance.items.map((item, index) => {
                             let elementClass = getItemClass(item, index, instance.currentItem);
                             let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
                             element.onclick = () => instance.useItem(index);
