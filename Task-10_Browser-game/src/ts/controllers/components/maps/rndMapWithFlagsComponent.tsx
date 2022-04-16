@@ -74,23 +74,24 @@ const CellContent: TCellContentList = {
     },
 };
 
-type TFlag = { position: TPoint, used: boolean };
+declare namespace MapWithFlags {
+    type TFlag = { position: TPoint, used: boolean };
+    type TGeneratedMap = {
+        map: string[][],
+        position: TPoint,
+        flags: { notUsedCount: number, list: TFlag[] },
+        doors: {
+            prev: { position: TPoint, isOpen: boolean },
+            next: { position: TPoint, isOpen: boolean },
+        }
+    };
+    type TGeneratorParams = { flagCount: number; };
+    type TFMapGenerator = (width: number, height: number, params: TGeneratorParams) => TGeneratedMap;
+    type TMapParams = TGeneratorParams & { generator: TFMapGenerator };
+}
 
-type TGeneratedMap = {
-    map: string[][],
-    position: TPoint,
-    flags: { notUsedCount: number, list: TFlag[] },
-    doors: {
-        prev: { position: TPoint, isOpen: boolean },
-        next: { position: TPoint, isOpen: boolean },
-    }
-};
-
-/*
-* TODO: Внести карту в компонент, а генератор вынести в контроллер
-*/
-function testMapGenerator(width: number, height: number, params: any): TGeneratedMap {
-    let result: TGeneratedMap = {
+export function generateMap_Forest(width: number, height: number, params: MapWithFlags.TGeneratorParams): MapWithFlags.TGeneratedMap {
+    let result: MapWithFlags.TGeneratedMap = {
         map: new Array(height),
         position: { x: 0, y: 0 },
         flags: { notUsedCount: params.flagCount, list: [] },
@@ -151,21 +152,21 @@ function testMapGenerator(width: number, height: number, params: any): TGenerate
 }
 
 export class MapComponent extends BaseMapComponent {
-    params: any;
-    flags: TFlag[];
+    params: MapWithFlags.TMapParams;
+    flags: MapWithFlags.TFlag[];
     notUsedFlagsCount: number;
     doors: {
         prev: { position: TPoint, isOpen: boolean },
         next: { position: TPoint, isOpen: boolean },
     };
 
-    constructor(width: number, height: number, params: any = { flagCount: 3 }) {
+    constructor(width: number, height: number, params:  MapWithFlags.TMapParams = { flagCount: 3, generator: generateMap_Forest }) {
         super(width, height);
 
         let instance = this;
         this.params = params;
 
-        let generatedResult = testMapGenerator(width, height, params);
+        const generatedResult = params.generator(width, height, params);
         this.map = generatedResult.map;
         this.flags = generatedResult.flags.list;
         this.notUsedFlagsCount = generatedResult.flags.notUsedCount;
