@@ -3,27 +3,27 @@ import { InfoComponent, ButtonsConfig } from "./components/infoComponent";
 import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
 
-const items = {
-    toMap: {
-        value: "Отправиться",
-        isActive: () => true,
-    },
-    toBattle: {
-        value: "Искать врагов",
-        isActive: () => true,
-    },
-    states: {
-        value: "Характеристики",
-        isActive: () => true,
-    },
-    other: {
-        value: "Другое",
-        isActive: () => false,
-    },
-};
-
 export class TownMenuController extends MenuComponent {
     constructor() {
+        const items = {
+            toMap: {
+                value: "Отправиться",
+                isActive: () => true,
+            },
+            toBattle: {
+                value: "Искать врагов",
+                isActive: () => true,
+            },
+            states: {
+                value: "Характеристики",
+                isActive: () => true,
+            },
+            other: {
+                value: "Другое",
+                isActive: () => false,
+            },
+        };
+
         super([items.toMap, items.toBattle, items.states, items.other], 'Город');
         const instance = this;
 
@@ -44,7 +44,7 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.pushController(controller);
         };
 
-        this.commandActions[Commands.Back] = function() {
+        this.commandActions[Commands.Back] = function () {
             const menuController = new MainMenuController();
             instance.globalController.pushController(menuController);
         }
