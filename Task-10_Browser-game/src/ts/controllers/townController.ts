@@ -28,10 +28,12 @@ export class TownMenuController extends MenuComponent {
         const instance = this;
 
         this.menuConfig.actions[items.toMap.value] = function () {
+            this.globalController.saveGameData();
             const controller = new InfoComponent(['Отправиться'], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.toBattle.value] = function () {
+            this.globalController.saveGameData();
             const controller = new InfoComponent(['Искать врагов'], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
@@ -48,5 +50,13 @@ export class TownMenuController extends MenuComponent {
             const menuController = new MainMenuController();
             instance.globalController.pushController(menuController);
         }
+    }
+    onPush(globalController: IGlobalController): void {
+        super.onPush(globalController);
+        this.globalController.saveGameData();
+    }
+    onPop(): void {
+        super.onPop();
+        this.globalController.saveGameData();
     }
 }
