@@ -6,13 +6,14 @@ const mainDisplay = document.getElementById('main_disp');
 const globalController = new GlobalController(mainDisplay);
 
 /* --- --- --- --- --- --- --- */
+/* --- -- - FOR TESTS - -- --- */
 
-import { render } from './render/jsx-runtime';
-import { MainMenuController } from './controllers/mainMenuController';
+// import { render } from './render/jsx-runtime';
+// import { MainMenuController } from './controllers/mainMenuController';
 
-const menu = new MainMenuController();
+// const menu = new MainMenuController();
 
-globalController.pushController(menu);
+// globalController.pushController(menu);
 
 /* --- --- --- --- --- --- --- */
 

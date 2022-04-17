@@ -1,5 +1,6 @@
 import { Commands } from "../controls";
 import { render } from "../render/jsx-runtime";
+import { MainMenuController } from "./mainMenuController";
 
 const GAME_SAVE_NAME = 'GAME-SAVE'
 
@@ -15,6 +16,9 @@ export class GlobalController implements IGlobalController {
         this.currentController = undefined;
         this.controllerStack = [];
         this.loadGameData();
+
+        const menuController = new MainMenuController();
+        this.pushController(menuController);
     }
 
     resetGameData(): void {
