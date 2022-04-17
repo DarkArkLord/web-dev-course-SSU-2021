@@ -14,8 +14,16 @@
     color: $main-text-color;
 }
 
+.menu-default-item:hover {
+    background-color: $active-button-background-color;
+}
+
 .menu-current-item {
     background-color: $current-text-background-color;
+}
+
+.menu-current-item:hover {
+    background-color: $current-text-color;
 }
 
 .menu-disable-item {
