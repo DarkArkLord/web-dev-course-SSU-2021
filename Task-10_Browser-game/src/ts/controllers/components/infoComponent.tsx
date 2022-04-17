@@ -28,7 +28,7 @@ export class InfoComponent extends MenuComponent {
         currentItem: number;
         items: Render.TChild[];
     };
-    constructor(content: Render.TChild[], buttonsConfig: TButtonsConfig, addCounter: boolean) {
+    constructor(content: Render.TChild[], buttonsConfig: TButtonsConfig, addCounter: boolean = false) {
         const buttons = [
             ...(buttonsConfig.next ? [controlButtons.next] : []),
             ...(buttonsConfig.back ? [controlButtons.back] : []),
