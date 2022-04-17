@@ -48,4 +48,6 @@ document.addEventListener('keydown', function (e) {
     // action(Commands.Other);
 });
 
+document.getElementById('main_disp').addEventListener("click", () => renderMenu());
+
 renderMenu();
