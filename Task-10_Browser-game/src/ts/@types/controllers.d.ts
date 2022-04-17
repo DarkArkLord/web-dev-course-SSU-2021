@@ -16,6 +16,7 @@ declare interface IGlobalController {
 
     executeCommand(command: string): void;
     createElement(): HTMLElement;
+    reDraw(): void;
 }
 
 declare interface IController {

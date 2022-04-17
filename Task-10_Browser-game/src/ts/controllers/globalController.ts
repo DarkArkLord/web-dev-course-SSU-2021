@@ -7,8 +7,10 @@ export class GlobalController implements IGlobalController {
     gameData: TGameData;
     currentController: IController;
     controllerStack: Array<IController>;
+    display: HTMLElement;
 
-    constructor() {
+    constructor(display: HTMLElement) {
+        this.display = display;
         this.gameData = undefined;
         this.currentController = undefined;
         this.controllerStack = [];
@@ -52,5 +54,10 @@ export class GlobalController implements IGlobalController {
             return this.currentController.createElement();
         }
         return render('div', null, 'no content');
+    }
+    reDraw(): void {
+        const content = this.createElement();
+        this.display.innerHTML = '';
+        this.display.appendChild(content);
     }
 }

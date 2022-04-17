@@ -103,7 +103,10 @@ export class MenuComponent extends BaseController {
                         {instance.menuConfig.items.map((item, index) => {
                             let elementClass = getItemClass(item, index, instance.menuConfig.currentItem);
                             let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
-                            element.onclick = () => instance.useItem(index);
+                            element.onclick = () => {
+                                instance.useItem(index);
+                                instance.globalController.reDraw();
+                            };
                             return element;
                         })}
                     </ul>

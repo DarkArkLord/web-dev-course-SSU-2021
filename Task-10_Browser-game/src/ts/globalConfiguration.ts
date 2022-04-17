@@ -3,7 +3,7 @@ import { Commands, ConstrolKeys } from './controls'
 
 const mainDisplay = document.getElementById('main_disp');
 
-const globalController = new GlobalController();
+const globalController = new GlobalController(mainDisplay);
 
 /* --- --- --- --- --- --- --- */
 
@@ -16,15 +16,9 @@ globalController.pushController(menu);
 
 /* --- --- --- --- --- --- --- */
 
-function renderMenu() {
-    mainDisplay.innerHTML = '';
-    let element = globalController.createElement();
-    mainDisplay.appendChild(element);
-}
-
 function action(command: Commands) {
     globalController.executeCommand(command);
-    renderMenu();
+    globalController.reDraw();
 }
 
 document.getElementById('button_up').addEventListener("click", () => action(Commands.Up));
@@ -48,6 +42,4 @@ document.addEventListener('keydown', function (e) {
     // action(Commands.Other);
 });
 
-document.getElementById('main_disp').addEventListener("click", () => renderMenu());
-
-renderMenu();
+globalController.reDraw();
