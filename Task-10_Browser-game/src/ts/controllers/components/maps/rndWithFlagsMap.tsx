@@ -151,7 +151,7 @@ export function generateMap_Forest(width: number, height: number, params: MapWit
     return result;
 }
 
-export class MapComponent extends BaseMapComponent {
+export class RndWithFlagsMap extends BaseMapComponent {
     params: MapWithFlags.TMapParams;
     flags: MapWithFlags.TFlag[];
     notUsedFlagsCount: number;
@@ -160,7 +160,7 @@ export class MapComponent extends BaseMapComponent {
         next: { position: TPoint, isOpen: boolean },
     };
 
-    constructor(width: number, height: number, params:  MapWithFlags.TMapParams = { flagCount: 3, generator: generateMap_Forest }) {
+    constructor(width: number, height: number, params: MapWithFlags.TMapParams = { flagCount: 3, generator: generateMap_Forest }) {
         super(width, height);
 
         let instance = this;
