@@ -17,8 +17,6 @@ const controlButtons = {
 
 type TButtonsConfig = { next: boolean, back: boolean };
 
-type TStrOrHtml = HTMLElement | string;
-
 export const ButtonsConfig = {
     onlyNext: { next: true, back: false } as TButtonsConfig,
     onlyBack: { next: false, back: true } as TButtonsConfig,
@@ -28,9 +26,9 @@ export const ButtonsConfig = {
 export class InfoComponent extends MenuComponent {
     infoConfig: {
         currentItem: number;
-        items: HTMLElement[];
+        items: Render.TChild[];
     };
-    constructor(content: TStrOrHtml[], buttonsConfig: TButtonsConfig, addCounter: boolean) {
+    constructor(content: Render.TChild[], buttonsConfig: TButtonsConfig, addCounter: boolean) {
         const buttons = [
             ...(buttonsConfig.next ? [controlButtons.next] : []),
             ...(buttonsConfig.back ? [controlButtons.back] : []),
@@ -53,7 +51,7 @@ export class InfoComponent extends MenuComponent {
                         </tr>
                     </table>
                 })
-                : content.map(value => <>{value}</>),
+                : content,
         };
 
         const instance = this;

@@ -5,7 +5,8 @@ declare namespace JSX {
 }
 
 declare namespace Render {
-    type TChildToAdd = HTMLElement | string | Array<HTMLElement | string | TChildToAdd>;
-    type TChilds = Array<HTMLElement | string>;
+    type TChild = HTMLElement | string;
+    type TChildToAdd = TChild | Array<TChild | TChildToAdd>;
+    type TChilds = Array<TChild>;
     type TTag = string | Function
 }

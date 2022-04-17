@@ -37,14 +37,14 @@ function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerat
 
 export class MenuComponent extends BaseController {
     menuConfig: {
-        header: HTMLElement;
-        footer: HTMLElement;
+        header: Render.TChild;
+        footer: Render.TChild;
         items: TMenuItem[];
         actions: TMenuItemsActions;
         currentItem: NumberEnumerator;
     };
 
-    constructor(items: TMenuItem[], header?: HTMLElement, footer?: HTMLElement) {
+    constructor(items: TMenuItem[], header?: Render.TChild, footer?: Render.TChild) {
         super();
         let instance = this;
         this.menuConfig = {
