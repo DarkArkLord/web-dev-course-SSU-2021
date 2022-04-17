@@ -7,6 +7,7 @@ const globalController = new GlobalController(mainDisplay);
 
 /* --- --- --- --- --- --- --- */
 /* --- -- - FOR TESTS - -- --- */
+/* --- --- --- --- --- --- --- */
 
 // import { render } from './render/jsx-runtime';
 // import { MainMenuController } from './controllers/mainMenuController';
