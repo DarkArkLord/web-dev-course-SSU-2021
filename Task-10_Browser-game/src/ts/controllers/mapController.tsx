@@ -3,6 +3,13 @@ import { CellType } from "../utils/maps";
 import { BaseController } from "./components/baseController";
 import { MapComponent } from "./components/mapComponent";
 
+const CSS = {
+    table: {
+        main: 'align_center no-border',
+        row: 'align_center'
+    },
+};
+
 type TMapControllerParams = {
     sizeByLevel: (level: number) => number;
     fieldOfView: () => number,
@@ -65,6 +72,18 @@ export class MapController extends BaseController {
         this.currentMap.executeCommand(command);
     }
     createElement(): HTMLElement {
-        return this.currentMap.createElement();
+        return <table class={CSS.table.main}>
+            <tr class={CSS.table.row}>
+                <td>
+                    Уровень {this.params.mainLevel},
+                    комната {this.currentLevel}
+                </td>
+            </tr>
+            <tr class={CSS.table.row}>
+                <td>
+                    {this.currentMap.createElement()}
+                </td>
+            </tr>
+        </table>
     }
 }
