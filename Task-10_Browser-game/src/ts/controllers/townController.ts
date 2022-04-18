@@ -3,7 +3,7 @@ import { InfoComponent, ButtonsConfig } from "./components/infoComponent";
 import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
 import { MapController } from "./mapController";
-import { generateMap_Forest, RndWithFlagsMap } from "./components/maps/rndWithFlagsMap";
+import { generateMap_Forest } from "../utils/maps";
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -40,13 +40,13 @@ export class TownMenuController extends MenuComponent {
                 endLevel: 3,
                 generators: {
                     [1]: function () {
-                        return new RndWithFlagsMap({ params: { width: 10, height: 10, flagCount: 1 }, generator: generateMap_Forest });
+                        return generateMap_Forest({ width: 10, height: 10, flagCount: 1 });
                     },
                     [2]: function () {
-                        return new RndWithFlagsMap({ params: { width: 20, height: 20, flagCount: 2 }, generator: generateMap_Forest });
+                        return generateMap_Forest({ width: 20, height: 20, flagCount: 2 });
                     },
                     [3]: function () {
-                        return new RndWithFlagsMap({ params: { width: 30, height: 30, flagCount: 3 }, generator: generateMap_Forest });
+                        return generateMap_Forest({ width: 30, height: 30, flagCount: 3 });
                     },
                 }
             });

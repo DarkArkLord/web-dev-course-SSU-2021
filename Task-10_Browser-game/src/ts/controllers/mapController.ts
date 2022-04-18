@@ -1,7 +1,7 @@
 import { Commands } from "../controls";
+import { CellType } from "../utils/maps";
 import { BaseController } from "./components/baseController";
 import { MapComponent } from "./components/mapComponent";
-import { CellType } from "./components/maps/rndWithFlagsMap";
 
 type TMapControllerParams = {
     sizeByLevel: (level: number) => number;
@@ -10,7 +10,7 @@ type TMapControllerParams = {
     startLevel: number,
     endLevel: number,
     generators: {
-        [level: number]: () => MapComponent;
+        [level: number]: () => MapTypes.TMapInfo;
     };
 };
 
@@ -32,7 +32,8 @@ export class MapController extends BaseController {
             this.mapStack.push(this.currentMap);
         }
         const instance = this;
-        const map = this.params.generators[level]();
+        const mapInfo = this.params.generators[level]();
+        const map = new MapComponent(mapInfo);
         this.currentMap = map;
         map.onPush(this.globalController);
 

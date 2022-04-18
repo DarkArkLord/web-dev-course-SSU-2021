@@ -16,7 +16,6 @@ declare namespace MapTypes {
 
     type TFMove = (value: number) => number;
 
-    type TFlag = { position: TPoint, used: boolean, };
     type TDoor = { position: TPoint, isOpen: boolean, };
 
     /* GENERATION */
@@ -26,12 +25,12 @@ declare namespace MapTypes {
         height: number,
         flagCount: number,
     };
-    type TGeneratedMap = {
+    type TMapInfo = {
+        size: TPoint,
         map: string[][],
         position: TPoint,
-        flags: { count: number, positions: TFlag[], },
+        flags: { count: number, positions: TPoint[], },
         doors: { prev: TDoor, next: TDoor, },
     };
-    type TFMapGenerator = (params: TGeneratorParams) => TGeneratedMap;
-    type TMapParams = { params: TGeneratorParams, generator: TFMapGenerator };
+    type TFMapGenerator = (params: TGeneratorParams) => TMapInfo;
 }

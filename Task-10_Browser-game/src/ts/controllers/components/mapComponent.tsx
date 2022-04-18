@@ -1,30 +1,131 @@
 import { BaseController } from "./baseController";
 import { getRange } from "../../utils/common";
+import { CellType } from "../../utils/maps";
+import { Commands } from "../../controls";
 
 const CSS = {
     table: {
         main: 'align_center no-border',
         row: 'align_center',
         data: 'width_19',
-    }
+    },
+    map: {
+        none: '',
+        player: 'map-player',
+        flag: {
+            notUsed: 'map-flag-not-used',
+            used: 'map-flag-used',
+        },
+        door: {
+            open: 'map-door-open',
+            close: 'map-door-close',
+        },
+    },
+};
+
+const CellContent: MapTypes.TCellContentList = {
+    [CellType.Player]: {
+        value: '@',
+        classes: [CSS.map.player],
+    },
+    [CellType.Cell.Empty]: {
+        value: '.',
+        classes: [],
+    },
+    [CellType.Cell.Wall]: {
+        value: '#',
+        classes: [],
+    },
+    [CellType.Cell.Invisible]: {
+        value: '\u00A0', // ' ', // '&nbsp;',
+        classes: [],
+    },
+    [CellType.Flag.NotUsed]: {
+        value: 'F',
+        classes: [CSS.map.flag.notUsed],
+    },
+    [CellType.Flag.Used]: {
+        value: '!',
+        classes: [CSS.map.flag.used],
+    },
+    [CellType.Door.Next]: {
+        value: '>',
+        classes: [CSS.map.door.open],
+    },
+    [CellType.Door.Prev]: {
+        value: '<',
+        classes: [CSS.map.door.open],
+    },
+    [CellType.Door.Closed]: {
+        value: 'X',
+        classes: [CSS.map.door.close],
+    },
 };
 
 function getFieldOfView(): TPoint {
     return { x: 12, y: 12 };
 }
 
-export abstract class MapComponent extends BaseController {
-    width: number;
-    height: number;
-    map: string[][];
+export class MapComponent extends BaseController {
+    readonly width: number;
+    readonly height: number;
     cellActions: MapTypes.TCellActions;
+    map: string[][];
     position: TPoint;
+    flags: { count: number, positions: TPoint[], }
+    doors: {
+        prev: { position: TPoint, isOpen: boolean },
+        next: { position: TPoint, isOpen: boolean },
+    };
 
-    constructor(width: number, height: number) {
+    constructor(mapInfo: MapTypes.TMapInfo) {
         super();
-        this.width = width;
-        this.height = height;
-        this.cellActions = {};
+        const instance = this;
+        this.width = mapInfo.size.x;
+        this.height = mapInfo.size.y;
+        this.map = mapInfo.map;
+        this.position = mapInfo.position;
+        this.flags = mapInfo.flags;
+        this.doors = mapInfo.doors;
+        this.cellActions = {
+            [CellType.Flag.NotUsed]: function (position) {
+                if (instance.flags.count > 0) {
+                    instance.map[position.y][position.x] = CellType.Flag.Used;
+                    instance.flags.count--;
+                    if (instance.flags.count < 1) {
+                        instance.doors.next.isOpen = true;
+                        let doorPos = instance.doors.next.position;
+                        instance.map[doorPos.y][doorPos.x] = CellType.Door.Next;
+                    }
+                }
+            },
+            [CellType.Door.Prev]: function (position) {
+                alert('prev');
+            },
+            [CellType.Door.Next]: function (position) {
+                alert('next');
+            },
+            [CellType.Door.Closed]: function (position) {
+                alert('closed');
+            },
+        };
+
+        this.commandActions[Commands.Up] = function () {
+            instance.tryMoveNotIn(instance.position, x => x, y => y - 1, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
+        };
+        this.commandActions[Commands.Down] = function () {
+            instance.tryMoveNotIn(instance.position, x => x, y => y + 1, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
+        };
+        this.commandActions[Commands.Left] = function () {
+            instance.tryMoveNotIn(instance.position, x => x - 1, y => y, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
+        };
+        this.commandActions[Commands.Right] = function () {
+            instance.tryMoveNotIn(instance.position, x => x + 1, y => y, [CellType.Cell.Wall]);
+            instance.tryUseObject(instance.position);
+        };
     }
 
     protected isInMap(x: number, y: number): boolean {
@@ -68,7 +169,18 @@ export abstract class MapComponent extends BaseController {
         }
     }
 
-    protected abstract getCellContent(x: number, y: number): MapTypes.TCellContent;
+    protected getCellContent(x: number, y: number): MapTypes.TCellContent {
+        if (x == 0 && y == 0) {
+            return CellContent[CellType.Player];
+        }
+        x += this.position.x;
+        y += this.position.y;
+        if (!this.isInMap(x, y)) {
+            return CellContent[CellType.Cell.Invisible];
+        }
+        let cell = this.map[y][x];
+        return CellContent[cell];
+    }
 
     createElement(): HTMLElement {
         let instance = this;
