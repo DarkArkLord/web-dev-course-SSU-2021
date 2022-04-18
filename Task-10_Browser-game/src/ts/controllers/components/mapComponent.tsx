@@ -2,6 +2,7 @@ import { BaseController } from "./baseController";
 import { getRange } from "../../utils/common";
 import { CellType } from "../../utils/maps";
 import { Commands } from "../../controls";
+import { ButtonsConfig, InfoComponent } from "./infoComponent";
 
 const CSS = {
     table: {
@@ -100,13 +101,16 @@ export class MapComponent extends BaseController {
                 }
             },
             [CellType.Door.Prev]: function (position) {
-                alert('prev');
+                const controller = new InfoComponent(['prev'], ButtonsConfig.onlyBack);
+                instance.globalController.pushController(controller);
             },
             [CellType.Door.Next]: function (position) {
-                alert('next');
+                const controller = new InfoComponent(['next'], ButtonsConfig.onlyBack);
+                instance.globalController.pushController(controller);
             },
             [CellType.Door.Closed]: function (position) {
-                alert('closed');
+                const controller = new InfoComponent(['closed'], ButtonsConfig.onlyBack);
+                instance.globalController.pushController(controller);
             },
         };
 

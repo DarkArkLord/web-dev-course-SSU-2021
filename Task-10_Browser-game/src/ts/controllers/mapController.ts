@@ -24,7 +24,6 @@ export class MapController extends BaseController {
         this.params = params;
         this.mapStack = [];
         this.currentLevel = params.startLevel;
-        this.initNewMap(params.startLevel);
     }
     private initNewMap(level: number) {
         this.currentLevel = level;
@@ -57,6 +56,10 @@ export class MapController extends BaseController {
                 instance.initNewMap(level + 1);
             }
         }
+    }
+    onPush(globalController: IGlobalController): void {
+        super.onPush(globalController);
+        this.initNewMap(this.params.startLevel);
     }
     executeCommand(command: Commands): void {
         this.currentMap.executeCommand(command);
