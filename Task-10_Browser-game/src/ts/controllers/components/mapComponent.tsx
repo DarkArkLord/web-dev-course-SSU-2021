@@ -63,13 +63,10 @@ const CellContent: MapTypes.TCellContentList = {
     },
 };
 
-function getFieldOfView(): TPoint {
-    return { x: 12, y: 12 };
-}
-
 export class MapComponent extends BaseController {
     readonly width: number;
     readonly height: number;
+    readonly getFOV: () => TPoint;
     cellActions: MapTypes.TCellActions;
     map: string[][];
     position: TPoint;
@@ -84,6 +81,7 @@ export class MapComponent extends BaseController {
         const instance = this;
         this.width = mapInfo.size.x;
         this.height = mapInfo.size.y;
+        this.getFOV = mapInfo.getFOV;
         this.map = mapInfo.map;
         this.position = mapInfo.position;
         this.flags = mapInfo.flags;
@@ -188,7 +186,7 @@ export class MapComponent extends BaseController {
 
     createElement(): HTMLElement {
         let instance = this;
-        let fov = getFieldOfView();
+        let fov = this.getFOV();
         let cellOffsetsX = getRange(fov.x + 1 + fov.x, -fov.x);
         let cellOffsetsY = getRange(fov.y + 1 + fov.y, -fov.y);
 

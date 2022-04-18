@@ -1,5 +1,9 @@
 import { getRandomInt } from "./random";
 
+export function getFieldOfView(): TPoint {
+    return { x: 11, y: 11 };
+}
+
 export const CellType = {
     Player: 'PLAYER',
     Cell: {
@@ -21,6 +25,7 @@ export const CellType = {
 export function generateMap_Forest(params: MapTypes.TGeneratorParams): MapTypes.TMapInfo {
     let result: MapTypes.TMapInfo = {
         size: { x: params.width, y: params.width },
+        getFOV: params.getFOV,
         map: new Array(params.height),
         position: { x: 0, y: 0 },
         flags: { count: params.flagCount, positions: [] },

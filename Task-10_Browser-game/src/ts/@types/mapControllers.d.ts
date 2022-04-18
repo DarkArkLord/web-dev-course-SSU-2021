@@ -23,10 +23,12 @@ declare namespace MapTypes {
     type TGeneratorParams = {
         width: number,
         height: number,
+        getFOV: () => TPoint,
         flagCount: number,
     };
     type TMapInfo = {
         size: TPoint,
+        getFOV: () => TPoint,
         map: string[][],
         position: TPoint,
         flags: { count: number, positions: TPoint[], },
@@ -34,3 +36,12 @@ declare namespace MapTypes {
     };
     type TFMapGenerator = (params: TGeneratorParams) => TMapInfo;
 }
+
+declare type TMapControllerParams = {
+    mainLevel: number,
+    startLevel: number,
+    endLevel: number,
+    generators: {
+        [level: number]: () => MapTypes.TMapInfo;
+    };
+};

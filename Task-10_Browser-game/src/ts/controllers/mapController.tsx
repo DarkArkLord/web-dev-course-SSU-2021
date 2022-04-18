@@ -10,17 +10,6 @@ const CSS = {
     },
 };
 
-type TMapControllerParams = {
-    sizeByLevel: (level: number) => number;
-    fieldOfView: () => number,
-    mainLevel: number,
-    startLevel: number,
-    endLevel: number,
-    generators: {
-        [level: number]: () => MapTypes.TMapInfo;
-    };
-};
-
 export class MapController extends BaseController {
     params: TMapControllerParams;
     mapStack: MapComponent[];
