@@ -17,14 +17,14 @@ export abstract class BaseMapComponent extends BaseController {
     width: number;
     height: number;
     map: string[][];
-    mapObjectActions: TMapObjectActions;
+    cellActions: MapTypes.TCellActions;
     position: TPoint;
 
     constructor(width: number, height: number) {
         super();
         this.width = width;
         this.height = height;
-        this.mapObjectActions = {};
+        this.cellActions = {};
     }
 
     protected isInMap(x: number, y: number): boolean {
@@ -32,7 +32,7 @@ export abstract class BaseMapComponent extends BaseController {
             && x >= 0 && x < this.width;
     }
 
-    protected tryMoveWithCondition(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc, condition: (x: number, y: number) => boolean): boolean {
+    protected tryMoveWithCondition(position: TPoint, xMove: MapTypes.TFMove, yMove: MapTypes.TFMove, condition: (x: number, y: number) => boolean): boolean {
         const x = xMove(position.x);
         const y = yMove(position.y);
         if (condition(x, y)) {
@@ -43,7 +43,7 @@ export abstract class BaseMapComponent extends BaseController {
         return false;
     }
 
-    protected tryMoveIn(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc, suitableCell: string[]): boolean {
+    protected tryMoveIn(position: TPoint, xMove: MapTypes.TFMove, yMove: MapTypes.TFMove, suitableCell: string[]): boolean {
         const instance = this;
         function condition(x: number, y: number): boolean {
             return instance.isInMap(x, y) && suitableCell.includes(instance.map[y][x]);
@@ -51,7 +51,7 @@ export abstract class BaseMapComponent extends BaseController {
         return this.tryMoveWithCondition(position, xMove, yMove, condition);
     }
 
-    protected tryMoveNotIn(position: TPoint, xMove: TMoveFunc, yMove: TMoveFunc, wrongСell: string[]): boolean {
+    protected tryMoveNotIn(position: TPoint, xMove: MapTypes.TFMove, yMove: MapTypes.TFMove, wrongСell: string[]): boolean {
         const instance = this;
         function condition(x: number, y: number): boolean {
             return instance.isInMap(x, y) && !wrongСell.includes(instance.map[y][x]);
@@ -62,13 +62,13 @@ export abstract class BaseMapComponent extends BaseController {
     protected tryUseObject(position: TPoint) {
         if (!this.isInMap(position.x, position.y)) return;
         const cell = this.map[position.y][position.x];
-        const action = this.mapObjectActions[cell];
+        const action = this.cellActions[cell];
         if (action) {
             action(position);
         }
     }
 
-    protected abstract getCellContent(x: number, y: number): TCellContent;
+    protected abstract getCellContent(x: number, y: number): MapTypes.TCellContent;
 
     createElement(): HTMLElement {
         let instance = this;

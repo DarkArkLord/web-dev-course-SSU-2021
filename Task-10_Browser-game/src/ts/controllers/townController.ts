@@ -40,13 +40,13 @@ export class TownMenuController extends MenuComponent {
                 endLevel: 3,
                 generators: {
                     [1]: function () {
-                        return new RndWithFlagsMap(10, 10, { flagCount: 1, generator: generateMap_Forest });
+                        return new RndWithFlagsMap({ params: { width: 10, height: 10, flagCount: 1 }, generator: generateMap_Forest });
                     },
                     [2]: function () {
-                        return new RndWithFlagsMap(20, 20, { flagCount: 2, generator: generateMap_Forest });
+                        return new RndWithFlagsMap({ params: { width: 20, height: 20, flagCount: 2 }, generator: generateMap_Forest });
                     },
                     [3]: function () {
-                        return new RndWithFlagsMap(30, 30, { flagCount: 3, generator: generateMap_Forest });
+                        return new RndWithFlagsMap({ params: { width: 30, height: 30, flagCount: 3 }, generator: generateMap_Forest });
                     },
                 }
             });

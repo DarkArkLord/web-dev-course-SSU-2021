@@ -35,7 +35,7 @@ export const CellType = {
     },
 };
 
-const CellContent: TCellContentList = {
+const CellContent: MapTypes.TCellContentList = {
     [CellType.Player]: {
         value: '@',
         classes: [CSS.map.player],
@@ -74,58 +74,42 @@ const CellContent: TCellContentList = {
     },
 };
 
-declare namespace MapWithFlags {
-    type TFlag = { position: TPoint, used: boolean };
-    type TGeneratedMap = {
-        map: string[][],
-        position: TPoint,
-        flags: { notUsedCount: number, list: TFlag[] },
-        doors: {
-            prev: { position: TPoint, isOpen: boolean },
-            next: { position: TPoint, isOpen: boolean },
-        }
-    };
-    type TGeneratorParams = { flagCount: number; };
-    type TFMapGenerator = (width: number, height: number, params: TGeneratorParams) => TGeneratedMap;
-    type TMapParams = TGeneratorParams & { generator: TFMapGenerator };
-}
-
-export function generateMap_Forest(width: number, height: number, params: MapWithFlags.TGeneratorParams): MapWithFlags.TGeneratedMap {
-    let result: MapWithFlags.TGeneratedMap = {
-        map: new Array(height),
+export function generateMap_Forest(params: MapTypes.TGeneratorParams): MapTypes.TGeneratedMap {
+    let result: MapTypes.TGeneratedMap = {
+        map: new Array(params.height),
         position: { x: 0, y: 0 },
-        flags: { notUsedCount: params.flagCount, list: [] },
+        flags: { count: params.flagCount, positions: [] },
         doors: {
             prev: { position: null, isOpen: true },
             next: { position: null, isOpen: false }
         },
     };
 
-    for (let y = 0; y < height; y++) {
-        result.map[y] = new Array(width);
-        for (let x = 0; x < width; x++) {
+    for (let y = 0; y < params.height; y++) {
+        result.map[y] = new Array(params.width);
+        for (let x = 0; x < params.width; x++) {
             result.map[y][x] = CellType.Cell.Empty;
         }
         result.map[y][0] = CellType.Cell.Wall;
-        result.map[y][width - 1] = CellType.Cell.Wall;
+        result.map[y][params.width - 1] = CellType.Cell.Wall;
     }
 
-    for (let x = 0; x < width; x++) {
+    for (let x = 0; x < params.width; x++) {
         result.map[0][x] = CellType.Cell.Wall;
-        result.map[height - 1][x] = CellType.Cell.Wall;
+        result.map[params.height - 1][x] = CellType.Cell.Wall;
     }
 
-    const wallCount = Math.round((height + width) / 2);
+    const wallCount = Math.round((params.height + params.width) / 2);
     for (let i = 0; i < wallCount; i++) {
-        let x = getRandomInt(1, width - 1);
-        let y = getRandomInt(1, height - 1);
+        let x = getRandomInt(1, params.width - 1);
+        let y = getRandomInt(1, params.height - 1);
         result.map[y][x] = CellType.Cell.Wall;
     }
 
     function findFreeCell() {
         while (true) {
-            let x = getRandomInt(1, width - 2);
-            let y = getRandomInt(1, height - 2);
+            let x = getRandomInt(1, params.width - 2);
+            let y = getRandomInt(1, params.height - 2);
             if (result.map[y][x] == CellType.Cell.Empty) {
                 return { x, y };
             }
@@ -139,7 +123,7 @@ export function generateMap_Forest(width: number, height: number, params: MapWit
     for (let i = 0; i < params.flagCount; i++) {
         let flag = { position: findFreeCell(), used: false };
         result.map[flag.position.y][flag.position.x] = CellType.Flag.NotUsed;
-        result.flags.list.push(flag);
+        result.flags.positions.push(flag);
     }
 
     result.doors.next.position = findFreeCell();
@@ -152,28 +136,28 @@ export function generateMap_Forest(width: number, height: number, params: MapWit
 }
 
 export class RndWithFlagsMap extends BaseMapComponent {
-    params: MapWithFlags.TMapParams;
-    flags: MapWithFlags.TFlag[];
+    params: MapTypes.TMapParams;
+    flags: MapTypes.TFlag[];
     notUsedFlagsCount: number;
     doors: {
         prev: { position: TPoint, isOpen: boolean },
         next: { position: TPoint, isOpen: boolean },
     };
 
-    constructor(width: number, height: number, params: MapWithFlags.TMapParams = { flagCount: 3, generator: generateMap_Forest }) {
-        super(width, height);
+    constructor(params: MapTypes.TMapParams = { params: { width: 10, height: 10, flagCount: 3 }, generator: generateMap_Forest }) {
+        super(params.params.width, params.params.height);
 
         let instance = this;
         this.params = params;
 
-        const generatedResult = params.generator(width, height, params);
+        const generatedResult = params.generator(params.params);
         this.map = generatedResult.map;
-        this.flags = generatedResult.flags.list;
-        this.notUsedFlagsCount = generatedResult.flags.notUsedCount;
+        this.flags = generatedResult.flags.positions;
+        this.notUsedFlagsCount = generatedResult.flags.count;
         this.doors = generatedResult.doors;
         this.position = generatedResult.position;
 
-        this.mapObjectActions = {
+        this.cellActions = {
             [CellType.Flag.NotUsed]: function (position) {
                 if (instance.notUsedFlagsCount > 0) {
                     instance.map[position.y][position.x] = CellType.Flag.Used;

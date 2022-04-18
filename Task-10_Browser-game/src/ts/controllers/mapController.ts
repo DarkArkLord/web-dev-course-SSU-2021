@@ -38,7 +38,7 @@ export class MapController extends BaseController {
 
         /* Cell Actions */
 
-        map.mapObjectActions[CellType.Door.Prev] = function () {
+        map.cellActions[CellType.Door.Prev] = function () {
             if (instance.mapStack.length < 1) {
                 instance.globalController.popController();
             } else {
@@ -46,7 +46,7 @@ export class MapController extends BaseController {
             }
         }
 
-        map.mapObjectActions[CellType.Door.Next] = function () {
+        map.cellActions[CellType.Door.Next] = function () {
             if (level + 1 > instance.params.endLevel) {
                 instance.globalController.popController();
                 if (instance.params.mainLevel == instance.globalController.gameData.level) {

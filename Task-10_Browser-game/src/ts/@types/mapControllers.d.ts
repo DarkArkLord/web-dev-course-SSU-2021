@@ -1,14 +1,37 @@
-declare type TCellContent = {
-    value: string,
-    classes: string[]
-};
+type TPoint = { x: number, y: number };
 
-declare type TCellContentList = {
-    [value: string]: TCellContent
-};
+declare namespace MapTypes {
+    /* BASE */
 
-declare type TPoint = { x: number, y: number };
+    type TCellContent = {
+        value: string,
+        classes: string[],
+    };
+    type TCellContentList = {
+        [value: string]: TCellContent,
+    };
 
-declare type TMapObjectActions = { [arg: string]: (position: TPoint) => void };
+    type TFPointUpdate = (position: TPoint) => void;
+    type TCellActions = { [arg: string]: TFPointUpdate, };
 
-declare type TMoveFunc = (value: number) => number;
+    type TFMove = (value: number) => number;
+
+    type TFlag = { position: TPoint, used: boolean, };
+    type TDoor = { position: TPoint, isOpen: boolean, };
+
+    /* GENERATION */
+
+    type TGeneratorParams = {
+        width: number,
+        height: number,
+        flagCount: number,
+    };
+    type TGeneratedMap = {
+        map: string[][],
+        position: TPoint,
+        flags: { count: number, positions: TFlag[], },
+        doors: { prev: TDoor, next: TDoor, },
+    };
+    type TFMapGenerator = (params: TGeneratorParams) => TGeneratedMap;
+    type TMapParams = { params: TGeneratorParams, generator: TFMapGenerator };
+}
