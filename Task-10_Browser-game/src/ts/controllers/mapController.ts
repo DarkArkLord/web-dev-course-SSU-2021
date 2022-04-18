@@ -1,6 +1,6 @@
 import { Commands } from "../controls";
 import { BaseController } from "./components/baseController";
-import { BaseMapComponent } from "./components/baseMapComponent";
+import { MapComponent } from "./components/mapComponent";
 import { CellType } from "./components/maps/rndWithFlagsMap";
 
 type TMapControllerParams = {
@@ -10,14 +10,14 @@ type TMapControllerParams = {
     startLevel: number,
     endLevel: number,
     generators: {
-        [level: number]: () => BaseMapComponent;
+        [level: number]: () => MapComponent;
     };
 };
 
 export class MapController extends BaseController {
     params: TMapControllerParams;
-    mapStack: BaseMapComponent[];
-    currentMap: BaseMapComponent;
+    mapStack: MapComponent[];
+    currentMap: MapComponent;
     currentLevel: number;
     constructor(params: TMapControllerParams) {
         super();

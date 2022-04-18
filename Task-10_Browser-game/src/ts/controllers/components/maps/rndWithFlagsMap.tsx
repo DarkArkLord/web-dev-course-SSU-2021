@@ -1,6 +1,6 @@
 import { Commands } from "../../../controls";
 import { getRandomInt } from "../../../utils/random";
-import { BaseMapComponent } from "../baseMapComponent";
+import { MapComponent } from "../mapComponent";
 
 const CSS = {
     map: {
@@ -135,7 +135,7 @@ export function generateMap_Forest(params: MapTypes.TGeneratorParams): MapTypes.
     return result;
 }
 
-export class RndWithFlagsMap extends BaseMapComponent {
+export class RndWithFlagsMap extends MapComponent {
     params: MapTypes.TMapParams;
     flags: MapTypes.TFlag[];
     notUsedFlagsCount: number;

@@ -13,7 +13,7 @@ function getFieldOfView(): TPoint {
     return { x: 12, y: 12 };
 }
 
-export abstract class BaseMapComponent extends BaseController {
+export abstract class MapComponent extends BaseController {
     width: number;
     height: number;
     map: string[][];
