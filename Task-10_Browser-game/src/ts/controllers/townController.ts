@@ -2,6 +2,8 @@ import { MenuComponent } from "./components/menuComponent";
 import { InfoComponent, ButtonsConfig } from "./components/infoComponent";
 import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
+import { MapController } from "./mapController";
+import { generateMap_Forest, RndWithFlagsMap } from "./components/maps/rndWithFlagsMap";
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -28,12 +30,30 @@ export class TownMenuController extends MenuComponent {
         const instance = this;
 
         this.menuConfig.actions[items.toMap.value] = function () {
-            this.globalController.saveGameData();
-            const controller = new InfoComponent(['Отправиться'], ButtonsConfig.onlyBack);
+            instance.globalController.saveGameData();
+            // const controller = new InfoComponent(['Отправиться'], ButtonsConfig.onlyBack);
+            const controller = new MapController({
+                sizeByLevel: (level) => level,
+                fieldOfView: () => 12,
+                mainLevel: 1,
+                startLevel: 1,
+                endLevel: 3,
+                generators: {
+                    [1]: function () {
+                        return new RndWithFlagsMap(10, 10, { flagCount: 1, generator: generateMap_Forest });
+                    },
+                    [2]: function () {
+                        return new RndWithFlagsMap(20, 20, { flagCount: 2, generator: generateMap_Forest });
+                    },
+                    [3]: function () {
+                        return new RndWithFlagsMap(30, 30, { flagCount: 3, generator: generateMap_Forest });
+                    },
+                }
+            });
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.toBattle.value] = function () {
-            this.globalController.saveGameData();
+            instance.globalController.saveGameData();
             const controller = new InfoComponent(['Искать врагов'], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
