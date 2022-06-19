@@ -4,6 +4,7 @@ import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
 import { MapController } from "./mapController";
 import { generateMap_Forest, getFieldOfView } from "../utils/maps";
+import { ShowStatesController } from "./showStatesController";
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -76,7 +77,7 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.states.value] = function () {
-            const controller = new InfoComponent(['Характеристики'], ButtonsConfig.onlyBack);
+            const controller = new ShowStatesController();
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.other.value] = function () {
