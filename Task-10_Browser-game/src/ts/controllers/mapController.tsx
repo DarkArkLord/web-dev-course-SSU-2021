@@ -47,6 +47,7 @@ export class MapController extends BaseController {
                 instance.globalController.popController();
                 if (instance.params.mainLevel == instance.globalController.gameData.level) {
                     // Open new level;
+                    instance.globalController.gameData.level++;
                 }
             } else {
                 instance.initNewMap(level + 1);
