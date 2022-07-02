@@ -29,30 +29,30 @@ export class TownMenuController extends MenuComponent {
         };
 
         super([items.toMap, items.toBattle, items.states, items.other], 'Город');
-        const instance = this;
+        const globalController = this.globalController;
 
         this.menuConfig.actions[items.toMap.value] = function () {
-            instance.globalController.saveGameData();
-            const controller = new SelectMapLevelController(instance.globalController.gameData.level);
-            instance.globalController.pushController(controller);
+            globalController.saveGameData();
+            const controller = new SelectMapLevelController(globalController.gameData.level);
+            globalController.pushController(controller);
         };
         this.menuConfig.actions[items.toBattle.value] = function () {
-            instance.globalController.saveGameData();
+            globalController.saveGameData();
             const controller = new InfoComponent(['Искать врагов'], ButtonsConfig.onlyBack);
-            instance.globalController.pushController(controller);
+            globalController.pushController(controller);
         };
         this.menuConfig.actions[items.states.value] = function () {
             const controller = new ShowStatesController();
-            instance.globalController.pushController(controller);
+            globalController.pushController(controller);
         };
         this.menuConfig.actions[items.other.value] = function () {
             const controller = new InfoComponent(['Другое'], ButtonsConfig.onlyBack);
-            instance.globalController.pushController(controller);
+            globalController.pushController(controller);
         };
 
         this.commandActions[Commands.Back] = function () {
             const menuController = new MainMenuController();
-            instance.globalController.pushController(menuController);
+            globalController.pushController(menuController);
         }
     }
     onPush(globalController: IGlobalController): void {
@@ -84,18 +84,19 @@ class SelectMapLevelController extends MenuComponent {
             };
         }), 'Выберите уровень');
         const instance = this;
+        const globalController = this.globalController;
 
         instance.commandActions[Commands.Back] = function () {
-            instance.globalController.popController();
+            globalController.popController();
         };
 
         instance.menuConfig.actions[backTitle] = function () {
-            instance.globalController.popController();
+            globalController.popController();
         };
 
         levelItems.forEach(item => {
             instance.menuConfig.actions[item.title] = function () {
-                instance.globalController.popController();
+                globalController.popController();
                 function paramsByLevel(level: number): MapTypes.TGeneratorParams {
                     return {
                         width: 10 * level,
@@ -114,7 +115,7 @@ class SelectMapLevelController extends MenuComponent {
                     }, {}),
                 };
                 const controller = new MapController(mapParams);
-                instance.globalController.pushController(controller);
+                globalController.pushController(controller);
             };
         });
     }
