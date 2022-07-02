@@ -1,6 +1,7 @@
 import { Commands } from "../controls";
 import { CellType } from "../utils/maps";
 import { BaseController } from "./components/baseController";
+import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
 import { MapComponent } from "./components/mapComponent";
 
 const CSS = {
@@ -48,6 +49,8 @@ export class MapController extends BaseController {
                 if (instance.params.mainLevel == instance.globalController.gameData.level) {
                     // Open new level;
                     instance.globalController.gameData.level++;
+                    const controller = new InfoComponent([`Уровень ${instance.globalController.gameData.level} открыт!`], ButtonsConfig.onlyBack);
+                    instance.globalController.pushController(controller);
                 }
             } else {
                 instance.initNewMap(level + 1);
