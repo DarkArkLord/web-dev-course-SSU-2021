@@ -5,6 +5,7 @@ import { MainMenuController } from "./mainMenuController";
 import { MapController } from "./mapController";
 import { generateMap_Forest, getFieldOfView } from "../utils/maps";
 import { ShowStatesController } from "./showStatesController";
+import { getRange } from "../utils/common";
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -32,43 +33,7 @@ export class TownMenuController extends MenuComponent {
 
         this.menuConfig.actions[items.toMap.value] = function () {
             instance.globalController.saveGameData();
-            // const controller = new InfoComponent(['Отправиться'], ButtonsConfig.onlyBack);
-            function paramsByLevel(level: number): MapTypes.TGeneratorParams {
-                return {
-                    width: 10 * level,
-                    height: 10 * level,
-                    getFOV: getFieldOfView,
-                    flagCount: level
-                }
-            }
-
-            const mapParams: TMapControllerParams = {
-                mainLevel: 1,
-                startLevel: 1,
-                endLevel: 3,
-                generators: {},
-            };
-
-            [1, 2, 3].forEach(value =>
-                mapParams.generators[value] = () =>
-                    generateMap_Forest(paramsByLevel(value)));
-
-            const controller = new MapController({
-                mainLevel: 1,
-                startLevel: 1,
-                endLevel: 3,
-                generators: {
-                    [1]: function () {
-                        return generateMap_Forest(paramsByLevel(1));
-                    },
-                    [2]: function () {
-                        return generateMap_Forest(paramsByLevel(2));
-                    },
-                    [3]: function () {
-                        return generateMap_Forest(paramsByLevel(3));
-                    },
-                }
-            });
+            const controller = new SelectMapLevelController(instance.globalController.gameData.level);
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.toBattle.value] = function () {
@@ -97,5 +62,60 @@ export class TownMenuController extends MenuComponent {
     onPop(): void {
         super.onPop();
         this.globalController.saveGameData();
+    }
+}
+
+const subLevelCount = 3;
+
+class SelectMapLevelController extends MenuComponent {
+    constructor(lastLevel: number) {
+        const backTitle = 'Назад';
+        const levelItems = getRange(lastLevel, 1)
+            .map(level => {
+                return {
+                    level: level,
+                    title: `Уровень ${level}`,
+                };
+            });
+        super([...levelItems, { title: backTitle }].map(item => {
+            return {
+                value: item.title,
+                isActive: () => true,
+            };
+        }), 'Выберите уровень');
+        const instance = this;
+
+        instance.commandActions[Commands.Back] = function () {
+            instance.globalController.popController();
+        };
+
+        instance.menuConfig.actions[backTitle] = function () {
+            instance.globalController.popController();
+        };
+
+        levelItems.forEach(item => {
+            instance.menuConfig.actions[item.title] = function () {
+                instance.globalController.popController();
+                function paramsByLevel(level: number): MapTypes.TGeneratorParams {
+                    return {
+                        width: 10 * level,
+                        height: 10 * level,
+                        getFOV: getFieldOfView,
+                        flagCount: level
+                    }
+                }
+                const mapParams: TMapControllerParams = {
+                    mainLevel: item.level,
+                    startLevel: 1,
+                    endLevel: subLevelCount,
+                    generators: getRange(subLevelCount, 1).reduce((acc: any, level) => {
+                        acc[level] = () => generateMap_Forest(paramsByLevel(level));
+                        return acc;
+                    }, {}),
+                };
+                const controller = new MapController(mapParams);
+                instance.globalController.pushController(controller);
+            };
+        });
     }
 }
