@@ -106,12 +106,8 @@ class SelectMapLevelController extends MenuComponent {
                 }
                 const mapParams: TMapControllerParams = {
                     mainLevel: item.level,
-                    startLevel: 1,
-                    endLevel: subLevelCount,
-                    generators: getRange(subLevelCount, 1).reduce((acc: any, level) => {
-                        acc[level] = () => generateMap_Forest(paramsByLevel(level));
-                        return acc;
-                    }, {}),
+                    generators: getRange(subLevelCount)
+                        .map(level => () => generateMap_Forest(paramsByLevel(level + 1))),
                 };
                 const controller = new MapController(mapParams);
                 instance.globalController.pushController(controller);

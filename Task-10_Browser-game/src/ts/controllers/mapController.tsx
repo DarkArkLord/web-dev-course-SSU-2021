@@ -20,7 +20,7 @@ export class MapController extends BaseController {
         super();
         this.params = params;
         this.mapStack = [];
-        this.currentLevel = params.startLevel;
+        this.currentLevel = 0;
     }
     private initNewMap(level: number) {
         this.currentLevel = level;
@@ -44,7 +44,7 @@ export class MapController extends BaseController {
         }
 
         map.cellActions[CellType.Door.Next] = function () {
-            if (level + 1 > instance.params.endLevel) {
+            if (level + 1 >= instance.params.generators.length) {
                 instance.globalController.popController();
                 if (instance.params.mainLevel == instance.globalController.gameData.level) {
                     // Open new level;
@@ -60,7 +60,7 @@ export class MapController extends BaseController {
     }
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);
-        this.initNewMap(this.params.startLevel);
+        this.initNewMap(this.currentLevel);
     }
     executeCommand(command: Commands): void {
         this.currentMap.executeCommand(command);
@@ -70,7 +70,7 @@ export class MapController extends BaseController {
             <tr class={CSS.table.row}>
                 <td>
                     Уровень {this.params.mainLevel},
-                    комната {this.currentLevel}
+                    комната {this.currentLevel + 1}
                 </td>
             </tr>
             <tr class={CSS.table.row}>

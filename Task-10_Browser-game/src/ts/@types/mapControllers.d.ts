@@ -39,9 +39,5 @@ declare namespace MapTypes {
 
 declare type TMapControllerParams = {
     mainLevel: number,
-    startLevel: number,
-    endLevel: number,
-    generators: {
-        [level: number]: () => MapTypes.TMapInfo;
-    };
+    generators: Array<() => MapTypes.TMapInfo>
 };
