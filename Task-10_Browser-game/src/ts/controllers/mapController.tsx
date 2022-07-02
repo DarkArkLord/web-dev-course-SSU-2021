@@ -49,7 +49,8 @@ export class MapController extends BaseController {
                 if (instance.params.mainLevel == instance.globalController.gameData.level) {
                     // Open new level;
                     instance.globalController.gameData.level++;
-                    const controller = new InfoComponent([`Уровень ${instance.globalController.gameData.level} открыт!`], ButtonsConfig.onlyBack);
+                    const levelMessage = `Уровень ${instance.globalController.gameData.level} открыт!`;
+                    const controller = new InfoComponent([levelMessage], ButtonsConfig.onlyBack);
                     instance.globalController.pushController(controller);
                 }
             } else {
