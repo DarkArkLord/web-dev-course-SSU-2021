@@ -5,12 +5,12 @@ export enum States {
     Constitution = 'CHAR-STATE-CON',
 };
 
-export function getStatesTemplate() {
+export function getStatesTemplate(): RPG.TCharacterStates {
     const startValue = 10;
     const expMult = 1;
     const startExp = 0;
 
-    function getDefaultValues() {
+    function getDefaultValues(): RPG.TState {
         return {
             value: startValue,
             expMultiplier: expMult,
@@ -24,7 +24,6 @@ export function getStatesTemplate() {
         [States.Intelligence]: getDefaultValues(), // magick
         [States.Constitution]: getDefaultValues(), // hp
     }
-
 
     return states;
 }
