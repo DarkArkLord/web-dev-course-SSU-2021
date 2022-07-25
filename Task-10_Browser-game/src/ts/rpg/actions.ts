@@ -1,3 +1,7 @@
+/* STATES */
+
+import { getMainDiceValue } from "../utils/random";
+
 export function getExpForStateLevelUp(state: RPG.TState): number {
     return (state.value + 1) * state.expMultiplier;
 }
@@ -9,6 +13,22 @@ export function addStateExp(state: RPG.TState, exp: number) {
         state.value++;
         state.experience = 0;
     }
+}
+
+/* ATTACK */
+
+export function tryAttack(attackerSkill: number, targetSkill: number): RPG.Battle.TAttackResult {
+    const attackerDice = getMainDiceValue().result;
+    const targetDice = getMainDiceValue().result;
+
+    const attackerValue = attackerSkill + attackerDice;
+    const targetValue = targetDice + targetDice;
+
+    return {
+        success: attackerValue >= targetValue,
+        attackerDice,
+        targetDice
+    };
 }
 
 export function getDamageByStrength(strength: number): TDiceExpression {

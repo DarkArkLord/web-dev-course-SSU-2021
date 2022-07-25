@@ -6,5 +6,12 @@ declare namespace RPG {
     };
     type TCharacterStates = {
         [state: string]: TState,
+    };
+    namespace Battle {
+        type TAttackResult = {
+            success: boolean,
+            attackerDice: number,
+            targetDice: number,
+        };
     }
 }
