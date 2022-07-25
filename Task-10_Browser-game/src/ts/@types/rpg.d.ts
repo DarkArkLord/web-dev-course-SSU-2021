@@ -1,8 +1,8 @@
 declare namespace RPG {
     type TState = {
-        value: Number,
-        expMultiplier: Number,
-        experience: Number,
+        value: number,
+        expMultiplier: number,
+        experience: number,
     };
     type TCharacterStates = {
         [state: string]: TState,
