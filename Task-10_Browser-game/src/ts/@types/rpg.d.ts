@@ -7,11 +7,10 @@ declare namespace RPG {
     type TCharacterStates = {
         [state: string]: TState,
     };
-    namespace Battle {
-        type TAttackResult = {
-            success: boolean,
-            attackerDice: number,
-            targetDice: number,
-        };
-    }
+    type TAttackResult = {
+        success: boolean,
+        result: number,
+        attackerDice: TDiceExpressionResult,
+        targetDice: TDiceExpressionResult,
+    };
 }
