@@ -59,24 +59,24 @@ export class MapController extends BaseController {
             }
         }
 
-        map.cellActions[CellType.Cell.Empty] = function () {
-            const event = getRandomValueWithProbability([
-                {
-                    probability: 19,
-                    value: undefined,
-                },
-                {
-                    probability: 1,
-                    value: () => {
-                        const controller = new InfoComponent(['event'], ButtonsConfig.onlyBack);
-                        instance.globalController.pushController(controller);
-                    },
-                },
-            ]);
-            if (event) {
-                event();
-            }
-        }
+        // map.cellActions[CellType.Cell.Empty] = function () {
+        //     const event = getRandomValueWithProbability([
+        //         {
+        //             probability: 19,
+        //             value: undefined,
+        //         },
+        //         {
+        //             probability: 1,
+        //             value: () => {
+        //                 const controller = new InfoComponent(['event'], ButtonsConfig.onlyBack);
+        //                 instance.globalController.pushController(controller);
+        //             },
+        //         },
+        //     ]);
+        //     if (event) {
+        //         event();
+        //     }
+        // }
     }
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);
