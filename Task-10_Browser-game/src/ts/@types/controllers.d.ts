@@ -1,5 +1,6 @@
 declare type TGameData = {
     lastOpenMapLevel: number,
+    character: RPG.TCharacter,
 };
 
 declare interface IGlobalController {

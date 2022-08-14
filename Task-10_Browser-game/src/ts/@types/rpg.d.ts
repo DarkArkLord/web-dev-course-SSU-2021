@@ -7,6 +7,10 @@ declare namespace RPG {
     type TCharacterStates = {
         [state: string]: TState,
     };
+    type TCharacter = {
+        states: TCharacterStates,
+    };
+
     type TAttackResult = {
         success: boolean,
         result: number,

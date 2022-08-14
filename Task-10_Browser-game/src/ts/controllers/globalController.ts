@@ -1,5 +1,6 @@
 import { Commands } from "../controls";
 import { render } from "../render/jsx-runtime";
+import { getCharacterTemplate } from "../rpg/characters";
 import { MainMenuController } from "./mainMenuController";
 import { TownMenuController } from "./townController";
 
@@ -27,6 +28,7 @@ export class GlobalController implements IGlobalController {
     resetGameData(): void {
         this.gameData = {
             lastOpenMapLevel: 1,
+            character: getCharacterTemplate(),
         };
     }
     saveGameData(): void {
@@ -52,12 +54,12 @@ export class GlobalController implements IGlobalController {
     }
 
     executeCommand(command: Commands): void {
-        if(this.currentController) {
+        if (this.currentController) {
             this.currentController.executeCommand(command);
         }
     }
     createElement(): HTMLElement {
-        if(this.currentController) {
+        if (this.currentController) {
             return this.currentController.createElement();
         }
         return render('div', null, 'no content');
