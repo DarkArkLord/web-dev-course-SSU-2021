@@ -1,3 +1,4 @@
+import { Commands } from "../controls";
 import { States } from "../rpg/elements";
 import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
 
@@ -27,6 +28,11 @@ export class ShowStatesController extends InfoComponent {
         </table>) as Render.TChild;
 
         super([states], ButtonsConfig.onlyBack);
+        const instance = this;
+
+        instance.commandActions[Commands.Back] = function () {
+            instance.globalController.popController();
+        }
     }
 }
 
