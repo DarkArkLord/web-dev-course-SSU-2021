@@ -8,6 +8,7 @@ declare namespace RPG {
         [state: string]: TState,
     };
     type TCharacter = {
+        name: string,
         states: TCharacterStates,
     };
 

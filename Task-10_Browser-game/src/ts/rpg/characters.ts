@@ -1,9 +1,10 @@
 import { getStatesTemplate } from "./elements";
 
-export function getCharacterTemplate(): RPG.TCharacter {
+export function getCharacterTemplate(name: string): RPG.TCharacter {
     const states = getStatesTemplate();
 
     const character = {
+        name,
         states,
     };
 

@@ -28,7 +28,7 @@ export class GlobalController implements IGlobalController {
     resetGameData(): void {
         this.gameData = {
             lastOpenMapLevel: 1,
-            character: getCharacterTemplate(),
+            character: getCharacterTemplate('PLAYER'),
         };
     }
     saveGameData(): void {

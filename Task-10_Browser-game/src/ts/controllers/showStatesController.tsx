@@ -14,7 +14,7 @@ export class ShowStatesController extends InfoComponent {
                     Имя
                 </td>
                 <td>
-                    NO-NAME
+                    {character.name}
                 </td>
             </tr>
             <tr>
