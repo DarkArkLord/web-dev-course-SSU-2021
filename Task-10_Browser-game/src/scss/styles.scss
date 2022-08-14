@@ -16,10 +16,6 @@ body * {
     border: inherit;
 }
 
-body *::selection {
-    background: transparent;
-}
-
 .main_page_container {
     position: absolute;
     top: 5%;
@@ -49,6 +45,10 @@ body *::selection {
 .buttons_container {
     height: 30%;
     width: 50%;
+}
+
+.buttons_container *::selection {
+    background: transparent;
 }
 
 .game_button {
