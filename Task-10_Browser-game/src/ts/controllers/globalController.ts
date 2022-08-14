@@ -26,7 +26,7 @@ export class GlobalController implements IGlobalController {
 
     resetGameData(): void {
         this.gameData = {
-            level: 1,
+            lastOpenMapLevel: 1,
         };
     }
     saveGameData(): void {
@@ -35,7 +35,7 @@ export class GlobalController implements IGlobalController {
     }
     loadGameData(): void {
         const savedData = window.localStorage.getItem(GAME_SAVE_NAME);
-        const parsedData = <TGameData>JSON.parse(savedData);
+        const parsedData = JSON.parse(savedData) as TGameData;
         this.gameData = parsedData;
     }
 

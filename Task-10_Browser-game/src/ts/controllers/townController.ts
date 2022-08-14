@@ -34,13 +34,13 @@ export class TownMenuController extends MenuComponent {
 
         this.menuConfig.actions[items.toMap.value] = function () {
             instance.globalController.saveGameData();
-            const lastLevel = instance.globalController.gameData.level;
+            const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
             const controller = new SelectMapLevelController(lastLevel);
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.toBattle.value] = function () {
             instance.globalController.saveGameData();
-            const lastLevel = instance.globalController.gameData.level;
+            const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
             const controller = new SelectBattleLevelController(lastLevel);
             instance.globalController.pushController(controller);
         };

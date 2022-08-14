@@ -1,5 +1,5 @@
 declare type TGameData = {
-    level: number,
+    lastOpenMapLevel: number,
 };
 
 declare interface IGlobalController {

@@ -47,10 +47,10 @@ export class MapController extends BaseController {
         map.cellActions[CellType.Door.Next] = function () {
             if (level + 1 >= instance.params.generators.length) {
                 instance.globalController.popController();
-                if (instance.params.mainLevel == instance.globalController.gameData.level) {
+                if (instance.params.mainLevel == instance.globalController.gameData.lastOpenMapLevel) {
                     // Open new level;
-                    instance.globalController.gameData.level++;
-                    const levelMessage = `Уровень ${instance.globalController.gameData.level} открыт!`;
+                    instance.globalController.gameData.lastOpenMapLevel++;
+                    const levelMessage = `Уровень ${instance.globalController.gameData.lastOpenMapLevel} открыт!`;
                     const controller = new InfoComponent([levelMessage], ButtonsConfig.onlyBack);
                     instance.globalController.pushController(controller);
                 }
