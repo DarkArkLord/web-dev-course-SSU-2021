@@ -45,7 +45,8 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.states.value] = function () {
-            const controller = new ShowStatesController();
+            const character = instance.globalController.gameData.character;
+            const controller = new ShowStatesController(character);
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.other.value] = function () {
