@@ -73,7 +73,7 @@ function renderStatesTable(character: RPG.TCharacter) {
     return statesTable;
 }
 
-function renderCommonStates(states: RPG.TCharCommonStates) {
+function renderCommonStates(states: RPG.Character.TCommonStates) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -88,7 +88,7 @@ function renderCommonStates(states: RPG.TCharCommonStates) {
     return statesTable;
 }
 
-function renderPrimaryStates(states: RPG.TCharStatesList) {
+function renderPrimaryStates(states: RPG.Character.TStatesList) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>

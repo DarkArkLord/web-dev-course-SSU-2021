@@ -1,25 +1,27 @@
 declare namespace RPG {
-    type TCharState = {
-        value: number,
-        expMultiplier: number,
-        experience: number,
-    };
-    type TCharStatesList = {
-        [state: string]: TCharState,
-    };
-
-    type TCharResource = {
-        current: number,
-        max: number,
-    };
-    type TCharCommonStates = {
-        health: TCharResource,
-    };
+    namespace Character {
+        type TState = {
+            value: number,
+            expMultiplier: number,
+            experience: number,
+        };
+        type TStatesList = {
+            [state: string]: TState,
+        };
+    
+        type TResource = {
+            current: number,
+            max: number,
+        };
+        type TCommonStates = {
+            health: TResource,
+        };
+    }
 
     type TCharacter = {
         name: string,
-        primaryStates: TCharStatesList,
-        commonStates: TCharCommonStates,
+        primaryStates: Character.TStatesList,
+        commonStates: Character.TCommonStates,
     };
 
     type TAttackResult = {
