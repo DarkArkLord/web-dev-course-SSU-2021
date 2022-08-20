@@ -17,12 +17,15 @@ export function addStateExp(state: RPG.Character.TState, exp: number) {
 
 /* ATTACK */
 
-export function tryAttack(attackerSkill: number, targetSkill: number): RPG.TAttackResult {
+export function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter): RPG.TAttackResult {
+    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
+    const targetDexterity = target.primaryStates[States.Dexterity].value;
+
     const attackerDice = getMainDiceValue();
     const targetDice = getMainDiceValue();
 
-    const attackerValue = attackerSkill + attackerDice.result;
-    const targetValue = targetSkill + targetDice.result;
+    const attackerValue = attackerDexterity + attackerDice.result;
+    const targetValue = targetDexterity + targetDice.result;
 
     const successCheck = targetValue - attackerValue;
 
