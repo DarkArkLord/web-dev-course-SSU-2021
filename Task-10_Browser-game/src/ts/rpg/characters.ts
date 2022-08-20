@@ -17,7 +17,7 @@ export function getCharacterTemplate(name: string): RPG.TCharacter {
 export function getCharacterWithLevel(name: string, additionalLevels: number): RPG.TCharacter {
     const primaryStates = getPrimaryStatesTemplate();
 
-    for (let i = 1; i < additionalLevels; i++) {
+    for (let i = 0; i < additionalLevels; i++) {
         const probabilities = [
             { probability: 1, value: States.Strength, },
             { probability: 1, value: States.Dexterity, },
