@@ -15,4 +15,3 @@ export function getRandomValueWithProbability<T>(values: TValuesWithProbability<
     }
     return values[i].value;
 }
-
