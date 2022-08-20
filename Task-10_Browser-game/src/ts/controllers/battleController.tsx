@@ -1,6 +1,6 @@
 import { Commands } from "../controls";
 import { getCharacterWithLevel } from "../rpg/characters";
-import { renderBattleInfo } from "../rpg/characterToHtml";
+import { renderBattleInfo, renderCharacter } from "../rpg/characterToHtml";
 import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
@@ -34,6 +34,7 @@ export class BattleController extends MenuComponent {
     createElement(): HTMLElement {
         const enemyTable = renderBattleInfo(this.enemy);
         const characterTable = renderBattleInfo(this.globalController.gameData.character);
+
         const headerTable = (<table class={CSS.table}>
             <tr>
                 <td>

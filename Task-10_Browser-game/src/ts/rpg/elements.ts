@@ -1,5 +1,7 @@
 /* PRIMARY STATES */
 
+import { D6_DICE } from "../utils/random";
+
 export enum States {
     Strength = 'CHAR-STATE-STR',
     Dexterity = 'CHAR-STATE-DEX',
@@ -37,7 +39,7 @@ export function getExpForStateLevelUp(state: RPG.Character.TState): number {
 
 export function getDamageByStrength(strength: number): TDiceExpression {
     const modToDice = 4;
-    const result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
+    const result = { count: 1, dice: D6_DICE, mod: 0 };
     const strengthMod = strength - defaultStateValue;
     if (strengthMod < 0) {
         result.mod = -Math.round(-strengthMod / 2);

@@ -1,5 +1,6 @@
 import { floorValue } from "../utils/common";
-import { getExpForStateLevelUp, States } from "./elements";
+import { diceExpressionToString } from "../utils/random";
+import { getDamageByStrength, getExpForStateLevelUp, States } from "./elements";
 
 const CSS = {
     table: 'width-100 align-center',
@@ -262,8 +263,10 @@ function renderWeapon() {
 }
 
 export function renderBattleInfo(character: RPG.TCharacter) {
-    const dexterity = character.primaryStates[States.Dexterity].value;
+    const strength = character.primaryStates[States.Strength].value;
+    const baseDamage = getDamageByStrength(strength);
 
+    const dexterity = character.primaryStates[States.Dexterity].value;
     const attackValue = dexterity;
     const defenseValue = dexterity;
 
@@ -279,6 +282,14 @@ export function renderBattleInfo(character: RPG.TCharacter) {
             </td>
             <td>
                 {getResourceInfo(character.commonStates.health)}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Базовый Урон
+            </td>
+            <td>
+                {diceExpressionToString(baseDamage)}
             </td>
         </tr>
         <tr>
