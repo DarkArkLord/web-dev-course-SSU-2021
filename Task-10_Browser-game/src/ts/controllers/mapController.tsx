@@ -7,8 +7,8 @@ import { MapComponent } from "./components/mapComponent";
 
 const CSS = {
     table: {
-        main: 'align_center no-border',
-        row: 'align_center'
+        main: 'align-center no-border',
+        row: 'align-center'
     },
 };
 

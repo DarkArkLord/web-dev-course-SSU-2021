@@ -1,7 +1,7 @@
 import { MenuComponent } from "./menuComponent";
 
 const CSS = {
-    table: 'width_100 align_center',
+    table: 'width-100 align-center',
 };
 
 const controlButtons = {

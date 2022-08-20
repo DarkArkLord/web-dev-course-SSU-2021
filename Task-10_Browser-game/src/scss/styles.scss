@@ -16,7 +16,7 @@ body * {
     border: inherit;
 }
 
-.main_page_container {
+.main-page-container {
     position: absolute;
     top: 5%;
     left: 5%;
@@ -24,45 +24,45 @@ body * {
     height: 90%;
 }
 
-.width_100 {
+.width-100 {
     width: 100%;
 }
 
-.width_19 {
+.width-19 {
     width: 19px;
 }
 
-.height_70 {
+.height-70 {
     height: 70%;
 }
 
-.align_center {
+.align-center {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
 }
 
-.vertical_align_top {
+.vertical-align-top {
     vertical-align: top;
     vertical-align: text-top;
     margin-top: 0;
 }
 
-.buttons_container {
+.buttons-container {
     height: 30%;
     width: 50%;
 }
 
-.buttons_container *::selection {
+.buttons-container *::selection {
     background: transparent;
 }
 
-.game_button {
+.game-button {
     width: 33%;
     background-color: $button-background-color;
 }
 
-.game_button:hover {
+.game-button:hover {
     background-color: $active-button-background-color;
 }
 

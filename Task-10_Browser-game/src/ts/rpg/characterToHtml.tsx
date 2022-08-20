@@ -1,8 +1,8 @@
 import { States } from "./elements";
 
 const CSS = {
-    table: 'width_100 align_center',
-    topData: 'vertical_align_top',
+    table: 'width-100 align-center',
+    topData: 'vertical-align-top',
 };
 
 export function renderCharacter(character: RPG.TCharacter) {

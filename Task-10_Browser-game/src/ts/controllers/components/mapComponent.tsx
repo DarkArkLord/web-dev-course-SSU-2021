@@ -6,9 +6,9 @@ import { ButtonsConfig, InfoComponent } from "./infoComponent";
 
 const CSS = {
     table: {
-        main: 'align_center no-border',
-        row: 'align_center',
-        data: 'width_19',
+        main: 'align-center no-border',
+        row: 'align-center',
+        data: 'width-19',
     },
     map: {
         none: '',

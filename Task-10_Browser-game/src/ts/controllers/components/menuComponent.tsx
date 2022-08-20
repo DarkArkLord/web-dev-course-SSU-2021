@@ -3,8 +3,8 @@ import { NumberEnumerator } from "../../utils/common";
 import { Commands } from "../../controls";
 
 const CSS = {
-    table: 'width_100 align_center',
-    list: 'menu-container align_center',
+    table: 'width-100 align-center',
+    list: 'menu-container align-center',
     item: {
         default: 'menu-default-item',
         current: 'menu-current-item',
