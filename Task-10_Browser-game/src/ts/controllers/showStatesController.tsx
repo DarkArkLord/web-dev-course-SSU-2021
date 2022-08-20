@@ -36,7 +36,7 @@ export class ShowStatesController extends InfoComponent {
     }
 }
 
-function renderStatesTable(states: RPG.TCharacterStates) {
+function renderStatesTable(states: RPG.TCharStatesList) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td colspan="4">

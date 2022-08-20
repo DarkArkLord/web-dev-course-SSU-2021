@@ -10,3 +10,5 @@ export function getCharacterTemplate(name: string): RPG.TCharacter {
 
     return character;
 }
+
+// add generate character by level

@@ -1,15 +1,16 @@
 declare namespace RPG {
-    type TState = {
+    type TCharState = {
         value: number,
         expMultiplier: number,
         experience: number,
     };
-    type TCharacterStates = {
-        [state: string]: TState,
+    type TCharStatesList = {
+        [state: string]: TCharState,
     };
+
     type TCharacter = {
         name: string,
-        states: TCharacterStates,
+        states: TCharStatesList,
     };
 
     type TAttackResult = {

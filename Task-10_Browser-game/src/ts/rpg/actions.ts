@@ -2,11 +2,11 @@
 
 import { getMainDiceValue } from "../utils/random";
 
-export function getExpForStateLevelUp(state: RPG.TState): number {
+export function getExpForStateLevelUp(state: RPG.TCharState): number {
     return (state.value + 1) * state.expMultiplier;
 }
 
-export function addStateExp(state: RPG.TState, exp: number) {
+export function addStateExp(state: RPG.TCharState, exp: number) {
     state.experience += exp;
     const nextLevelExp = getExpForStateLevelUp(state);
     if (state.experience >= nextLevelExp) {
