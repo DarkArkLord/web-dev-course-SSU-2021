@@ -2,6 +2,7 @@ import { States } from "./elements";
 
 const CSS = {
     table: 'width_100 align_center',
+    topData: 'vertical_align_top',
 };
 
 export function renderCharacter(character: RPG.TCharacter) {
@@ -15,10 +16,10 @@ export function renderCharacter(character: RPG.TCharacter) {
             </td>
         </tr>
         <tr>
-            <td>
+            <td class={CSS.topData}>
                 {renderStatesTable(character)}
             </td>
-            <td>
+            <td class={CSS.topData}>
                 {renderEquipmentTable()}
             </td>
         </tr>
