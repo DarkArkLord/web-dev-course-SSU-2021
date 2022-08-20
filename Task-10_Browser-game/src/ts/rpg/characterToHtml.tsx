@@ -28,7 +28,6 @@ export function renderCharacter(character: RPG.TCharacter) {
     return states;
 }
 
-
 export function renderStatesTable(character: RPG.TCharacter) {
     const statesTable = (<table class={CSS.table}>
         <tr>

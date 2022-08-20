@@ -34,7 +34,7 @@ export function getCharacterWithLevel(name: string, additionalLevels: number): R
         name,
         primaryStates,
         commonStates,
-    };
+    } as RPG.TCharacter;
 
     return character;
 }
