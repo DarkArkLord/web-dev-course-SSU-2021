@@ -1,6 +1,6 @@
 /* STATES */
 
-import { getMainDiceValue } from "../utils/random";
+import { getMainDiceValue } from "./dices";
 import { States, getExpForStateLevelUp } from "./elements";
 
 export function addStateExp(state: RPG.Character.TState, exp: number) {

@@ -1,6 +1,6 @@
-/* PRIMARY STATES */
+import { D6_DICE } from "./dices";
 
-import { D6_DICE } from "../utils/random";
+/* PRIMARY STATES */
 
 export enum States {
     Strength = 'CHAR-STATE-STR',
@@ -26,7 +26,7 @@ export function getPrimaryStatesTemplate(): RPG.Character.TPrimaryStates {
     const states = {
         [States.Strength]: getDefaultValues(), // damage, weight
         [States.Dexterity]: getDefaultValues(), // attack, dodge
-        [States.Intelligence]: getDefaultValues(), // magick
+        [States.Intelligence]: getDefaultValues(), // magic
         [States.Constitution]: getDefaultValues(), // hp
     }
 

@@ -1,5 +1,5 @@
 import { floorValue } from "../utils/common";
-import { diceExpressionToString } from "../utils/random";
+import { diceExpressionToString } from "./dices";
 import { getDamageByStrength, getExpForStateLevelUp, States } from "./elements";
 
 const CSS = {
