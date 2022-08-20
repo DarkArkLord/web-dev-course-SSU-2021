@@ -1,11 +1,7 @@
 /* STATES */
 
 import { getMainDiceValue } from "../utils/random";
-import { States, defaultStateValue } from "./elements";
-
-export function getExpForStateLevelUp(state: RPG.Character.TState): number {
-    return (state.value + 1) * state.expMultiplier;
-}
+import { States, getExpForStateLevelUp } from "./elements";
 
 export function addStateExp(state: RPG.Character.TState, exp: number) {
     state.experience += exp;
@@ -36,21 +32,4 @@ export function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter): RPG
         attackerDice,
         targetDice
     };
-}
-
-export function getDamageByStrength(strength: number): TDiceExpression {
-    const modToDice = 4;
-    const result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
-    const strengthMod = strength - defaultStateValue;
-    if (strengthMod < 0) {
-        result.mod = -Math.round(-strengthMod / 2);
-    } else {
-        result.mod = strengthMod % modToDice;
-        result.count = ((strengthMod - result.mod) / modToDice) + 1;
-        if (result.mod > (modToDice / 2)) {
-            result.count += 1;
-            result.mod -= modToDice;
-        }
-    }
-    return result;
 }

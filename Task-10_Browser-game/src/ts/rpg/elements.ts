@@ -1,3 +1,5 @@
+/* PRIMARY STATES */
+
 export enum States {
     Strength = 'CHAR-STATE-STR',
     Dexterity = 'CHAR-STATE-DEX',
@@ -28,6 +30,29 @@ export function getPrimaryStatesTemplate(): RPG.Character.TPrimaryStates {
 
     return states;
 }
+
+export function getExpForStateLevelUp(state: RPG.Character.TState): number {
+    return (state.value + 1) * state.expMultiplier;
+}
+
+export function getDamageByStrength(strength: number): TDiceExpression {
+    const modToDice = 4;
+    const result = { count: 1, dice: { min: 1, max: 6 }, mod: 0 };
+    const strengthMod = strength - defaultStateValue;
+    if (strengthMod < 0) {
+        result.mod = -Math.round(-strengthMod / 2);
+    } else {
+        result.mod = strengthMod % modToDice;
+        result.count = ((strengthMod - result.mod) / modToDice) + 1;
+        if (result.mod > (modToDice / 2)) {
+            result.count += 1;
+            result.mod -= modToDice;
+        }
+    }
+    return result;
+}
+
+/* COMMON STATES */
 
 export function getCommonStates(primaryStates: RPG.Character.TPrimaryStates): RPG.Character.TCommonStates {
     const health = primaryStates[States.Constitution].value;
