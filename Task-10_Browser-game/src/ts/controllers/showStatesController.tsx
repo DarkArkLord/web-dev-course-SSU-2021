@@ -19,7 +19,7 @@ export class ShowStatesController extends InfoComponent {
             </tr>
             <tr>
                 <td>
-                    {renderStatesTable(character.primaryStates)}
+                    {renderStatesTable(character)}
                 </td>
                 <td>
                     {renderEquipmentTable()}
@@ -36,13 +36,60 @@ export class ShowStatesController extends InfoComponent {
     }
 }
 
-function renderStatesTable(states: RPG.TCharStatesList) {
+function renderStatesTable(character: RPG.TCharacter) {
     const statesTable = (<table class={CSS.table}>
         <tr>
-            <td colspan="4">
-                Характеристики
+            <td>
+                Вторичные Характеристики
             </td>
         </tr>
+        <tr>
+            <td>
+                {renderCommonStates(character.commonStates)}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Первичные Характеристики
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {renderPrimaryStates(character.primaryStates)}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Навыки
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {renderSkills()}
+            </td>
+        </tr>
+    </table>) as Render.TChild;
+
+    return statesTable;
+}
+
+function renderCommonStates(states: RPG.TCharCommonStates) {
+    const statesTable = (<table class={CSS.table}>
+        <tr>
+            <td>
+                Здоровье
+            </td>
+            <td>
+                {states.health.current}/{states.health.max}
+            </td>
+        </tr>
+    </table>) as Render.TChild;
+
+    return statesTable;
+}
+
+function renderPrimaryStates(states: RPG.TCharStatesList) {
+    const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
                 Название
@@ -78,6 +125,35 @@ function renderStatesTable(states: RPG.TCharStatesList) {
 
         return stateRecord
     }
+}
+
+function renderSkills() {
+    const skillsTable = (<table class={CSS.table}>
+        <tr>
+            <td>
+                Название
+            </td>
+            <td>
+                Уровень
+            </td>
+            <td>
+                Опыт
+            </td>
+        </tr>
+        <tr>
+            <td>
+                TODO
+            </td>
+            <td>
+                TODO
+            </td>
+            <td>
+                TODO
+            </td>
+        </tr>
+    </table>) as Render.TChild;
+
+    return skillsTable;
 }
 
 function renderEquipmentTable() {

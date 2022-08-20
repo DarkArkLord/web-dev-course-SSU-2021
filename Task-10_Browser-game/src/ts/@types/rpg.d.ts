@@ -12,13 +12,14 @@ declare namespace RPG {
         current: number,
         max: number,
     };
-    type TCharResourcesList = {
+    type TCharCommonStates = {
         health: TCharResource,
     };
 
     type TCharacter = {
         name: string,
         primaryStates: TCharStatesList,
+        commonStates: TCharCommonStates,
     };
 
     type TAttackResult = {

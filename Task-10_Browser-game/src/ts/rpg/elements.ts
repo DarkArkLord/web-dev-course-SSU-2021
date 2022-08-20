@@ -27,3 +27,16 @@ export function getPrimaryStatesTemplate(): RPG.TCharStatesList {
 
     return states;
 }
+
+export function getCommonStates(primaryStates: RPG.TCharStatesList): RPG.TCharCommonStates {
+    const health = primaryStates[States.Constitution].value;
+
+    const commonStates = {
+        health: {
+            current: health,
+            max: health,
+        },
+    } as RPG.TCharCommonStates;
+
+    return commonStates;
+}
