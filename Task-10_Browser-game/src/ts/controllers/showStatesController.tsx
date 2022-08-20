@@ -19,7 +19,7 @@ export class ShowStatesController extends InfoComponent {
             </tr>
             <tr>
                 <td>
-                    {renderStatesTable(character.states)}
+                    {renderStatesTable(character.primaryStates)}
                 </td>
                 <td>
                     {renderEquipmentTable()}

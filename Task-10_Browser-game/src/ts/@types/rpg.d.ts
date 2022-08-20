@@ -8,9 +8,17 @@ declare namespace RPG {
         [state: string]: TCharState,
     };
 
+    type TCharResource = {
+        current: number,
+        max: number,
+    };
+    type TCharResourcesList = {
+        health: TCharResource,
+    };
+
     type TCharacter = {
         name: string,
-        states: TCharStatesList,
+        primaryStates: TCharStatesList,
     };
 
     type TAttackResult = {

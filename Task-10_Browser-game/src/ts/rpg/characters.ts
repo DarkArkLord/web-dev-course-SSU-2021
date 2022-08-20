@@ -1,11 +1,11 @@
-import { getStatesTemplate } from "./elements";
+import { getPrimaryStatesTemplate } from "./elements";
 
 export function getCharacterTemplate(name: string): RPG.TCharacter {
-    const states = getStatesTemplate();
+    const primaryStates = getPrimaryStatesTemplate();
 
     const character = {
         name,
-        states,
+        primaryStates,
     };
 
     return character;

@@ -5,7 +5,7 @@ export enum States {
     Constitution = 'CHAR-STATE-CON',
 };
 
-export function getStatesTemplate(): RPG.TCharStatesList {
+export function getPrimaryStatesTemplate(): RPG.TCharStatesList {
     const startValue = 10;
     const expMult = 1;
     const startExp = 0;
