@@ -1,6 +1,6 @@
 import { Commands } from "../controls";
 import { getCharacterWithLevel } from "../rpg/characters";
-import { renderBattleInfo, renderCharacter } from "../rpg/characterToHtml";
+import { renderBattleInfo } from "../rpg/characterToHtml";
 import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {

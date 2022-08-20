@@ -4,9 +4,9 @@ import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
 import { MapController } from "./mapController";
 import { generateMap_Forest, getFieldOfView } from "../utils/maps";
-import { ShowStatesController } from "./showStatesController";
 import { getRange } from "../utils/common";
 import { BattleController } from "./battleController";
+import { renderCharacter } from "../rpg/characterToHtml";
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -46,7 +46,13 @@ export class TownMenuController extends MenuComponent {
         };
         this.menuConfig.actions[items.states.value] = function () {
             const character = instance.globalController.gameData.character;
-            const controller = new ShowStatesController(character);
+            const characterTable = renderCharacter(character);
+
+            const controller = new InfoComponent([characterTable], ButtonsConfig.onlyBack);
+            controller.commandActions[Commands.Back] = function () {
+                controller.globalController.popController();
+            }
+
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.other.value] = function () {
