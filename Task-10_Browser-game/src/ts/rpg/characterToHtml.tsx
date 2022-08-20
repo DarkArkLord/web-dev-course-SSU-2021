@@ -262,8 +262,11 @@ function renderWeapon() {
 }
 
 export function renderBattleInfo(character: RPG.TCharacter) {
-    const attackValue = character.primaryStates[States.Dexterity];
-    const defenseValue = character.primaryStates[States.Dexterity];
+    const dexterity = character.primaryStates[States.Dexterity].value;
+
+    const attackValue = dexterity;
+    const defenseValue = dexterity;
+
     const info = (<table class={CSS.table}>
         <tr>
             <td colspan="2">
