@@ -260,3 +260,41 @@ function renderWeapon() {
 
     return weaponTable;
 }
+
+export function renderBattleInfo(character: RPG.TCharacter) {
+    const attackValue = character.primaryStates[States.Dexterity];
+    const defenseValue = character.primaryStates[States.Dexterity];
+    const info = (<table class={CSS.table}>
+        <tr>
+            <td colspan="2">
+                {character.name}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Здоровье
+            </td>
+            <td>
+                {getResourceInfo(character.commonStates.health)}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Значение Атаки
+            </td>
+            <td>
+                {attackValue}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Значение Защиты
+            </td>
+            <td>
+                {defenseValue}
+            </td>
+        </tr>
+    </table>) as Render.TChild;
+
+    return info;
+}
