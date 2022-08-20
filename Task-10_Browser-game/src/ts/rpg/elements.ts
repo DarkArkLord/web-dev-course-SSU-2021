@@ -5,7 +5,7 @@ export enum States {
     Constitution = 'CHAR-STATE-CON',
 };
 
-export function getPrimaryStatesTemplate(): RPG.Character.TStatesList {
+export function getPrimaryStatesTemplate(): RPG.Character.TPrimaryStates {
     const startValue = 10;
     const expMult = 1;
     const startExp = 0;
@@ -28,7 +28,7 @@ export function getPrimaryStatesTemplate(): RPG.Character.TStatesList {
     return states;
 }
 
-export function getCommonStates(primaryStates: RPG.Character.TStatesList): RPG.Character.TCommonStates {
+export function getCommonStates(primaryStates: RPG.Character.TPrimaryStates): RPG.Character.TCommonStates {
     const health = primaryStates[States.Constitution].value;
 
     const commonStates = {

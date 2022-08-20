@@ -5,7 +5,7 @@ declare namespace RPG {
             expMultiplier: number,
             experience: number,
         };
-        type TStatesList = {
+        type TPrimaryStates = {
             [state: string]: TState,
         };
     
@@ -20,7 +20,7 @@ declare namespace RPG {
 
     type TCharacter = {
         name: string,
-        primaryStates: Character.TStatesList,
+        primaryStates: Character.TPrimaryStates,
         commonStates: Character.TCommonStates,
     };
 
