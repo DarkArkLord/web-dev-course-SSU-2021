@@ -29,7 +29,7 @@ export function renderCharacter(character: RPG.TCharacter) {
     return states;
 }
 
-export function renderStatesTable(character: RPG.TCharacter) {
+function renderStatesTable(character: RPG.TCharacter) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -66,15 +66,14 @@ export function renderStatesTable(character: RPG.TCharacter) {
     return statesTable;
 }
 
-export function renderCommonStates(states: RPG.Character.TCommonStates) {
-    const healthPercent = floorValue(states.health.current / states.health.max * 100);
+function renderCommonStates(states: RPG.Character.TCommonStates) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
                 Здоровье
             </td>
             <td>
-                {states.health.current}/{states.health.max} ({healthPercent}%)
+                {getResourceInfo(states.health)}
             </td>
         </tr>
     </table>) as Render.TChild;
@@ -82,7 +81,16 @@ export function renderCommonStates(states: RPG.Character.TCommonStates) {
     return statesTable;
 }
 
-export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
+function getResourceInfo(resource: RPG.Character.TResource) {
+    return getInfoWithPercent(resource.current, resource.max);
+}
+
+function getInfoWithPercent(current: number, max: number) {
+    const percent = floorValue(current / max * 100);
+    return `${current}/${max} (${percent}%)`;
+}
+
+function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -106,7 +114,6 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
     function RenderStateRow(stateName: string) {
         const state = states[stateName];
         const expToUp = getExpForStateLevelUp(state);
-        const expPercent = floorValue(state.experience / expToUp * 100);
         const stateRecord = (<tr>
             <td>
                 {stateName}
@@ -115,7 +122,7 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
                 {state.value.toString()}
             </td>
             <td>
-                {state.experience.toString()}/{expToUp} ({expPercent}%)
+                {getInfoWithPercent(state.experience, expToUp)}
             </td>
         </tr>) as Render.TChild;
 
@@ -123,7 +130,7 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
     }
 }
 
-export function renderSkills() {
+function renderSkills() {
     const skillsTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -152,7 +159,7 @@ export function renderSkills() {
     return skillsTable;
 }
 
-export function renderEquipmentTable() {
+function renderEquipmentTable() {
     const equipmentTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -184,7 +191,7 @@ export function renderEquipmentTable() {
     return equipmentTable;
 }
 
-export function renderArmor() {
+function renderArmor() {
     const armorTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -219,7 +226,7 @@ export function renderArmor() {
     return armorTable;
 }
 
-export function renderWeapon() {
+function renderWeapon() {
     const weaponTable = (<table class={CSS.table}>
         <tr>
             <td>
