@@ -67,13 +67,14 @@ export function renderStatesTable(character: RPG.TCharacter) {
 }
 
 export function renderCommonStates(states: RPG.Character.TCommonStates) {
+    const healthPercent = floorValue(states.health.current / states.health.max * 100);
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
                 Здоровье
             </td>
             <td>
-                {states.health.current}/{states.health.max}
+                {states.health.current}/{states.health.max} ({healthPercent}%)
             </td>
         </tr>
     </table>) as Render.TChild;
