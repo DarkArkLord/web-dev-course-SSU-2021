@@ -1,4 +1,4 @@
-import { States } from "./elements";
+import { getExpForStateLevelUp, States } from "./elements";
 
 const CSS = {
     table: 'width-100 align-center',
@@ -103,6 +103,8 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
 
     function RenderStateRow(stateName: string) {
         const state = states[stateName];
+        const expToUp = getExpForStateLevelUp(state);
+        const expPercent = Math.floor(state.experience / expToUp * 100 * 100) * 100;
         const stateRecord = (<tr>
             <td>
                 {stateName}
@@ -111,7 +113,7 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
                 {state.value.toString()}
             </td>
             <td>
-                {state.experience.toString()}
+                {state.experience.toString()}/{expToUp} ({expPercent}%)
             </td>
         </tr>) as Render.TChild;
 
