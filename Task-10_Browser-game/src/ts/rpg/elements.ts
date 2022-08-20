@@ -10,13 +10,13 @@ export enum States {
 export const defaultStateValue = 10;
 
 export function getPrimaryStatesTemplate(): RPG.Character.TPrimaryStates {
-    const expMult = 1;
+    const expMultiply = 1;
     const startExp = 0;
 
     function getDefaultValues(): RPG.Character.TState {
         return {
             value: defaultStateValue,
-            expMultiplier: expMult,
+            expMultiplier: expMultiply,
             experience: startExp,
         };
     }

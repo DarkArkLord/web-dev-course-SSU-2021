@@ -1,3 +1,4 @@
+import { floorValue } from "../utils/common";
 import { getExpForStateLevelUp, States } from "./elements";
 
 const CSS = {
@@ -104,7 +105,7 @@ export function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
     function RenderStateRow(stateName: string) {
         const state = states[stateName];
         const expToUp = getExpForStateLevelUp(state);
-        const expPercent = Math.floor(state.experience / expToUp * 100 * 100) * 100;
+        const expPercent = floorValue(state.experience / expToUp * 100);
         const stateRecord = (<tr>
             <td>
                 {stateName}

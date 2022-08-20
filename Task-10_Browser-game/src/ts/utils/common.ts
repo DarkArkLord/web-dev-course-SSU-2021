@@ -40,3 +40,8 @@ export class NumberEnumerator {
 export function getRange(count: number, start: number = 0, step: number = 1) {
     return Array.from(Array(count).keys()).map(x => x * step + start);
 }
+
+export function floorValue(value: number, accuracy: number = 2) {
+    const accuracyMultiply = 10 ** accuracy;
+    return Math.floor(value * accuracyMultiply) / accuracyMultiply;
+}
