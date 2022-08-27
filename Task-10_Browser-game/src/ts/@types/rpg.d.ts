@@ -24,10 +24,10 @@ declare namespace RPG {
         commonStates: Character.TCommonStates,
     };
 
-    type TAttackResult = {
+    type TCompetitionResult = {
         success: boolean,
         result: number,
-        attackerDice: TDiceExpressionResult,
+        initiatorDice: TDiceExpressionResult,
         targetDice: TDiceExpressionResult,
     };
 }

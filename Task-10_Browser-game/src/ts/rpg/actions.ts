@@ -12,24 +12,33 @@ export function addStateExp(state: RPG.Character.TState, exp: number) {
     }
 }
 
-/* ATTACK */
+/* COMPETITIONS */
 
-export function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter): RPG.TAttackResult {
-    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
-    const targetDexterity = target.primaryStates[States.Dexterity].value;
-
-    const attackerDice = getMainDiceValue();
+export function tryCompetition(initiatorSkill: number, targetSkill: number): RPG.TCompetitionResult {
+    const initiatorDice = getMainDiceValue();
     const targetDice = getMainDiceValue();
 
-    const attackerValue = attackerDexterity + attackerDice.result;
-    const targetValue = targetDexterity + targetDice.result;
+    const initiatorValue = initiatorSkill + initiatorDice.result;
+    const targetValue = targetSkill + targetDice.result;
 
-    const successCheck = targetValue - attackerValue;
+    const successCheck = targetValue - initiatorValue;
 
     return {
         success: successCheck >= 0,
         result: successCheck,
-        attackerDice,
+        initiatorDice,
         targetDice
     };
+}
+
+export function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter): RPG.TCompetitionResult {
+    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
+    const targetDexterity = target.primaryStates[States.Dexterity].value;
+
+    // Add skills
+
+    const attackerValue = attackerDexterity;
+    const targetValue = targetDexterity;
+
+    return tryCompetition(attackerValue, targetValue);
 }
