@@ -9,7 +9,6 @@ import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
     table: 'width-100 align-center',
-    logContainer: 'align-center',
 };
 
 export class BattleController extends MenuComponent {
