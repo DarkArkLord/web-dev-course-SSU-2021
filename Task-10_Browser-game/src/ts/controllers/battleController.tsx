@@ -2,7 +2,9 @@ import { Commands } from "../controls";
 import { tryCompetition } from "../rpg/actions";
 import { getCharacterWithLevel } from "../rpg/characters";
 import { renderBattleInfo } from "../rpg/characterToHtml";
-import { States } from "../rpg/elements";
+import { diceExpressionToString, getDiceExpressionValue } from "../rpg/dices";
+import { getDamageByStrength, States } from "../rpg/elements";
+import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
 import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
@@ -36,7 +38,17 @@ export class BattleController extends MenuComponent {
         this.controllerDepth = controllerDepth;
 
         this.menuConfig.actions[buttons.attack.value] = function () {
-            alert('attack');
+            const playerAttack = tryAttack(instance.player, instance.enemy, instance.battleLog);
+            tryDealDamage(instance.player, instance.enemy, playerAttack, instance.battleLog);
+            if (checkEndBattle(instance)) {
+                return;
+            }
+
+            const enemyAttack = tryAttack(instance.enemy, instance.player, instance.battleLog);
+            tryDealDamage(instance.enemy, instance.player, enemyAttack, instance.battleLog);
+            if (checkEndBattle(instance)) {
+                return;
+            }
         }
 
         this.menuConfig.actions[buttons.back.value] = function () {
@@ -52,6 +64,13 @@ export class BattleController extends MenuComponent {
         const instance = this;
         this.player = instance.globalController.gameData.character;
         const isEnemyAttackFirst = checkEnemyAttackFirst(instance);
+        if (isEnemyAttackFirst) {
+            const result = tryAttack(instance.enemy, instance.player, instance.battleLog);
+            tryDealDamage(instance.enemy, instance.player, result, instance.battleLog);
+            if (checkEndBattle(instance)) {
+                return;
+            }
+        }
     }
     createElement(): HTMLElement {
         const enemyTable = renderBattleInfo(this.enemy);
