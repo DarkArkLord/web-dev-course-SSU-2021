@@ -11,10 +11,12 @@ const CSS = {
 };
 
 export class BattleController extends MenuComponent {
+    player: RPG.TCharacter;
     enemy: RPG.TCharacter;
     battleLog: string[];
+    controllerDepth: number;
 
-    constructor(level: number) {
+    constructor(level: number, controllerDepth: number = 1) {
         const buttons = {
             attack: {
                 value: "Атаковать",
@@ -31,6 +33,7 @@ export class BattleController extends MenuComponent {
 
         this.enemy = getCharacterWithLevel(`ENEMY ${level}`, level);
         this.battleLog = [];
+        this.controllerDepth = controllerDepth;
 
         this.menuConfig.actions[buttons.attack.value] = function () {
             alert('attack');
@@ -47,11 +50,12 @@ export class BattleController extends MenuComponent {
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);
         const instance = this;
+        this.player = instance.globalController.gameData.character;
         const isEnemyAttackFirst = checkEnemyAttackFirst(instance);
     }
     createElement(): HTMLElement {
         const enemyTable = renderBattleInfo(this.enemy);
-        const characterTable = renderBattleInfo(this.globalController.gameData.character);
+        const characterTable = renderBattleInfo(this.player);
 
         const headerTable = (<table class={CSS.table}>
             <tr>
@@ -76,7 +80,7 @@ export class BattleController extends MenuComponent {
 function checkEnemyAttackFirst(controller: BattleController) {
     const log = controller.battleLog;
 
-    const player = controller.globalController.gameData.character;
+    const player = controller.player;
     const playerDexterity = player.primaryStates[States.Dexterity].value;
 
     const enemy = controller.enemy;
