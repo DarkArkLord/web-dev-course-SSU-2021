@@ -7,6 +7,7 @@ import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
     table: 'width-100 align-center',
+    logContainer: 'align-center',
 };
 
 export class BattleController extends MenuComponent {
@@ -63,6 +64,11 @@ export class BattleController extends MenuComponent {
             </tr>
         </table>) as Render.TChild;
         this.menuConfig.header = headerTable;
+
+        const footerTable = (<textarea cols="100" rows="10" />) as HTMLTextAreaElement;
+        footerTable.value = this.battleLog.join('\n');
+        this.menuConfig.footer = footerTable;
+
         return super.createElement();
     }
 }
