@@ -114,9 +114,9 @@ function checkEnemyAttackFirst(controller: BattleController) {
         }
 
         if (result.success) {
-            log.unshift('Противник ходит первым');
+            log.unshift('> Противник ходит первым');
         } else {
-            log.unshift('Игрок ходит первым');
+            log.unshift('> Игрок ходит первым');
         }
 
         return result.success;
@@ -136,8 +136,8 @@ function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string
 
     const result = tryCompetition(attackerValue, targetValue);
 
-    log.unshift(`${attacker.name} атакует: Ловкость ${attackerDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
-    log.unshift(`${target.name} защищается: Ловкость ${targetDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+    log.unshift(`Атака ${attacker.name}: Ловкость ${attackerDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
+    log.unshift(`Защита ${target.name}: Ловкость ${targetDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
 
     return result;
 }
@@ -149,7 +149,7 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
         const damageDice = getDamageByStrength(attackStrength);
         const damage = getDiceExpressionValue(damageDice).result;
 
-        log.unshift(`${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
+        log.unshift(`> ${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
 
         target.commonStates.health.current -= damage;
     } else if (attackResult.result <= -5) {
@@ -158,11 +158,11 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
         const damageDice = getDamageByStrength(attackStrength);
         const damage = getDiceExpressionValue(damageDice).result;
 
-        log.unshift(`${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
+        log.unshift(`> ${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
 
         attacker.commonStates.health.current -= damage;
     } else {
-        log.unshift(`${target.name} блокирует атаку ${attacker.name}`);
+        log.unshift(`> ${target.name} блокирует атаку ${attacker.name} c результатом ${attackResult.result}`);
     }
 }
 
