@@ -85,10 +85,10 @@ function checkEnemyAttackFirst(controller: BattleController) {
     log.push('Проверка инициативы');
     while (true) {
         const result = tryCompetition(enemyDexterity, playerDexterity);
-        log.push(`${player.name}: Ловкость ${playerDexterity} + Бросок ${result.targetDice.result} = ${result.targetValue}`);
-        log.push(`${enemy.name}: Ловкость ${enemyDexterity} + Бросок ${result.initiatorDice.result} = ${result.initiatorValue}`);
+        log.push(`${player.name}: Ловкость ${playerDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+        log.push(`${enemy.name}: Ловкость ${enemyDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
 
-        if (result.initiatorValue == result.targetValue) {
+        if (result.initiator.value == result.target.value) {
             log.push('Повторная проверка инициативы');
             continue;
         }

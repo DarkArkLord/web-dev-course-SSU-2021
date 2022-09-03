@@ -8,7 +8,7 @@ declare namespace RPG {
         type TPrimaryStates = {
             [state: string]: TState,
         };
-    
+
         type TResource = {
             current: number,
             max: number,
@@ -24,14 +24,16 @@ declare namespace RPG {
         commonStates: Character.TCommonStates,
     };
 
+    type TCompetitionActorData = {
+        skill: number,
+        dice: TDiceExpressionResult,
+        value: number,
+    };
+
     type TCompetitionResult = {
         success: boolean,
         result: number,
-        initiatorSkill: number,
-        initiatorDice: TDiceExpressionResult,
-        initiatorValue: number,
-        targetSkill: number,
-        targetDice: TDiceExpressionResult,
-        targetValue: number,
+        initiator: TCompetitionActorData,
+        target: TCompetitionActorData,
     };
 }

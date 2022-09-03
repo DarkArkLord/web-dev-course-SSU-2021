@@ -26,12 +26,16 @@ export function tryCompetition(initiatorSkill: number, targetSkill: number): RPG
     return {
         success: successCheck >= 0,
         result: successCheck,
-        initiatorSkill,
-        initiatorDice,
-        initiatorValue,
-        targetSkill,
-        targetDice,
-        targetValue
+        initiator: {
+            skill: initiatorSkill,
+            dice: initiatorDice,
+            value: initiatorValue,
+        },
+        target: {
+            skill: targetSkill,
+            dice: targetDice,
+            value: targetValue,
+        },
     };
 }
 
