@@ -27,7 +27,9 @@ export function tryCompetition(initiatorSkill: number, targetSkill: number): RPG
         success: successCheck >= 0,
         result: successCheck,
         initiatorDice,
-        targetDice
+        initiatorValue,
+        targetDice,
+        targetValue
     };
 }
 

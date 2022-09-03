@@ -28,6 +28,8 @@ declare namespace RPG {
         success: boolean,
         result: number,
         initiatorDice: TDiceExpressionResult,
+        initiatorValue: number,
         targetDice: TDiceExpressionResult,
+        targetValue: number,
     };
 }
