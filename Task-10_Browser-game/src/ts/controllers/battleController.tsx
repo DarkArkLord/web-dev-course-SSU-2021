@@ -143,3 +143,23 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
         log.push(`${target.name} блокирует атаку ${attacker.name}`);
     }
 }
+
+function checkEndBattle(controller: BattleController): boolean {
+    if (controller.enemy.commonStates.health.current < 1) {
+        controller.globalController.popController();
+        const messageController = new InfoComponent(['Победа!'], ButtonsConfig.onlyNext);
+        controller.globalController.pushController(messageController);
+        return true;
+    }
+
+    if (controller.player.commonStates.health.current < 1) {
+        for (let i = 0; i < controller.controllerDepth; i++) {
+            controller.globalController.popController();
+        }
+        const messageController = new InfoComponent(['Поражение!'], ButtonsConfig.onlyNext);
+        controller.globalController.pushController(messageController);
+        return true;
+    }
+
+    return false;
+}
