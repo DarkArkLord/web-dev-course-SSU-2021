@@ -1,6 +1,7 @@
 import { Commands } from "../controls";
 import { CellType } from "../utils/maps";
 import { getRandomValueWithProbability } from "../utils/random";
+import { BattleController } from "./battleController";
 import { BaseController } from "./components/baseController";
 import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
 import { MapComponent } from "./components/mapComponent";
@@ -59,24 +60,24 @@ export class MapController extends BaseController {
             }
         }
 
-        // map.cellActions[CellType.Cell.Empty] = function () {
-        //     const event = getRandomValueWithProbability([
-        //         {
-        //             probability: 19,
-        //             value: undefined,
-        //         },
-        //         {
-        //             probability: 1,
-        //             value: () => {
-        //                 const controller = new InfoComponent(['event'], ButtonsConfig.onlyBack);
-        //                 instance.globalController.pushController(controller);
-        //             },
-        //         },
-        //     ]);
-        //     if (event) {
-        //         event();
-        //     }
-        // }
+        map.cellActions[CellType.Cell.Empty] = function () {
+            const event = getRandomValueWithProbability([
+                {
+                    probability: 19,
+                    value: undefined,
+                },
+                {
+                    probability: 1,
+                    value: () => {
+                        const controller = new BattleController(level);
+                        instance.globalController.pushController(controller);
+                    },
+                },
+            ]);
+            if (event) {
+                event();
+            }
+        }
     }
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);
