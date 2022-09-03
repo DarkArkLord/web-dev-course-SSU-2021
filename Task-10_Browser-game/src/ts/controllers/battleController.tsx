@@ -9,19 +9,29 @@ const CSS = {
 
 export class BattleController extends MenuComponent {
     enemy: RPG.TCharacter;
+    battleLog: string[];
 
     constructor(level: number) {
         const buttons = {
+            attack: {
+                value: "Атаковать",
+                isActive: () => true,
+            },
             back: {
-                value: "Назад",
+                value: "Сбежать",
                 isActive: () => true,
             },
         };
 
-        super([buttons.back], `Battle controller ${level}`);
+        super([buttons.attack, buttons.back], `Battle controller ${level}`);
         const instance = this;
 
-        this.enemy = getCharacterWithLevel(`ENEMY ${level}`, level)
+        this.enemy = getCharacterWithLevel(`ENEMY ${level}`, level);
+        this.battleLog = [];
+
+        this.menuConfig.actions[buttons.attack.value] = function () {
+            alert('attack');
+        }
 
         this.menuConfig.actions[buttons.back.value] = function () {
             instance.globalController.popController();
