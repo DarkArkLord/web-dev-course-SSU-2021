@@ -82,7 +82,7 @@ function checkEnemyAttackFirst(controller: BattleController) {
     const enemy = controller.enemy;
     const enemyDexterity = enemy.primaryStates[States.Dexterity].value;
 
-    log.push('Проверка инициативы');
+    log.push('--- Проверка инициативы ---');
     while (true) {
         const result = tryCompetition(enemyDexterity, playerDexterity);
         log.push(`${player.name}: Ловкость ${playerDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
@@ -104,6 +104,8 @@ function checkEnemyAttackFirst(controller: BattleController) {
 }
 
 function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string[]): RPG.TCompetitionResult {
+    log.push(`--- ${attacker.name} атакует ${attacker.name} ---`);
+
     const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
     const targetDexterity = target.primaryStates[States.Dexterity].value;
 
