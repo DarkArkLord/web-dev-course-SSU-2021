@@ -1,6 +1,8 @@
 import { Commands } from "../controls";
+import { tryCompetition } from "../rpg/actions";
 import { getCharacterWithLevel } from "../rpg/characters";
 import { renderBattleInfo } from "../rpg/characterToHtml";
+import { States } from "../rpg/elements";
 import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
@@ -41,6 +43,11 @@ export class BattleController extends MenuComponent {
             instance.globalController.popController();
         }
     }
+    onPush(globalController: IGlobalController): void {
+        super.onPush(globalController);
+        const instance = this;
+        const isEnemyAttackFirst = checkEnemyAttackFirst(instance);
+    }
     createElement(): HTMLElement {
         const enemyTable = renderBattleInfo(this.enemy);
         const characterTable = renderBattleInfo(this.globalController.gameData.character);
@@ -58,4 +65,26 @@ export class BattleController extends MenuComponent {
         this.menuConfig.header = headerTable;
         return super.createElement();
     }
+}
+
+function checkEnemyAttackFirst(controller: BattleController) {
+    const log = controller.battleLog;
+
+    const player = controller.globalController.gameData.character;
+    const playerDexterity = player.primaryStates[States.Dexterity].value;
+
+    const enemy = controller.enemy;
+    const enemyDexterity = enemy.primaryStates[States.Dexterity].value;
+
+    const result = tryCompetition(enemyDexterity, playerDexterity);
+    log.push(`Игрок: Ловкость ${playerDexterity} + Бросок ${result.targetDice.result} = ${result.targetValue}`);
+    log.push(`Противник: Ловкость ${enemyDexterity} + Бросок ${result.initiatorDice.result} = ${result.initiatorValue}`);
+
+    if (result.success) {
+        log.push('Противник ходит первым');
+    } else {
+        log.push('Игрок ходит первым');
+    }
+
+    return result.success;
 }
