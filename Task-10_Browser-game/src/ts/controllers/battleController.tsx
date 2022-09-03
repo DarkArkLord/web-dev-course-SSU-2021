@@ -102,3 +102,20 @@ function checkEnemyAttackFirst(controller: BattleController) {
         return result.success;
     }
 }
+
+function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string[]): RPG.TCompetitionResult {
+    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
+    const targetDexterity = target.primaryStates[States.Dexterity].value;
+
+    // Add skills
+
+    const attackerValue = attackerDexterity;
+    const targetValue = targetDexterity;
+
+    const result = tryCompetition(attackerValue, targetValue);
+
+    log.push(`${attacker.name}: Ловкость ${attackerDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
+    log.push(`${target.name}: Ловкость ${targetDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+
+    return result;
+}

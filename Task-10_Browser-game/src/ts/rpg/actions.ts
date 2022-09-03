@@ -38,15 +38,3 @@ export function tryCompetition(initiatorSkill: number, targetSkill: number): RPG
         },
     };
 }
-
-export function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string[]): RPG.TCompetitionResult {
-    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
-    const targetDexterity = target.primaryStates[States.Dexterity].value;
-
-    // Add skills
-
-    const attackerValue = attackerDexterity;
-    const targetValue = targetDexterity;
-
-    return tryCompetition(attackerValue, targetValue);
-}
