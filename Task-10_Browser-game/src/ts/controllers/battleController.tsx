@@ -16,9 +16,8 @@ export class BattleController extends MenuComponent {
     player: RPG.TCharacter;
     enemy: RPG.TCharacter;
     battleLog: string[];
-    controllerDepth: number;
 
-    constructor(level: number, controllerDepth: number = 1) {
+    constructor(level: number) {
         const buttons = {
             attack: {
                 value: "Атаковать",
@@ -35,7 +34,6 @@ export class BattleController extends MenuComponent {
 
         this.enemy = getCharacterWithLevel(`ENEMY ${level}`, level);
         this.battleLog = [];
-        this.controllerDepth = controllerDepth;
 
         this.menuConfig.actions[buttons.attack.value] = function () {
             const playerAttack = tryAttack(instance.player, instance.enemy, instance.battleLog);
@@ -178,7 +176,8 @@ function checkEndBattle(controller: BattleController): boolean {
     }
 
     if (controller.player.commonStates.health.current < 1) {
-        for (let i = 0; i < controller.controllerDepth; i++) {
+        const controllerDepth = controller.globalController.controllerStack.length;
+        for (let i = 0; i < controllerDepth; i++) {
             controller.globalController.popController();
         }
         const messageController = new InfoComponent(['Поражение!'], ButtonsConfig.onlyNext);
