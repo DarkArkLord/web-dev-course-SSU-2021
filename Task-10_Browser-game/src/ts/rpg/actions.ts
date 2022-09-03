@@ -21,7 +21,7 @@ export function tryCompetition(initiatorSkill: number, targetSkill: number): RPG
     const initiatorValue = initiatorSkill + initiatorDice.result;
     const targetValue = targetSkill + targetDice.result;
 
-    const successCheck = targetValue - initiatorValue;
+    const successCheck = initiatorValue - targetValue;
 
     return {
         success: successCheck >= 0,
