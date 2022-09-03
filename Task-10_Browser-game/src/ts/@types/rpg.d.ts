@@ -27,8 +27,10 @@ declare namespace RPG {
     type TCompetitionResult = {
         success: boolean,
         result: number,
+        initiatorSkill: number,
         initiatorDice: TDiceExpressionResult,
         initiatorValue: number,
+        targetSkill: number,
         targetDice: TDiceExpressionResult,
         targetValue: number,
     };
