@@ -119,3 +119,27 @@ function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string
 
     return result;
 }
+
+function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackResult: RPG.TCompetitionResult, log: string[]) {
+    if (attackResult.success) {
+        const attackMod = Math.floor(attackResult.result / 5);
+        const attackStrength = attacker.primaryStates[States.Strength].value + attackMod;
+        const damageDice = getDamageByStrength(attackStrength);
+        const damage = getDiceExpressionValue(damageDice).result;
+
+        log.push(`${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
+
+        target.commonStates.health.current -= damage;
+    } else if (attackResult.result <= -5) {
+        const attackMod = Math.floor(-attackResult.result / 5);
+        const attackStrength = target.primaryStates[States.Strength].value + attackMod;
+        const damageDice = getDamageByStrength(attackStrength);
+        const damage = getDiceExpressionValue(damageDice).result;
+
+        log.push(`${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
+
+        attacker.commonStates.health.current -= damage;
+    } else {
+        log.push(`${target.name} блокирует атаку ${attacker.name}`);
+    }
+}
