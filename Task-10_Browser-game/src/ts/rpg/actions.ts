@@ -1,7 +1,7 @@
 /* STATES */
 
 import { getMainDiceValue } from "./dices";
-import { States, getExpForStateLevelUp } from "./elements";
+import { getExpForStateLevelUp } from "./elements";
 
 export function addStateExp(state: RPG.Character.TState, exp: number) {
     state.experience += exp;
