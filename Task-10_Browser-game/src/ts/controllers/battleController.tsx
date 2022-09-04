@@ -84,13 +84,16 @@ export class BattleController extends MenuComponent {
             </tr>
         </table>) as Render.TChild;
         this.menuConfig.header = headerTable;
-
-        const footerTable = (<textarea cols="100" rows="10" readonly />) as HTMLTextAreaElement;
-        footerTable.value = this.battleLog.join('\n');
-        this.menuConfig.footer = footerTable;
+        this.menuConfig.footer = createLogElement(this);
 
         return super.createElement();
     }
+}
+
+function createLogElement(controller: BattleController) {
+    const element = (<textarea cols="100" rows="10" readonly />) as HTMLTextAreaElement;
+    element.value = controller.battleLog.join('\n');
+    return element;
 }
 
 function checkEnemyAttackFirst(controller: BattleController) {
