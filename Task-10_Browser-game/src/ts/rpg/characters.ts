@@ -38,3 +38,8 @@ export function getCharacterWithLevel(name: string, additionalLevels: number): R
 
     return character;
 }
+
+export function updateCommonStates(character: RPG.TCharacter) {
+    const commonStates = getCommonStates(character.primaryStates);
+    character.commonStates.health.max = commonStates.health.max;
+}

@@ -1,6 +1,6 @@
 import { Commands } from "../controls";
 import { addStateExp, tryCompetition } from "../rpg/actions";
-import { getCharacterWithLevel } from "../rpg/characters";
+import { getCharacterWithLevel, updateCommonStates } from "../rpg/characters";
 import { renderBattleInfo } from "../rpg/characterToHtml";
 import { diceExpressionToString, getDiceExpressionValue } from "../rpg/dices";
 import { getDamageByStrength, States } from "../rpg/elements";
@@ -167,6 +167,7 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
 
         target.commonStates.health.current -= damage;
         addStateExp(target.primaryStates[States.Constitution], damage);
+        updateCommonStates(target);
     } else if (attackResult.result <= -5) {
         const attackMod = Math.floor(-attackResult.result / 5);
         addStateExp(target.primaryStates[States.Dexterity], 1 + attackMod);
@@ -180,6 +181,7 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
 
         attacker.commonStates.health.current -= damage;
         addStateExp(attacker.primaryStates[States.Constitution], damage);
+        updateCommonStates(attacker);
     } else {
         log.unshift(`> ${target.name} блокирует атаку ${attacker.name} c результатом ${attackResult.result}`);
         addStateExp(target.primaryStates[States.Dexterity], 1);
