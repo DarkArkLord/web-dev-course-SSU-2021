@@ -181,6 +181,7 @@ function checkEndBattle(controller: BattleController): boolean {
         }
         const messageController = new InfoComponent(['Поражение!'], ButtonsConfig.onlyNext);
         controller.globalController.pushController(messageController);
+        controller.player.commonStates.health.current = 0;
         return true;
     }
 
