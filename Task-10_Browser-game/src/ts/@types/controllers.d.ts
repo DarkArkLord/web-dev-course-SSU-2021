@@ -21,6 +21,7 @@ declare interface IGlobalController {
 }
 
 declare interface IController {
+    commonInit(): void;
     onPush(globalController: IGlobalController): void;
     onPop(): void;
 

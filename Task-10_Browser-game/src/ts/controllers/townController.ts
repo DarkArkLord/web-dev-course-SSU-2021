@@ -73,12 +73,7 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.pushController(menuController);
         }
     }
-    onPush(globalController: IGlobalController): void {
-        super.onPush(globalController);
-        this.globalController.saveGameData();
-    }
-    onPop(): void {
-        super.onPop();
+    commonInit(): void {
         this.globalController.saveGameData();
     }
 }

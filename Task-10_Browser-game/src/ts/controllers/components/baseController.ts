@@ -19,11 +19,15 @@ export abstract class BaseController implements IController {
         };
     }
 
+    commonInit(): void {
+        //
+    }
     onPush(globalController: IGlobalController): void {
         this.globalController = globalController;
+        this.commonInit();
     }
     onPop(): void {
-        //
+        this.commonInit();
     }
 
     executeCommand(command: Commands): void {
