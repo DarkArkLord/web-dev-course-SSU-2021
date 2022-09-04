@@ -1,0 +1,74 @@
+@import 'vars';
+@import 'components';
+@import 'scrollbar';
+
+* {
+    font-family: Consolas;
+    background-color: $body-background-color;
+    color: $main-text-color;
+}
+
+body {
+    border: solid 1px $table-border-color;
+}
+
+body * {
+    border: inherit;
+}
+
+.main-page-container {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.width-19 {
+    width: 19px;
+}
+
+.height-70 {
+    height: 70%;
+}
+
+.align-center {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vertical-align-top {
+    vertical-align: top;
+    vertical-align: text-top;
+}
+
+.buttons-container {
+    height: 30%;
+    width: 50%;
+}
+
+.buttons-container *::selection {
+    background: transparent;
+}
+
+.game-button {
+    width: 33%;
+    background-color: $button-background-color;
+}
+
+.game-button:hover {
+    background-color: $active-button-background-color;
+}
+
+.no-border {
+    border: 0;
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}

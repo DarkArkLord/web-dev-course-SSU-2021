@@ -1,0 +1,27 @@
+@import 'vars';
+
+$scrollbar-size: 10px;
+
+::-webkit-scrollbar { 
+    width: $scrollbar-size; /* 1 - вертикальный скроллбар */
+}
+::-webkit-scrollbar:horizontal { 
+    height: $scrollbar-size; /* 1 - горизонтальный скроллбар */
+}
+
+::-webkit-scrollbar-button { 
+    background: $active-button-background-color; /* 2 - кнопка */
+    display: none;
+}
+::-webkit-scrollbar-track { 
+    background: $table-border-color; /* 3 - трек */
+}
+::-webkit-scrollbar-track-piece { 
+    background: $table-border-color; /* 4 – видимая часть трека */ 
+}
+::-webkit-scrollbar-thumb { 
+    background: $button-background-color; /* 5 - ползунок */
+}
+::-webkit-scrollbar-corner { 
+    background: $table-border-color; /* 5 - ползунок */
+}

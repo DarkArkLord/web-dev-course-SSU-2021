@@ -25,10 +25,10 @@ const htmlPluginEntries = templateFiles.map((template) => new HTMLWebpackPlugin(
 
 module.exports = {
     entry: {
-        app: path.resolve(environment.paths.source, 'js', 'app.js'),
+        app: path.resolve(environment.paths.source, 'ts', 'app.ts'),
     },
     output: {
-        filename: 'js/[name].js',
+        filename: '[name].js',
         path: environment.paths.output,
     },
     module: {
@@ -38,15 +38,21 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
             },
             {
-                test: /\.js$/,
+                test: /\.(j|t)sx?$/,
                 exclude: /node_modules/,
                 use: ['babel-loader'],
-            },
+            }
         ],
+    },
+    resolve: {
+        alias: {
+            renderLib: path.resolve(environment.paths.source, 'ts', 'render')
+        },
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'css/[name].css',
+            filename: '[name].css',
         }),
         new ImageMinimizerPlugin({
             test: /\.(jpe?g|png|gif|svg)$/i,
