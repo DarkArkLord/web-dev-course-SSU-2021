@@ -146,6 +146,7 @@ function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string
 }
 
 function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackResult: RPG.TCompetitionResult, log: string[]) {
+    // add states exp
     if (attackResult.success) {
         const attackMod = Math.floor(attackResult.result / 5);
         const attackStrength = attacker.primaryStates[States.Strength].value + attackMod;
@@ -172,7 +173,19 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
 function checkEndBattle(controller: BattleController): boolean {
     if (controller.enemy.commonStates.health.current < 1) {
         controller.globalController.popController();
-        const messageController = new InfoComponent(['Победа!'], ButtonsConfig.onlyNext);
+        const message = (<table class={CSS.table}>
+            <tr>
+                <td>
+                    Победа!
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {createLogElement(controller)}
+                </td>
+            </tr>
+        </table>) as Render.TChild;
+        const messageController = new InfoComponent([message], ButtonsConfig.onlyNext);
         controller.globalController.pushController(messageController);
         return true;
     }
@@ -182,7 +195,19 @@ function checkEndBattle(controller: BattleController): boolean {
         for (let i = 0; i < controllerDepth; i++) {
             controller.globalController.popController();
         }
-        const messageController = new InfoComponent(['Поражение!'], ButtonsConfig.onlyNext);
+        const message = (<table class={CSS.table}>
+            <tr>
+                <td>
+                    Поражение!
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {createLogElement(controller)}
+                </td>
+            </tr>
+        </table>) as Render.TChild;
+        const messageController = new InfoComponent([message], ButtonsConfig.onlyNext);
         controller.globalController.pushController(messageController);
         controller.player.commonStates.health.current = 0;
         return true;
