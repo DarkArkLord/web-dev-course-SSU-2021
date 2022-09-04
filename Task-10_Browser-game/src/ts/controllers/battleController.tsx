@@ -1,7 +1,7 @@
 import { Commands } from "../controls";
 import { addStateExp, tryCompetition } from "../rpg/actions";
 import { getCharacterWithLevel, updateCommonStates } from "../rpg/characters";
-import { renderBattleInfo } from "../rpg/characterToHtml";
+import { getResourceInfo, renderBattleInfo } from "../rpg/characterToHtml";
 import { diceExpressionToString, getDiceExpressionValue } from "../rpg/dices";
 import { getDamageByStrength, States } from "../rpg/elements";
 import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
@@ -121,10 +121,10 @@ function checkEnemyAttackFirst(controller: BattleController) {
         }
 
         if (result.success) {
-            log.unshift('> Противник ходит первым');
+            log.unshift('> Противник ходит первым <');
             addStateExp(enemyDexterity, 1);
         } else {
-            log.unshift('> Игрок ходит первым');
+            log.unshift('> Игрок ходит первым <');
             addStateExp(playerDexterity, 1);
         }
 
@@ -163,9 +163,8 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
         const damageDice = getDamageByStrength(attackStrength.value + attackMod);
         const damage = getDiceExpressionValue(damageDice).result;
 
-        log.unshift(`> ${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
-
         target.commonStates.health.current -= damage;
+        log.unshift(`> ${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона с результатом ${getResourceInfo(target.commonStates.health)} <`);
         addStateExp(target.primaryStates[States.Constitution], damage);
         updateCommonStates(target);
     } else if (attackResult.result <= -5) {
@@ -177,13 +176,12 @@ function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackR
         const damageDice = getDamageByStrength(attackStrength.value + attackMod);
         const damage = getDiceExpressionValue(damageDice).result;
 
-        log.unshift(`> ${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
-
         attacker.commonStates.health.current -= damage;
+        log.unshift(`> ${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона с результатом ${getResourceInfo(attacker.commonStates.health)} <`);
         addStateExp(attacker.primaryStates[States.Constitution], damage);
         updateCommonStates(attacker);
     } else {
-        log.unshift(`> ${target.name} блокирует атаку ${attacker.name} c результатом ${attackResult.result}`);
+        log.unshift(`> ${target.name} блокирует атаку ${attacker.name} c результатом ${attackResult.result} <`);
         addStateExp(target.primaryStates[States.Dexterity], 1);
     }
 }

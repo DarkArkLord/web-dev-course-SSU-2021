@@ -82,7 +82,7 @@ function renderCommonStates(states: RPG.Character.TCommonStates) {
     return statesTable;
 }
 
-function getResourceInfo(resource: RPG.Character.TResource) {
+export function getResourceInfo(resource: RPG.Character.TResource) {
     return getInfoWithPercent(resource.current, resource.max);
 }
 
