@@ -1,5 +1,5 @@
 import { Commands } from "../controls";
-import { tryCompetition } from "../rpg/actions";
+import { addStateExp, tryCompetition } from "../rpg/actions";
 import { getCharacterWithLevel } from "../rpg/characters";
 import { renderBattleInfo } from "../rpg/characterToHtml";
 import { diceExpressionToString, getDiceExpressionValue } from "../rpg/dices";
@@ -100,16 +100,20 @@ function checkEnemyAttackFirst(controller: BattleController) {
     const log = controller.battleLog;
 
     const player = controller.player;
-    const playerDexterity = player.primaryStates[States.Dexterity].value;
+    const playerDexterity = player.primaryStates[States.Dexterity];
 
     const enemy = controller.enemy;
-    const enemyDexterity = enemy.primaryStates[States.Dexterity].value;
+    const enemyDexterity = enemy.primaryStates[States.Dexterity];
 
     log.unshift('--- Проверка инициативы ---');
     while (true) {
-        const result = tryCompetition(enemyDexterity, playerDexterity);
-        log.unshift(`${player.name}: Ловкость ${playerDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
-        log.unshift(`${enemy.name}: Ловкость ${enemyDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
+        const result = tryCompetition(enemyDexterity.value, playerDexterity.value);
+
+        log.unshift(`${player.name}: Ловкость ${playerDexterity.value} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+        addStateExp(playerDexterity, 1);
+
+        log.unshift(`${enemy.name}: Ловкость ${enemyDexterity.value} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
+        addStateExp(enemyDexterity, 1);
 
         if (result.initiator.value == result.target.value) {
             log.unshift('Повторная проверка инициативы');
@@ -118,8 +122,10 @@ function checkEnemyAttackFirst(controller: BattleController) {
 
         if (result.success) {
             log.unshift('> Противник ходит первым');
+            addStateExp(enemyDexterity, 1);
         } else {
             log.unshift('> Игрок ходит первым');
+            addStateExp(playerDexterity, 1);
         }
 
         return result.success;
@@ -129,44 +135,54 @@ function checkEnemyAttackFirst(controller: BattleController) {
 function tryAttack(attacker: RPG.TCharacter, target: RPG.TCharacter, log: string[]): RPG.TCompetitionResult {
     log.unshift(`--- ${attacker.name} атакует ${target.name} ---`);
 
-    const attackerDexterity = attacker.primaryStates[States.Dexterity].value;
-    const targetDexterity = target.primaryStates[States.Dexterity].value;
+    const attackerDexterity = attacker.primaryStates[States.Dexterity];
+    const targetDexterity = target.primaryStates[States.Dexterity];
 
     // Add skills
 
-    const attackerValue = attackerDexterity;
-    const targetValue = targetDexterity;
+    const attackerValue = attackerDexterity.value;
+    const targetValue = targetDexterity.value;
 
     const result = tryCompetition(attackerValue, targetValue);
 
-    log.unshift(`Атака ${attacker.name}: Ловкость ${attackerDexterity} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
-    log.unshift(`Защита ${target.name}: Ловкость ${targetDexterity} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+    log.unshift(`Атака ${attacker.name}: Ловкость ${attackerDexterity.value} + Бросок ${result.initiator.dice.result} = ${result.initiator.value}`);
+    addStateExp(attackerDexterity, 1);
+    log.unshift(`Защита ${target.name}: Ловкость ${targetDexterity.value} + Бросок ${result.target.dice.result} = ${result.target.value}`);
+    addStateExp(targetDexterity, 1);
 
     return result;
 }
 
 function tryDealDamage(attacker: RPG.TCharacter, target: RPG.TCharacter, attackResult: RPG.TCompetitionResult, log: string[]) {
-    // add states exp
     if (attackResult.success) {
         const attackMod = Math.floor(attackResult.result / 5);
-        const attackStrength = attacker.primaryStates[States.Strength].value + attackMod;
-        const damageDice = getDamageByStrength(attackStrength);
+        addStateExp(attacker.primaryStates[States.Dexterity], 1 + attackMod);
+
+        const attackStrength = attacker.primaryStates[States.Strength];
+        addStateExp(attackStrength, 1);
+        const damageDice = getDamageByStrength(attackStrength.value + attackMod);
         const damage = getDiceExpressionValue(damageDice).result;
 
         log.unshift(`> ${attacker.name} бьет ${target.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
 
         target.commonStates.health.current -= damage;
+        addStateExp(target.primaryStates[States.Constitution], damage);
     } else if (attackResult.result <= -5) {
         const attackMod = Math.floor(-attackResult.result / 5);
-        const attackStrength = target.primaryStates[States.Strength].value + attackMod;
-        const damageDice = getDamageByStrength(attackStrength);
+        addStateExp(target.primaryStates[States.Dexterity], 1 + attackMod);
+
+        const attackStrength = target.primaryStates[States.Strength];
+        addStateExp(attackStrength, 1);
+        const damageDice = getDamageByStrength(attackStrength.value + attackMod);
         const damage = getDiceExpressionValue(damageDice).result;
 
         log.unshift(`> ${target.name} контратакует ${attacker.name} c результатом ${attackResult.result} нанося ${damage} (${diceExpressionToString(damageDice)}) урона`);
 
         attacker.commonStates.health.current -= damage;
+        addStateExp(attacker.primaryStates[States.Constitution], damage);
     } else {
         log.unshift(`> ${target.name} блокирует атаку ${attacker.name} c результатом ${attackResult.result}`);
+        addStateExp(target.primaryStates[States.Dexterity], 1);
     }
 }
 
