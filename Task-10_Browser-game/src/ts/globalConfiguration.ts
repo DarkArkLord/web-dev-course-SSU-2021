@@ -1,7 +1,7 @@
 import { GlobalController } from './controllers/globalController';
 import { Commands, ControlKeys } from './controls'
 
-const mainDisplay = document.getElementById('main_disp');
+const mainDisplay = document.getElementById('main-display');
 
 const globalController = new GlobalController(mainDisplay);
 
@@ -23,12 +23,12 @@ function action(command: Commands) {
     globalController.reDraw();
 }
 
-document.getElementById('button_up').addEventListener("click", () => action(Commands.Up));
-document.getElementById('button_down').addEventListener("click", () => action(Commands.Down));
-document.getElementById('button_right').addEventListener("click", () => action(Commands.Right));
-document.getElementById('button_left').addEventListener("click", () => action(Commands.Left));
-document.getElementById('button_use').addEventListener("click", () => action(Commands.Use));
-document.getElementById('button_back').addEventListener("click", () => action(Commands.Back));
+document.getElementById('button-up').addEventListener("click", () => action(Commands.Up));
+document.getElementById('button-down').addEventListener("click", () => action(Commands.Down));
+document.getElementById('button-right').addEventListener("click", () => action(Commands.Right));
+document.getElementById('button-left').addEventListener("click", () => action(Commands.Left));
+document.getElementById('button-use').addEventListener("click", () => action(Commands.Use));
+document.getElementById('button-back').addEventListener("click", () => action(Commands.Back));
 
 document.addEventListener('keydown', function (e) {
     const currentKey = e.code;
