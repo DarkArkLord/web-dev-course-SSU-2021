@@ -12,7 +12,7 @@ type TControlKeyList = {
     [key in Commands]: Array<string>;
 }
 
-export const ConstrolKeys = <TControlKeyList>{
+export const ControlKeys = <TControlKeyList>{
     [Commands.Use]: [
         'KeyE',
         'Enter',

@@ -1,5 +1,5 @@
 import { GlobalController } from './controllers/globalController';
-import { Commands, ConstrolKeys } from './controls'
+import { Commands, ControlKeys } from './controls'
 
 const mainDisplay = document.getElementById('main_disp');
 
@@ -33,9 +33,9 @@ document.getElementById('button_back').addEventListener("click", () => action(Co
 document.addEventListener('keydown', function (e) {
     const currentKey = e.code;
 
-    for (const cmdStr in ConstrolKeys) {
+    for (const cmdStr in ControlKeys) {
         const command = <Commands>cmdStr;
-        if (ConstrolKeys[command].includes(currentKey)) {
+        if (ControlKeys[command].includes(currentKey)) {
             action(command);
             return;
         }
