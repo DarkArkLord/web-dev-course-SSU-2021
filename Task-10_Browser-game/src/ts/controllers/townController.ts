@@ -19,6 +19,10 @@ export class TownMenuController extends MenuComponent {
                 value: "Искать врагов",
                 isActive: () => true,
             },
+            temple: {
+                value: "Храм",
+                isActive: () => true,
+            },
             states: {
                 value: "Характеристики",
                 isActive: () => true,
@@ -29,7 +33,7 @@ export class TownMenuController extends MenuComponent {
             },
         };
 
-        super([items.toMap, items.toBattle, items.states, items.other], 'Город');
+        super([items.toMap, items.toBattle, items.temple, items.states, items.other], 'Город');
         const instance = this;
 
         this.menuConfig.actions[items.toMap.value] = function () {
@@ -42,6 +46,10 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.saveGameData();
             const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
             const controller = new SelectBattleLevelController(lastLevel);
+            instance.globalController.pushController(controller);
+        };
+        this.menuConfig.actions[items.temple.value] = function () {
+            const controller = new TempleMenuController();
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[items.states.value] = function () {
@@ -162,5 +170,41 @@ class SelectBattleLevelController extends MenuComponent {
                 instance.globalController.pushController(controller);
             };
         });
+    }
+}
+
+class TempleMenuController extends MenuComponent {
+    constructor() {
+        const buttons = {
+            heal: {
+                value: "Исцеление",
+                isActive: () => true,
+            },
+            back: {
+                value: "Назад",
+                isActive: () => true,
+            },
+        };
+
+        super([buttons.heal, buttons.back], 'Городская церковь');
+        const instance = this;
+
+        this.menuConfig.actions[buttons.heal.value] = function () {
+            const player = instance.globalController.gameData.character;
+            const hp = player.commonStates.health;
+            const healedHealth = hp.max - hp.current;
+            const infoText = `Вылечено ${healedHealth} здоровья`;
+            hp.current = hp.max;
+            const controller = new InfoComponent([infoText], ButtonsConfig.onlyBack);
+            instance.globalController.pushController(controller);
+        }
+
+        this.menuConfig.actions[buttons.back.value] = function () {
+            instance.globalController.popController();
+        }
+
+        this.commandActions[Commands.Back] = function () {
+            instance.globalController.popController();
+        }
     }
 }
