@@ -8,51 +8,51 @@ import { getRange } from "../utils/common";
 import { BattleController } from "./battleController";
 import { renderCharacter } from "../rpg/characterToHtml";
 
+const townButtons = {
+    toMap: {
+        value: "Отправиться",
+        isActive: () => true,
+    },
+    toBattle: {
+        value: "Искать врагов",
+        isActive: () => true,
+    },
+    temple: {
+        value: "Храм",
+        isActive: () => true,
+    },
+    states: {
+        value: "Характеристики",
+        isActive: () => true,
+    },
+    other: {
+        value: "Другое",
+        isActive: () => false,
+    },
+};
+
 export class TownMenuController extends MenuComponent {
     constructor() {
-        const items = {
-            toMap: {
-                value: "Отправиться",
-                isActive: () => true,
-            },
-            toBattle: {
-                value: "Искать врагов",
-                isActive: () => true,
-            },
-            temple: {
-                value: "Храм",
-                isActive: () => true,
-            },
-            states: {
-                value: "Характеристики",
-                isActive: () => true,
-            },
-            other: {
-                value: "Другое",
-                isActive: () => false,
-            },
-        };
-
-        super([items.toMap, items.toBattle, items.temple, items.states, items.other], 'Город');
+        super([townButtons.toMap, townButtons.toBattle, townButtons.temple, townButtons.states, townButtons.other], 'Город');
         const instance = this;
 
-        this.menuConfig.actions[items.toMap.value] = function () {
+        this.menuConfig.actions[townButtons.toMap.value] = function () {
             instance.globalController.saveGameData();
             const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
             const controller = new SelectMapLevelController(lastLevel);
             instance.globalController.pushController(controller);
         };
-        this.menuConfig.actions[items.toBattle.value] = function () {
+        this.menuConfig.actions[townButtons.toBattle.value] = function () {
             instance.globalController.saveGameData();
             const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
             const controller = new SelectBattleLevelController(lastLevel);
             instance.globalController.pushController(controller);
         };
-        this.menuConfig.actions[items.temple.value] = function () {
+        this.menuConfig.actions[townButtons.temple.value] = function () {
             const controller = new TempleMenuController();
             instance.globalController.pushController(controller);
         };
-        this.menuConfig.actions[items.states.value] = function () {
+        this.menuConfig.actions[townButtons.states.value] = function () {
             const character = instance.globalController.gameData.character;
             const characterTable = renderCharacter(character);
 
@@ -63,7 +63,7 @@ export class TownMenuController extends MenuComponent {
 
             instance.globalController.pushController(controller);
         };
-        this.menuConfig.actions[items.other.value] = function () {
+        this.menuConfig.actions[townButtons.other.value] = function () {
             const controller = new InfoComponent(['Другое'], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
@@ -74,7 +74,15 @@ export class TownMenuController extends MenuComponent {
         }
     }
     commonInit(): void {
-        this.globalController.saveGameData();
+        const instance = this;
+        instance.globalController.saveGameData();
+        function activeOnPositiveHP() {
+            const player = instance.globalController.gameData.character;
+            const health = player.commonStates.health;
+            return health.current > 0;
+        }
+        townButtons.toMap.isActive = activeOnPositiveHP;
+        townButtons.toBattle.isActive = activeOnPositiveHP;
     }
 }
 
@@ -168,23 +176,23 @@ class SelectBattleLevelController extends MenuComponent {
     }
 }
 
+const templeButtons = {
+    heal: {
+        value: "Исцеление",
+        isActive: () => true,
+    },
+    back: {
+        value: "Назад",
+        isActive: () => true,
+    },
+};
+
 class TempleMenuController extends MenuComponent {
     constructor() {
-        const buttons = {
-            heal: {
-                value: "Исцеление",
-                isActive: () => true,
-            },
-            back: {
-                value: "Назад",
-                isActive: () => true,
-            },
-        };
-
-        super([buttons.heal, buttons.back], 'Городская церковь');
+        super([templeButtons.heal, templeButtons.back], 'Городская церковь');
         const instance = this;
 
-        this.menuConfig.actions[buttons.heal.value] = function () {
+        this.menuConfig.actions[templeButtons.heal.value] = function () {
             const player = instance.globalController.gameData.character;
             const hp = player.commonStates.health;
             const healedHealth = hp.max - hp.current;
@@ -194,12 +202,21 @@ class TempleMenuController extends MenuComponent {
             instance.globalController.pushController(controller);
         }
 
-        this.menuConfig.actions[buttons.back.value] = function () {
+        this.menuConfig.actions[templeButtons.back.value] = function () {
             instance.globalController.popController();
         }
 
         this.commandActions[Commands.Back] = function () {
             instance.globalController.popController();
         }
+    }
+    commonInit(): void {
+        const instance = this;
+        function activeOnNotMaxHP() {
+            const player = instance.globalController.gameData.character;
+            const health = player.commonStates.health;
+            return health.current < health.max;
+        }
+        templeButtons.heal.isActive = activeOnNotMaxHP;
     }
 }
