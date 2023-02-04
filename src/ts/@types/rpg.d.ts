@@ -5,9 +5,7 @@ declare namespace RPG {
             expMultiplier: number,
             experience: number,
         };
-        type TPrimaryStates = {
-            [state: string]: TState,
-        };
+        type TPrimaryStates = StrDictionary<TState>;
 
         type TResource = {
             current: number,
