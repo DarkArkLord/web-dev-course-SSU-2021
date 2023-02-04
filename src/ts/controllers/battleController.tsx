@@ -70,8 +70,8 @@ export class BattleController extends MenuComponent {
         }
     }
     createElement(): HTMLElement {
-        const enemyTable = renderBattleInfo(this.enemy);
-        const characterTable = renderBattleInfo(this.player);
+        const enemyTable = renderBattleInfo(this.enemy, this.globalController.translationsUtils);
+        const characterTable = renderBattleInfo(this.player, this.globalController.translationsUtils);
 
         const headerTable = (<table class={CSS.table}>
             <tr>

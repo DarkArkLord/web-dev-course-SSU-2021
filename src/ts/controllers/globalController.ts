@@ -4,19 +4,28 @@ import { getCharacterTemplate } from "../rpg/characters";
 import { MainMenuController } from "./mainMenuController";
 import { TownMenuController } from "./townController";
 
+// TODO
+// Вынести в настройки?
+import { TranslationsUtils } from "../utils/translations/ru";
+
 const GAME_SAVE_NAME = 'GAME-SAVE'
 
 export class GlobalController implements IGlobalController {
+    display: HTMLElement;
     gameData: TGameData;
+    translationsUtils: TTranslationsUtils;
+
     currentController: IController;
     controllerStack: Array<IController>;
-    display: HTMLElement;
 
     constructor(display: HTMLElement) {
         this.display = display;
         this.gameData = undefined;
+        this.translationsUtils = TranslationsUtils;
+
         this.currentController = undefined;
         this.controllerStack = [];
+
         this.loadGameData();
 
         const townController = new TownMenuController();

@@ -7,7 +7,7 @@ const CSS = {
     topData: 'vertical-align-top',
 };
 
-export function renderCharacter(character: RPG.TCharacter) {
+export function renderCharacter(character: RPG.TCharacter, translationsUtils: TTranslationsUtils) {
     const states = (<table class={CSS.table}>
         <tr>
             <td>
@@ -19,7 +19,7 @@ export function renderCharacter(character: RPG.TCharacter) {
         </tr>
         <tr>
             <td class={CSS.topData}>
-                {renderStatesTable(character)}
+                {renderStatesTable(character, translationsUtils)}
             </td>
             <td class={CSS.topData}>
                 {renderEquipmentTable()}
@@ -30,7 +30,7 @@ export function renderCharacter(character: RPG.TCharacter) {
     return states;
 }
 
-function renderStatesTable(character: RPG.TCharacter) {
+function renderStatesTable(character: RPG.TCharacter, translationsUtils: TTranslationsUtils) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -39,7 +39,7 @@ function renderStatesTable(character: RPG.TCharacter) {
         </tr>
         <tr>
             <td>
-                {renderCommonStates(character.commonStates)}
+                {renderCommonStates(character.commonStates, translationsUtils)}
             </td>
         </tr>
         <tr>
@@ -49,7 +49,7 @@ function renderStatesTable(character: RPG.TCharacter) {
         </tr>
         <tr>
             <td>
-                {renderPrimaryStates(character.primaryStates)}
+                {renderPrimaryStates(character.primaryStates, translationsUtils)}
             </td>
         </tr>
         <tr>
@@ -67,7 +67,7 @@ function renderStatesTable(character: RPG.TCharacter) {
     return statesTable;
 }
 
-function renderCommonStates(states: RPG.Character.TCommonStates) {
+function renderCommonStates(states: RPG.Character.TCommonStates, translationsUtils: TTranslationsUtils) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -91,7 +91,7 @@ function getInfoWithPercent(current: number, max: number) {
     return `${current}/${max} (${percent}%)`;
 }
 
-function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
+function renderPrimaryStates(states: RPG.Character.TPrimaryStates, translationsUtils: TTranslationsUtils) {
     const statesTable = (<table class={CSS.table}>
         <tr>
             <td>
@@ -104,20 +104,21 @@ function renderPrimaryStates(states: RPG.Character.TPrimaryStates) {
                 Опыт
             </td>
         </tr>
-        {RenderStateRow(States.Strength)}
-        {RenderStateRow(States.Dexterity)}
-        {RenderStateRow(States.Intelligence)}
-        {RenderStateRow(States.Constitution)}
+        {RenderStateRow(States.Strength, translationsUtils)}
+        {RenderStateRow(States.Dexterity, translationsUtils)}
+        {RenderStateRow(States.Intelligence, translationsUtils)}
+        {RenderStateRow(States.Constitution, translationsUtils)}
     </table>) as Render.TChild;
 
     return statesTable;
 
-    function RenderStateRow(stateName: string) {
+    function RenderStateRow(stateName: string, translationsUtils: TTranslationsUtils) {
+        const stateTranslation = translationsUtils.enumTranslations[stateName];
         const state = states[stateName];
         const expToUp = getExpForStateLevelUp(state);
         const stateRecord = (<tr>
             <td>
-                {stateName}
+                {stateTranslation}
             </td>
             <td>
                 {state.value.toString()}
@@ -262,7 +263,7 @@ function renderWeapon() {
     return weaponTable;
 }
 
-export function renderBattleInfo(character: RPG.TCharacter) {
+export function renderBattleInfo(character: RPG.TCharacter, translationsUtils: TTranslationsUtils) {
     const strength = character.primaryStates[States.Strength].value;
     const baseDamage = getDamageByStrength(strength);
 

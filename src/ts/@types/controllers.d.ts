@@ -5,6 +5,7 @@ declare type TGameData = {
 
 declare interface IGlobalController {
     gameData: TGameData;
+    translationsUtils: TTranslationsUtils;
     currentController?: IController;
     controllerStack: Array<IController>;
 

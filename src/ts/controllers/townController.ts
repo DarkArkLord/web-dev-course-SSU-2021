@@ -54,7 +54,7 @@ export class TownMenuController extends MenuComponent {
         };
         this.menuConfig.actions[townButtons.states.value] = function () {
             const character = instance.globalController.gameData.character;
-            const characterTable = renderCharacter(character);
+            const characterTable = renderCharacter(character, instance.globalController.translationsUtils);
 
             const controller = new InfoComponent([characterTable], ButtonsConfig.onlyBack);
             controller.commandActions[Commands.Back] = function () {
