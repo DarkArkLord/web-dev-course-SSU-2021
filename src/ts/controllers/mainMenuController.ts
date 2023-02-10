@@ -3,19 +3,25 @@ import { Commands } from "../controls";
 import { TownMenuController } from "./townController";
 import { InfoComponent, ButtonsConfig } from "./components/infoComponent";
 
+export enum MainMenuControllerTexts {
+    BtnNewGame = 'CTRL-MAIN-MENU-BTN-NG',
+    BtnContinue = 'CTRL-MAIN-MENU-BTN-CNT',
+    BtnHelp = 'CTRL-MAIN-MENU-BTN-HELP',
+};
+
 export class MainMenuController extends MenuComponent {
     constructor() {
         const items = {
             newGame: {
-                value: "Новая игра",
+                value: MainMenuControllerTexts.BtnNewGame,
                 isActive: () => true,
             },
             continue: {
-                value: "Продолжить",
+                value: MainMenuControllerTexts.BtnContinue,
                 isActive: () => false,
             },
             help: {
-                value: "Справка",
+                value: MainMenuControllerTexts.BtnHelp,
                 isActive: () => true,
             },
         };
@@ -45,5 +51,12 @@ export class MainMenuController extends MenuComponent {
             const controller = new InfoComponent(['Помощь'], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
+    }
+    commonInit(): void {
+        const instance = this;    
+
+        Object.values(instance.menuConfig.items).forEach((item: TMenuItem) => {
+            item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
+        })
     }
 }

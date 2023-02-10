@@ -12,14 +12,7 @@ const CSS = {
     },
 };
 
-type TMenuItem = {
-    value: string,
-    isActive: () => boolean,
-};
-
-type TMenuItemsActions = {
-    [value: string]: () => void
-};
+type TMenuItemsActions = StrDictionary<() => void>;
 
 function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerator) {
     let classes = [
@@ -102,7 +95,7 @@ export class MenuComponent extends BaseController {
                     <ul class={CSS.list}>
                         {instance.menuConfig.items.map((item, index) => {
                             const elementClass = getItemClass(item, index, instance.menuConfig.currentItem);
-                            const element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
+                            const element = (<li class={elementClass}>{item.description}</li>) as HTMLElement;
                             element.onclick = () => {
                                 instance.useItem(index);
                                 instance.globalController.reDraw();

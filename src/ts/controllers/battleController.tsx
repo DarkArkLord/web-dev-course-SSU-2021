@@ -4,11 +4,16 @@ import { getCharacterWithLevel, updateCommonStates } from "../rpg/characters";
 import { getResourceInfo, renderBattleInfo } from "../rpg/characterToHtml";
 import { diceExpressionToString, getDiceExpressionValue } from "../rpg/dices";
 import { getDamageByStrength, States } from "../rpg/elements";
+import { NavigationButtons } from "../utils/common";
 import { ButtonsConfig, InfoComponent } from "./components/infoComponent";
 import { MenuComponent } from "./components/menuComponent";
 
 const CSS = {
     table: 'width-100 align-center',
+};
+
+export enum BattleControllerTexts {
+    BtnAttack = 'CTRL-BTTL-BTN-ATTACK',
 };
 
 export class BattleController extends MenuComponent {
@@ -19,14 +24,14 @@ export class BattleController extends MenuComponent {
     constructor(level: number) {
         const buttons = {
             attack: {
-                value: "Атаковать",
+                value: BattleControllerTexts.BtnAttack,
                 isActive: () => true,
             },
             back: {
-                value: "Сбежать",
+                value: NavigationButtons.Back,
                 isActive: () => true,
             },
-        };
+        } as StrDictionary<TMenuItem>;
 
         super([buttons.attack, buttons.back], `Battle controller ${level}`);
         const instance = this;
@@ -55,6 +60,13 @@ export class BattleController extends MenuComponent {
         this.commandActions[Commands.Back] = function () {
             instance.globalController.popController();
         }
+    }
+    commonInit(): void {
+        const instance = this;
+
+        Object.values(instance.menuConfig.items).forEach((item: TMenuItem) => {
+            item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
+        })
     }
     onPush(globalController: IGlobalController): void {
         super.onPush(globalController);

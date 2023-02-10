@@ -4,32 +4,40 @@ import { Commands } from "../controls";
 import { MainMenuController } from "./mainMenuController";
 import { MapController } from "./mapController";
 import { generateMap_Forest, getFieldOfView } from "../utils/maps";
-import { getRange } from "../utils/common";
+import { getRange, NavigationButtons } from "../utils/common";
 import { BattleController } from "./battleController";
 import { renderCharacter } from "../rpg/characterToHtml";
 
+export enum TownControllerTexts {
+    BtnToMap = 'CTRL-TOWN-BTN-MAP',
+    BtnToBattle = 'CTRL-TOWN-BTN-BATTLE',
+    BtnTemple = 'CTRL-TOWN-BTN-TEMPLE',
+    BtnStates = 'CTRL-TOWN-BTN-STATES',
+    BtnOther = 'CTRL-TOWN-BTN-OTHER',
+};
+
 const townButtons = {
     toMap: {
-        value: "Отправиться",
+        value: TownControllerTexts.BtnToMap,
         isActive: () => true,
     },
     toBattle: {
-        value: "Искать врагов",
+        value: TownControllerTexts.BtnToBattle,
         isActive: () => true,
     },
     temple: {
-        value: "Храм",
+        value: TownControllerTexts.BtnTemple,
         isActive: () => true,
     },
     states: {
-        value: "Характеристики",
+        value: TownControllerTexts.BtnStates,
         isActive: () => true,
     },
     other: {
-        value: "Другое",
+        value: TownControllerTexts.BtnOther,
         isActive: () => false,
     },
-};
+} as StrDictionary<TMenuItem>;
 
 export class TownMenuController extends MenuComponent {
     constructor() {
@@ -76,11 +84,17 @@ export class TownMenuController extends MenuComponent {
     commonInit(): void {
         const instance = this;
         instance.globalController.saveGameData();
+
+        Object.values(townButtons).forEach((item: TMenuItem) => {
+            item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
+        })
+
         function activeOnPositiveHP() {
             const player = instance.globalController.gameData.character;
             const health = player.commonStates.health;
             return health.current > 0;
         }
+
         townButtons.toMap.isActive = activeOnPositiveHP;
         townButtons.toBattle.isActive = activeOnPositiveHP;
     }
@@ -90,7 +104,6 @@ const subLevelCount = 3;
 
 class SelectMapLevelController extends MenuComponent {
     constructor(lastLevel: number) {
-        const backTitle = 'Назад';
         const levelItems = getRange(lastLevel, 1)
             .map(level => {
                 return {
@@ -98,9 +111,10 @@ class SelectMapLevelController extends MenuComponent {
                     title: `Уровень ${level}`,
                 };
             });
-        super([...levelItems, { title: backTitle }].map(item => {
+        super([...levelItems, { title: NavigationButtons.Back }].map(item => {
             return {
                 value: item.title,
+                description: item.title,
                 isActive: () => true,
             };
         }), 'Выберите уровень');
@@ -110,7 +124,7 @@ class SelectMapLevelController extends MenuComponent {
             instance.globalController.popController();
         };
 
-        instance.menuConfig.actions[backTitle] = function () {
+        instance.menuConfig.actions[NavigationButtons.Back] = function () {
             instance.globalController.popController();
         };
 
@@ -139,7 +153,6 @@ class SelectMapLevelController extends MenuComponent {
 
 class SelectBattleLevelController extends MenuComponent {
     constructor(lastLevel: number) {
-        const backTitle = 'Назад';
         const levelItems = getRange(lastLevel, 1)
             .flatMap(mainLevel => {
                 return getRange(subLevelCount, 1)
@@ -150,9 +163,10 @@ class SelectBattleLevelController extends MenuComponent {
                         title: `Уровень ${mainLevel}-${subLevel}`,
                     }));
             });
-        super([...levelItems, { title: backTitle }].map(item => {
+        super([...levelItems, { title: NavigationButtons.Back }].map(item => {
             return {
                 value: item.title,
+                description: item.title,
                 isActive: () => true,
             };
         }), 'Выберите уровень');
@@ -162,7 +176,7 @@ class SelectBattleLevelController extends MenuComponent {
             instance.globalController.popController();
         };
 
-        instance.menuConfig.actions[backTitle] = function () {
+        instance.menuConfig.actions[NavigationButtons.Back] = function () {
             instance.globalController.popController();
         };
 
@@ -176,13 +190,17 @@ class SelectBattleLevelController extends MenuComponent {
     }
 }
 
+export enum TownTempleTexts {
+    BtnHeal = 'CTRL-TEMPLE-BTN-HEAL',
+};
+
 const templeButtons = {
     heal: {
-        value: "Исцеление",
+        value: TownTempleTexts.BtnHeal,
         isActive: () => true,
     },
     back: {
-        value: "Назад",
+        value: NavigationButtons.Back,
         isActive: () => true,
     },
 };
@@ -212,11 +230,15 @@ class TempleMenuController extends MenuComponent {
     }
     commonInit(): void {
         const instance = this;
-        function activeOnNotMaxHP() {
+
+        Object.values(templeButtons).forEach((item: TMenuItem) => {
+            item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
+        })
+
+        templeButtons.heal.isActive = () => {
             const player = instance.globalController.gameData.character;
             const health = player.commonStates.health;
             return health.current < health.max;
-        }
-        templeButtons.heal.isActive = activeOnNotMaxHP;
+        };
     }
 }

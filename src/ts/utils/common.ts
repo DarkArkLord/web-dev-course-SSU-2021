@@ -45,3 +45,8 @@ export function floorValue(value: number, accuracy: number = 2) {
     const accuracyMultiply = 10 ** accuracy;
     return Math.floor(value * accuracyMultiply) / accuracyMultiply;
 }
+
+export enum NavigationButtons {
+    Next = 'BTN-NEXT',
+    Back = 'BTN-BACK',
+}

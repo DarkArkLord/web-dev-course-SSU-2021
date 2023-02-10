@@ -1,3 +1,4 @@
+import { NavigationButtons } from "../../utils/common";
 import { MenuComponent } from "./menuComponent";
 
 const CSS = {
@@ -6,14 +7,14 @@ const CSS = {
 
 const controlButtons = {
     next: {
-        value: "Продолжить",
+        value: NavigationButtons.Next,
         isActive: () => true,
     },
     back: {
-        value: "Назад",
+        value: NavigationButtons.Back,
         isActive: () => true,
     },
-};
+} as StrDictionary<TMenuItem>;
 
 type TButtonsConfig = { next: boolean, back: boolean };
 
@@ -70,9 +71,15 @@ export class InfoComponent extends MenuComponent {
         }
     }
     createElement(): HTMLElement {
+        const instance = this;
         const menu = this.menuConfig;
         const info = this.infoConfig;
         menu.header = info.items[info.currentItem];
+
+        Object.values(this.menuConfig.items).forEach((item: TMenuItem) => {
+            item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
+        })
+
         return super.createElement();
     }
 }

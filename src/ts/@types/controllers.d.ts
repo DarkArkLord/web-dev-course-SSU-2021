@@ -29,3 +29,9 @@ declare interface IController {
     executeCommand(command: string): void;
     createElement(): HTMLElement;
 }
+
+type TMenuItem = {
+    value: string,
+    description?: string,
+    isActive: () => boolean,
+};
