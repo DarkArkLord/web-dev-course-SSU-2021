@@ -46,7 +46,7 @@ export class MenuComponent extends BaseController {
 
     constructor(items: TMenuItem[], header?: Render.TChild, footer?: Render.TChild) {
         super();
-        let instance = this;
+        const instance = this;
         this.menuConfig = {
             header: header,
             footer: footer,
@@ -83,7 +83,7 @@ export class MenuComponent extends BaseController {
     }
 
     createElement(): HTMLElement {
-        let instance = this;
+        const instance = this;
 
         function HeaderComponent() {
             if (instance.menuConfig.header) {
@@ -101,8 +101,8 @@ export class MenuComponent extends BaseController {
                 <td>
                     <ul class={CSS.list}>
                         {instance.menuConfig.items.map((item, index) => {
-                            let elementClass = getItemClass(item, index, instance.menuConfig.currentItem);
-                            let element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
+                            const elementClass = getItemClass(item, index, instance.menuConfig.currentItem);
+                            const element = (<li class={elementClass}>{item.value}</li>) as HTMLElement;
                             element.onclick = () => {
                                 instance.useItem(index);
                                 instance.globalController.reDraw();
