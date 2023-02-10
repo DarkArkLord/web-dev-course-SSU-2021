@@ -7,10 +7,10 @@ declare namespace MapTypes {
         value: string,
         classes: string[],
     };
-    type TCellContentList = StrDictionary<TCellContent>;
+    type TCellContentList = TDictionary<TCellContent>;
 
     type TFPointUpdate = (position: TPoint) => void;
-    type TCellActions = StrDictionary<TFPointUpdate>;
+    type TCellActions = TDictionary<TFPointUpdate>;
 
     type TFMove = (value: number) => number;
 

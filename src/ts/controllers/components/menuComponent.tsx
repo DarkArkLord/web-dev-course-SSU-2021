@@ -12,7 +12,7 @@ const CSS = {
     },
 };
 
-type TMenuItemsActions = StrDictionary<() => void>;
+type TMenuItemsActions = TDictionary<() => void>;
 
 function getItemClass(item: TMenuItem, index: number, enumerator: NumberEnumerator) {
     let classes = [

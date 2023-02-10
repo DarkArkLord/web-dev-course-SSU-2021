@@ -37,7 +37,7 @@ const townButtons = {
         value: TownControllerTexts.BtnOther,
         isActive: () => false,
     },
-} as StrDictionary<TMenuItem>;
+} as TDictionary<TMenuItem>;
 
 export class TownMenuController extends MenuComponent {
     constructor() {

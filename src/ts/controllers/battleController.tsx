@@ -31,7 +31,7 @@ export class BattleController extends MenuComponent {
                 value: NavigationButtons.Back,
                 isActive: () => true,
             },
-        } as StrDictionary<TMenuItem>;
+        } as TDictionary<TMenuItem>;
 
         super([buttons.attack, buttons.back], `Battle controller ${level}`);
         const instance = this;

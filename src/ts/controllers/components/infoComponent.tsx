@@ -14,15 +14,15 @@ const controlButtons = {
         value: NavigationButtons.Back,
         isActive: () => true,
     },
-} as StrDictionary<TMenuItem>;
+} as TDictionary<TMenuItem>;
 
 type TButtonsConfig = { next: boolean, back: boolean };
 
 export const ButtonsConfig = {
-    onlyNext: { next: true, back: false } as TButtonsConfig,
-    onlyBack: { next: false, back: true } as TButtonsConfig,
-    both: { next: true, back: true } as TButtonsConfig,
-};
+    onlyNext: { next: true, back: false },
+    onlyBack: { next: false, back: true },
+    both: { next: true, back: true },
+} as TDictionary<TButtonsConfig>;
 
 export class InfoComponent extends MenuComponent {
     infoConfig: {

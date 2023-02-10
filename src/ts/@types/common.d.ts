@@ -1,7 +1,7 @@
-type StrDictionary<TValue> = {
+type TDictionary<TValue> = {
     [key: string]: TValue,
 };
 
 type TTranslationsUtils = {
-    enumTranslations: StrDictionary<string>,
+    enumTranslations: TDictionary<string>,
 };
