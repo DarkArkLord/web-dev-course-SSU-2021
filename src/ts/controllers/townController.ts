@@ -41,7 +41,7 @@ const townButtons = {
 
 export class TownMenuController extends MenuComponent {
     constructor() {
-        super([townButtons.toMap, townButtons.toBattle, townButtons.temple, townButtons.states, townButtons.other], 'Город');
+        super([townButtons.toMap, townButtons.toBattle, townButtons.temple, townButtons.states, townButtons.other]);
         const instance = this;
 
         this.menuConfig.actions[townButtons.toMap.value] = function () {
@@ -72,7 +72,8 @@ export class TownMenuController extends MenuComponent {
             instance.globalController.pushController(controller);
         };
         this.menuConfig.actions[townButtons.other.value] = function () {
-            const controller = new InfoComponent(['Другое'], ButtonsConfig.onlyBack);
+            const ctlrHeader = instance.globalController.translationsUtils.controllers.town.other();
+            const controller = new InfoComponent([ctlrHeader], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
         };
 
@@ -85,9 +86,10 @@ export class TownMenuController extends MenuComponent {
         const instance = this;
         instance.globalController.saveGameData();
 
+        instance.menuConfig.header = instance.globalController.translationsUtils.controllers.town.header();
         Object.values(townButtons).forEach((item: TMenuItem) => {
             item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
-        })
+        });
 
         function activeOnPositiveHP() {
             const player = instance.globalController.gameData.character;
@@ -104,20 +106,11 @@ const subLevelCount = 3;
 
 class SelectMapLevelController extends MenuComponent {
     constructor(lastLevel: number) {
-        const levelItems = getRange(lastLevel, 1)
-            .map(level => {
-                return {
-                    level: level,
-                    title: `Уровень ${level}`,
-                };
-            });
-        super([...levelItems, { title: NavigationButtons.Back }].map(item => {
-            return {
-                value: item.title,
-                description: item.title,
-                isActive: () => true,
-            };
-        }), 'Выберите уровень');
+        const levelItems = getRange(lastLevel, 1);
+        super([...levelItems, NavigationButtons.Back].map(item => ({
+            value: item.toString(),
+            isActive: () => true,
+        })));
         const instance = this;
 
         instance.commandActions[Commands.Back] = function () {
@@ -128,8 +121,8 @@ class SelectMapLevelController extends MenuComponent {
             instance.globalController.popController();
         };
 
-        levelItems.forEach(item => {
-            instance.menuConfig.actions[item.title] = function () {
+        levelItems.forEach(level => {
+            instance.menuConfig.actions[level] = function () {
                 instance.globalController.popController();
                 function paramsByLevel(level: number): MapTypes.TGeneratorParams {
                     return {
@@ -140,13 +133,24 @@ class SelectMapLevelController extends MenuComponent {
                     }
                 }
                 const mapParams: TMapControllerParams = {
-                    mainLevel: item.level,
+                    mainLevel: level,
                     generators: getRange(subLevelCount)
                         .map(level => () => generateMap_Forest(paramsByLevel(level + 1))),
                 };
                 const controller = new MapController(mapParams);
                 instance.globalController.pushController(controller);
             };
+        });
+    }
+    commonInit(): void {
+        const instance = this;
+
+        instance.menuConfig.header = instance.globalController.translationsUtils.controllers.town.levelSelector.header();
+        instance.menuConfig.items.forEach((item: TMenuItem) => {
+            const level = +item.value;
+            item.description = Number.isInteger(level)
+            ? instance.globalController.translationsUtils.controllers.town.levelSelector.levelItem(level)
+            : instance.globalController.translationsUtils.enumTranslations[item.value];
         });
     }
 }
@@ -160,16 +164,15 @@ class SelectBattleLevelController extends MenuComponent {
                         mainLevel,
                         subLevel,
                         level: (mainLevel - 1) * subLevelCount + subLevel,
-                        title: `Уровень ${mainLevel}-${subLevel}`,
+                        title: `${mainLevel}-${subLevel}`,
                     }));
             });
         super([...levelItems, { title: NavigationButtons.Back }].map(item => {
             return {
                 value: item.title,
-                description: item.title,
                 isActive: () => true,
             };
-        }), 'Выберите уровень');
+        }));
         const instance = this;
 
         instance.commandActions[Commands.Back] = function () {
@@ -186,6 +189,17 @@ class SelectBattleLevelController extends MenuComponent {
                 const controller = new BattleController(item.level);
                 instance.globalController.pushController(controller);
             };
+        });
+    }
+    commonInit(): void {
+        const instance = this;
+
+        instance.menuConfig.header = instance.globalController.translationsUtils.controllers.town.levelSelector.header();
+        instance.menuConfig.items.forEach((item: TMenuItem) => {
+            const level = item.value.split('-').map(value => +value);
+            item.description = level?.length > 1 && Number.isInteger(level[0]) && Number.isInteger(level[1])
+            ? instance.globalController.translationsUtils.controllers.town.levelSelector.enemyLevelItem(level[0], level[1])
+            : instance.globalController.translationsUtils.enumTranslations[item.value];
         });
     }
 }
@@ -207,14 +221,14 @@ const templeButtons = {
 
 class TempleMenuController extends MenuComponent {
     constructor() {
-        super([templeButtons.heal, templeButtons.back], 'Городская церковь');
+        super([templeButtons.heal, templeButtons.back]);
         const instance = this;
 
         this.menuConfig.actions[templeButtons.heal.value] = function () {
             const player = instance.globalController.gameData.character;
             const hp = player.commonStates.health;
             const healedHealth = hp.max - hp.current;
-            const infoText = `Вылечено ${healedHealth} здоровья`;
+            const infoText = instance.globalController.translationsUtils.controllers.town.temple.healedHealth(healedHealth);
             hp.current = hp.max;
             const controller = new InfoComponent([infoText], ButtonsConfig.onlyBack);
             instance.globalController.pushController(controller);
@@ -231,6 +245,7 @@ class TempleMenuController extends MenuComponent {
     commonInit(): void {
         const instance = this;
 
+        instance.menuConfig.header = instance.globalController.translationsUtils.controllers.town.temple.header();
         Object.values(templeButtons).forEach((item: TMenuItem) => {
             item.description = instance.globalController.translationsUtils.enumTranslations[item.value];
         })

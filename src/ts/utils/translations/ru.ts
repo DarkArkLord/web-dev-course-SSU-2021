@@ -29,6 +29,23 @@ const enumTranslations = {
     [BattleControllerTexts.BtnAttack]: 'Атаковать',
 };
 
+const controllers = {
+    town: {
+        header: () => 'Город',
+        other: () => 'Другое',
+        levelSelector: {
+            header: () => 'Выберите уровень',
+            levelItem: (level: number) => `Уровень ${level}`,
+            enemyLevelItem: (mainLevel: number, subLevel: number) => `Уровень ${mainLevel}-${subLevel}`,
+        }, 
+        temple: {
+            header: () => 'Городская церковь',
+            healedHealth: (healedHealth: number) => `Вылечено ${healedHealth} здоровья`,
+        },       
+    }
+};
+
 export const TranslationsUtils = {
     enumTranslations,
-};
+    controllers,
+} as TTranslationsUtils;
