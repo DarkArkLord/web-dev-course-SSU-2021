@@ -31,19 +31,7 @@ export function render(tag: Render.TTag, attributes?: any, ...childs: Render.TCh
     }
 
     for (const child of childs) {
-        (function addChild(parent, child) {
-            if (Array.isArray(child)) {
-                for (const innerChild of child) {
-                    addChild(parent, innerChild);
-                }
-            } else {
-                parent.appendChild(
-                    typeof child == 'number' || typeof child == 'string'
-                        ? document.createTextNode(child)
-                        : child
-                );
-            }
-        })(element, child);
+        addChild(element, child);
     }
 
     return element;
