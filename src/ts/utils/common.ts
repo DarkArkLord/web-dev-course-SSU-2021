@@ -38,7 +38,7 @@ export class NumberEnumerator {
 }
 
 export function getRange(count: number, start: number = 0, step: number = 1) {
-    return Array.from(Array(count).keys()).map(x => x * step + start);
+    return Array.from(Array(count)).map((_, i) => i * step + start);
 }
 
 export function floorValue(value: number, accuracy: number = 2) {
