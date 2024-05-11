@@ -1,5 +1,6 @@
 import { Commands } from "../controls";
 import { Stack } from "./common";
+import { DataController } from "./dataController";
 import { HTMLTags, render } from "./render";
 
 declare type TCommandActions = {
@@ -8,6 +9,7 @@ declare type TCommandActions = {
 
 export abstract class BaseState {
     protected statesController: StatesController;
+    protected dataController: DataController<TGameData>;
     protected commandActions: TCommandActions;
 
     constructor() {
@@ -23,8 +25,11 @@ export abstract class BaseState {
 
     public abstract getStateTitle(): string;
 
-    public setController(controller: StatesController) {
+    public setStatesController(controller: StatesController) {
         this.statesController = controller;
+    }
+    public setDataController(dataController: DataController<TGameData>) {
+        this.dataController = dataController;
     }
 
     public onStateCreating(): void {
@@ -53,13 +58,20 @@ export class StatesController {
     protected currentState?: BaseState = null;
     protected statesStack: Stack<BaseState> = new Stack<BaseState>();
 
+    protected dataController: DataController<TGameData>;
+
+    constructor(dataController: DataController<TGameData>) {
+        this.dataController = dataController;
+    }
+
     public useState(state: BaseState): void {
         if (this.currentState) {
             this.currentState.onStateDestroy();
         }
 
         this.currentState = state;
-        this.currentState.setController(this);
+        this.currentState.setStatesController(this);
+        this.currentState.setDataController(this.dataController);
         this.currentState.onStateCreating();
     }
     public pushState(state: BaseState): void {
@@ -69,7 +81,8 @@ export class StatesController {
         }
 
         this.currentState = state;
-        this.currentState.setController(this);
+        this.currentState.setStatesController(this);
+        this.currentState.setDataController(this.dataController);
         this.currentState.onStateCreating();
     }
     public popState(): void {
@@ -79,7 +92,8 @@ export class StatesController {
 
         const oldState = this.currentState;
         const newState = this.currentState = this.statesStack.pop();
-        newState.setController(this);
+        newState.setStatesController(this);
+        this.currentState.setDataController(this.dataController);
 
         oldState.onStateDestroy();
         newState.onStatePop();
