@@ -9,9 +9,9 @@ export enum HTMLTags {
     TableRow = 'tr',
     TableData = 'td',
     Div = 'div',
-    h1 = 'h2',
+    h1 = 'h1',
     h2 = 'h2',
-    h3 = 'h2',
+    h3 = 'h3',
     TextArea = 'textarea',
     Button = 'button',
 };
