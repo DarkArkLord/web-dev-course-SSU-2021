@@ -1,3 +1,5 @@
+type Commands = import('../controls').Commands;
+
 declare type TGameData = {
     lastOpenMapLevel: number,
     character: RPG.TCharacter,
@@ -15,7 +17,7 @@ declare interface IGlobalController {
     pushController(controller: IController): void;
     popController(): void;
 
-    executeCommand(command: string): void;
+    executeCommand(command: Commands): void;
     createElement(): HTMLElement;
     reDraw(): void;
 }
@@ -25,6 +27,6 @@ declare interface IController {
     onPush(globalController: IGlobalController): void;
     onPop(): void;
 
-    executeCommand(command: string): void;
+    executeCommand(command: Commands): void;
     createElement(): HTMLElement;
 }
