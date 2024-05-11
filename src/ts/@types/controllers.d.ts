@@ -1,4 +1,4 @@
-type Commands = import('../controls').Commands;
+declare type Commands = import('../controls').Commands;
 
 declare type TGameData = {
     lastOpenMapLevel: number,
