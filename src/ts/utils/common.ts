@@ -45,3 +45,25 @@ export function floorValue(value: number, accuracy: number = 2) {
     const accuracyMultiply = 10 ** accuracy;
     return Math.floor(value * accuracyMultiply) / accuracyMultiply;
 }
+
+export class Stack<T> {
+    private storage: T[] = [];
+
+    push(item: T): void {
+        this.storage.push(item);
+    }
+    pop(): T | undefined {
+        return this.storage.pop();
+    }
+    clear(): void {
+        this.storage = [];
+    }
+
+    peek(): T | undefined {
+        return this.storage[this.storage.length - 1];
+    }
+
+    size(): number {
+        return this.storage.length;
+    }
+}
