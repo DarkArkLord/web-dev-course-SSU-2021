@@ -3,15 +3,13 @@ export function getRandomInt(min: number, max: number): number {
 }
 
 export function getRandomValueWithProbability<T>(values: TValuesWithProbability<T>[]): T {
-    let maxProbability = values.map(value => value.probability).reduce((acc, value) => acc + value, 0);
-    let result = getRandomInt(1, maxProbability);
-    let i = 0,
-        prev = 1,
-        cur = values[i].probability;
-    while (i < values.length - 1 && (prev > result || result > cur)) {
+    const maxProbability = values.map(value => value.probability).reduce((acc, value) => acc + value, 0);
+    const rndValue = getRandomInt(1, maxProbability);
+    let i = 0;
+    let prev = 1;
+    while (i < values.length - 1 && (prev > rndValue || rndValue > values[i].probability)) {
         i++;
-        prev = cur;
-        cur += values[i].probability;
+        prev = values[i].probability;
     }
     return values[i].value;
 }
