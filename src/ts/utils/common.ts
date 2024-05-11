@@ -55,9 +55,6 @@ export class Stack<T> {
     pop(): T | undefined {
         return this.storage.pop();
     }
-    clear(): void {
-        this.storage = [];
-    }
 
     peek(): T | undefined {
         return this.storage[this.storage.length - 1];

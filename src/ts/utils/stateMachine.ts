@@ -85,8 +85,14 @@ export class StatesController {
         newState.onStatePop();
     }
 
-    public getStatesStack(): Stack<BaseState> {
-        return this.statesStack;
+    public getStatesStackSize(): number {
+        return this.statesStack.size();
+    }
+    public clearStatesStack(): void {
+        while (this.statesStack.size() > 0) {
+            const state = this.statesStack.pop();
+            state.onStateDestroy();
+        }
     }
 
     public executeCommand(command: Commands): void {
