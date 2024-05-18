@@ -75,13 +75,11 @@ export class StatesController {
 
     protected dataController: DataController<TGameData>;
 
-    constructor(dataController: DataController<TGameData>) {
+    constructor(dataController: DataController<TGameData>, reDrawAction: () => void) {
         this.dataController = dataController;
-    }
-
-    public setReDrawAction(reDrawAction: () => void) {
         this.reDrawAction = reDrawAction;
     }
+
     public invokeReDraw() {
         this.reDrawAction();
     }
