@@ -3,7 +3,7 @@
     "name": "Browser-game",
     "version": "0.0.3",
     "description": "Browser game for web dev course.",
-    "homepage": "https://github.com/ShadowOfFallenLord/web-dev-course-SSU-2021",
+    "homepage": "https://github.com/DarkArkLord/web-dev-course-SSU-2021",
     "devDependencies": {
         "@babel/core": "^7.16.0",
         "@babel/plugin-transform-react-jsx": "^7.17.3",
