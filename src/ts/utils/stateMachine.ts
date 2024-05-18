@@ -8,22 +8,27 @@ declare type TCommandActions = {
 };
 
 export abstract class BaseState {
+    private stateTitle: string;
+
     protected statesController: StatesController;
     protected dataController: DataController<TGameData>;
     protected commandActions: TCommandActions;
 
-    constructor() {
+    constructor(stateTitle: string) {
+        this.stateTitle = stateTitle;
         this.commandActions = {
             [Commands.Up]: undefined,
             [Commands.Down]: undefined,
-            [Commands.Use]: undefined,
             [Commands.Left]: undefined,
             [Commands.Right]: undefined,
+            [Commands.Use]: undefined,
             [Commands.Back]: undefined,
         };
     }
 
-    public abstract getStateTitle(): string;
+    public getStateTitle(): string {
+        return this.stateTitle;
+    }
 
     public setStatesController(controller: StatesController) {
         this.statesController = controller;
