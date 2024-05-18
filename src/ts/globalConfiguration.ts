@@ -1,9 +1,11 @@
 import { GlobalController } from './controllers/globalController';
 import { Commands, ControlKeys } from './controls'
+import { MainGameController } from './mainGameController';
+import { DataController } from './utils/dataController';
 
 const mainDisplay = document.getElementById('main-display');
 
-const globalController = new GlobalController(mainDisplay);
+// const globalController = new GlobalController(mainDisplay);
 
 /* --- --- --- --- --- --- --- */
 /* --- -- - FOR TESTS - -- --- */
@@ -18,9 +20,13 @@ const globalController = new GlobalController(mainDisplay);
 
 /* --- --- --- --- --- --- --- */
 
+const gameController = new MainGameController(mainDisplay);
+
 function action(command: Commands) {
-    globalController.executeCommand(command);
-    globalController.reDraw();
+    // globalController.executeCommand(command);
+    // globalController.reDraw();
+    gameController.executeCommand(command);
+    gameController.reDrawDisplay();
 }
 
 document.getElementById('button-up').addEventListener("click", () => action(Commands.Up));
@@ -44,4 +50,5 @@ document.addEventListener('keydown', function (e) {
     // action(Commands.Other);
 });
 
-globalController.reDraw();
+// globalController.reDraw();
+gameController.reDrawDisplay();
