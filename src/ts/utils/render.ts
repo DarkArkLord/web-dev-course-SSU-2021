@@ -8,6 +8,8 @@ export enum HTMLTags {
     Table = 'table',
     TableRow = 'tr',
     TableData = 'td',
+    UnorderedList = 'ul',
+    ListItem = 'li',
     Div = 'div',
     h1 = 'h1',
     h2 = 'h2',
