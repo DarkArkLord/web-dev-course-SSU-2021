@@ -9,6 +9,7 @@ declare type TCommandActions = {
 
 export abstract class BaseState {
     private stateTitle: string;
+    private reDrawAction: () => void;
 
     protected statesController: StatesController;
     protected dataController: DataController<TGameData>;
@@ -36,6 +37,13 @@ export abstract class BaseState {
     public setDataController(dataController: DataController<TGameData>) {
         this.dataController = dataController;
     }
+    public setReDrawAction(reDrawAction: () => void) {
+        this.reDrawAction = reDrawAction;
+    }
+
+    public invokeReDraw() {
+        this.reDrawAction();
+    }
 
     public onStateCreating(): void {
         console.log(`Create ${this.getStateTitle()} state`);
@@ -60,6 +68,8 @@ export abstract class BaseState {
 }
 
 export class StatesController {
+    private reDrawAction: () => void;
+
     protected currentState?: BaseState = null;
     protected statesStack: Stack<BaseState> = new Stack<BaseState>();
 
@@ -67,6 +77,13 @@ export class StatesController {
 
     constructor(dataController: DataController<TGameData>) {
         this.dataController = dataController;
+    }
+
+    public setReDrawAction(reDrawAction: () => void) {
+        this.reDrawAction = reDrawAction;
+    }
+    public invokeReDraw() {
+        this.reDrawAction();
     }
 
     public useState(state: BaseState): void {
@@ -77,6 +94,7 @@ export class StatesController {
         this.currentState = state;
         this.currentState.setStatesController(this);
         this.currentState.setDataController(this.dataController);
+        this.currentState.setReDrawAction(this.reDrawAction);
         this.currentState.onStateCreating();
     }
     public pushState(state: BaseState): void {
@@ -88,6 +106,7 @@ export class StatesController {
         this.currentState = state;
         this.currentState.setStatesController(this);
         this.currentState.setDataController(this.dataController);
+        this.currentState.setReDrawAction(this.reDrawAction);
         this.currentState.onStateCreating();
     }
     public popState(): void {
@@ -98,7 +117,8 @@ export class StatesController {
         const oldState = this.currentState;
         const newState = this.currentState = this.statesStack.pop();
         newState.setStatesController(this);
-        this.currentState.setDataController(this.dataController);
+        newState.setDataController(this.dataController);
+        newState.setReDrawAction(this.reDrawAction);
 
         oldState.onStateDestroy();
         newState.onStatePop();
