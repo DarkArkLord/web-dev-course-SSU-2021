@@ -109,12 +109,8 @@ export abstract class BaseMenuState extends BaseState {
                 return element;
             });
 
-        return render(HTMLTags.TableRow, null,
-            render(HTMLTags.TableData, null,
-                render(HTMLTags.UnorderedList, { class: CSS.list },
-                    ...items
-                )
-            )
+        return render(HTMLTags.UnorderedList, { class: CSS.list },
+            ...items
         );
     }
 
