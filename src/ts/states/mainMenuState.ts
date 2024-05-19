@@ -1,6 +1,6 @@
 import { Commands } from "../controls";
 import { HTMLTags, render } from "../utils/render";
-import { BaseMenuState } from "./baseMenuState";
+import { BaseMenuState } from "./baseStates/baseMenuState";
 
 export class MainMenuState extends BaseMenuState {
     constructor() {

@@ -1,7 +1,7 @@
-import { Commands } from "../controls";
-import { NumberEnumerator } from "../utils/common";
-import { HTMLTags, render } from "../utils/render";
-import { BaseState } from "../utils/stateMachine";
+import { Commands } from "../../controls";
+import { NumberEnumerator } from "../../utils/common";
+import { HTMLTags, render } from "../../utils/render";
+import { BaseState } from "../../utils/stateMachine";
 
 const CSS = {
     table: 'width-100 align-center',
