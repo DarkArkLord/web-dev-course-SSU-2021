@@ -1,4 +1,5 @@
 import { getCharacterTemplate } from "./rpg/characters";
+import { MainMenuState } from "./states/mainMenuState";
 import { DataController } from "./utils/dataController";
 import { StatesController } from "./utils/stateMachine";
 
@@ -21,6 +22,9 @@ export class MainGameController {
 
         this.dataController = new DataController<TGameData>(GAME_SAVE_NAME, defaultGameData);
         this.statesController = new StatesController(this.dataController, this.reDrawDisplay);
+
+        const mmState = new MainMenuState();
+        this.statesController.useState(mmState);
     }
 
     public executeCommand(command: Commands): void {
