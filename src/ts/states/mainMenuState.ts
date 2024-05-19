@@ -1,6 +1,7 @@
 import { Commands } from "../controls";
 import { HTMLTags, render } from "../utils/render";
 import { BaseMenuState } from "./baseStates/baseMenuState";
+import { InfoButtonsConfig, InfoState } from "./infoState";
 
 export class MainMenuState extends BaseMenuState {
     constructor() {
@@ -44,8 +45,8 @@ export class MainMenuState extends BaseMenuState {
             instance.statesController.popState();
         };
         this.menuConfig.actions[items.help.value] = function () {
-            // const controller = new InfoComponent(['Помощь'], ButtonsConfig.onlyBack);
-            // instance.globalController.pushController(controller);
+            const helpState = new InfoState(['Помощь'], InfoButtonsConfig.onlyBack, false);
+            instance.statesController.pushState(helpState);
         };
     }
 
