@@ -89,8 +89,8 @@ export abstract class BaseMenuState extends BaseState {
     //     this.menuConfig.currentItem.reset();
     // }
 
-    protected createHeaderElement(): HTMLElement[] {
-        return [];
+    protected createHeaderElement(): HTMLElement | undefined {
+        return undefined;
     }
 
     protected createItemsListElement() {
@@ -109,26 +109,44 @@ export abstract class BaseMenuState extends BaseState {
                 return element;
             });
 
-        const itemsList = render(HTMLTags.TableRow, null,
+        return render(HTMLTags.TableRow, null,
             render(HTMLTags.TableData, null,
                 render(HTMLTags.UnorderedList, { class: CSS.list },
                     ...items
                 )
             )
         );
-
-        return [itemsList];
     }
 
-    protected createFooterElement(): HTMLElement[] {
-        return [];
+    protected createFooterElement(): HTMLElement | undefined {
+        return undefined;
     }
 
     public createElement(): HTMLElement {
-        return render(HTMLTags.Table, { class: CSS.table },
-            ...this.createHeaderElement(),
-            ...this.createItemsListElement(),
-            ...this.createFooterElement(),
-        );
+        const header = this.createHeaderElement();
+        const menuItems = this.createItemsListElement();
+        const footer = this.createFooterElement();
+
+        const items = [];
+
+        if (header) {
+            items.push(wrapToTableCell(header));
+        }
+
+        items.push(wrapToTableCell(menuItems));
+
+        if (footer) {
+            items.push(wrapToTableCell(footer));
+        }
+
+        return render(HTMLTags.Table, { class: CSS.table }, ...items,);
+
+        function wrapToTableCell(...items: HTMLElement[]) {
+            return render(HTMLTags.TableRow, null,
+                render(HTMLTags.TableData, null,
+                    ...items,
+                )
+            );
+        }
     }
 }
