@@ -46,16 +46,16 @@ export abstract class BaseState {
     }
 
     public onStateCreating(): void {
-        console.log(`Create ${this.getStateTitle()} state`);
+        console.log(`Create "${this.getStateTitle()}" state`);
     }
     public onStatePush(): void {
-        console.log(`Push ${this.getStateTitle()} state`);
+        console.log(`Push "${this.getStateTitle()}" state`);
     }
     public onStatePop(): void {
-        console.log(`Pop ${this.getStateTitle()} state`);
+        console.log(`Pop "${this.getStateTitle()}" state`);
     }
     public onStateDestroy(): void {
-        console.log(`Destroy ${this.getStateTitle()} state`);
+        console.log(`Destroy "${this.getStateTitle()}" state`);
     }
 
     public executeCommand(command: Commands): void {
