@@ -89,8 +89,8 @@ export abstract class BaseMenuState extends BaseState {
     //     this.menuConfig.currentItem.reset();
     // }
 
-    protected createHeaderElement(): HTMLElement | undefined {
-        return undefined;
+    protected createHeaderElement(): HTMLElement[] {
+        return [];
     }
 
     protected createItemsListElement() {
@@ -109,16 +109,26 @@ export abstract class BaseMenuState extends BaseState {
                 return element;
             });
 
-        return render(HTMLTags.TableRow, null,
+        const itemsList = render(HTMLTags.TableRow, null,
             render(HTMLTags.TableData, null,
                 render(HTMLTags.UnorderedList, { class: CSS.list },
                     ...items
                 )
             )
-        )
+        );
+
+        return [itemsList];
     }
 
-    protected createFooterElement(): HTMLElement | undefined {
-        return undefined;
+    protected createFooterElement(): HTMLElement[] {
+        return [];
+    }
+
+    public createElement(): HTMLElement {
+        return render(HTMLTags.Table, { class: CSS.table },
+            ...this.createHeaderElement(),
+            ...this.createItemsListElement(),
+            ...this.createFooterElement(),
+        );
     }
 }
