@@ -64,7 +64,7 @@ export abstract class BaseMenuState extends BaseState {
         };
         this.commandActions[Commands.Use] = function () {
             const currentIndex = instance.menuConfig.currentItem.current();
-            this.useMenuItem(currentIndex);
+            instance.useMenuItem(currentIndex);
         };
     }
 
