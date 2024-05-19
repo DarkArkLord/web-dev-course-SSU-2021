@@ -89,11 +89,11 @@ export abstract class BaseMenuState extends BaseState {
     //     this.menuConfig.currentItem.reset();
     // }
 
-    protected createHeaderElement(): HTMLElement | undefined {
+    protected createHeaderElement(): Render.TChild | undefined {
         return undefined;
     }
 
-    protected createItemsListElement() {
+    protected createItemsListElement(): Render.TChild {
         // TODO: добавить максимальное количество отображаемых строк
         const instance = this;
         const menuConfig = this.menuConfig;
@@ -118,7 +118,7 @@ export abstract class BaseMenuState extends BaseState {
         );
     }
 
-    protected createFooterElement(): HTMLElement | undefined {
+    protected createFooterElement(): Render.TChild | undefined {
         return undefined;
     }
 
@@ -141,7 +141,7 @@ export abstract class BaseMenuState extends BaseState {
 
         return render(HTMLTags.Table, { class: CSS.table }, ...items,);
 
-        function wrapToTableCell(...items: HTMLElement[]) {
+        function wrapToTableCell(...items: Render.TChilds) {
             return render(HTMLTags.TableRow, null,
                 render(HTMLTags.TableData, null,
                     ...items,
