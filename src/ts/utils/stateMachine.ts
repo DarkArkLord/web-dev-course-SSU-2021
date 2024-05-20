@@ -11,8 +11,8 @@ export abstract class BaseState {
     private stateTitle: string;
     private reDrawAction: () => void;
 
-    protected statesController: StatesController;
-    protected dataController: DataController<TGameData>;
+    private statesController: StatesController;
+    private dataKeeper: GameDataKeeper;
     protected commandActions: TCommandActions;
 
     constructor(stateTitle: string) {
@@ -31,17 +31,25 @@ export abstract class BaseState {
         return this.stateTitle;
     }
 
-    public setStatesController(controller: StatesController) {
+    public setStatesController(controller: StatesController): void {
         this.statesController = controller;
     }
-    public setDataController(dataController: DataController<TGameData>) {
-        this.dataController = dataController;
+    public getStatesController(): StatesController {
+        return this.statesController;
     }
-    public setReDrawAction(reDrawAction: () => void) {
+
+    public setDataKeeper(dataKeeper: GameDataKeeper): void {
+        this.dataKeeper = dataKeeper;
+    }
+    public getData(): GameDataKeeper {
+        return this.dataKeeper;
+    }
+
+    public setReDrawAction(reDrawAction: () => void): void {
         this.reDrawAction = reDrawAction;
     }
 
-    public invokeReDraw() {
+    public invokeReDraw(): void {
         this.reDrawAction();
     }
 
@@ -73,14 +81,14 @@ export class StatesController {
     protected currentState?: BaseState = null;
     protected statesStack: Stack<BaseState> = new Stack<BaseState>();
 
-    protected dataController: DataController<TGameData>;
+    protected dataKeeper: GameDataKeeper;
 
-    constructor(dataController: DataController<TGameData>, reDrawAction: () => void) {
-        this.dataController = dataController;
+    constructor(dataKeeper: GameDataKeeper, reDrawAction: () => void) {
+        this.dataKeeper = dataKeeper;
         this.reDrawAction = reDrawAction;
     }
 
-    public invokeReDraw() {
+    public invokeReDraw(): void {
         this.reDrawAction();
     }
 
@@ -91,7 +99,7 @@ export class StatesController {
 
         this.currentState = state;
         this.currentState.setStatesController(this);
-        this.currentState.setDataController(this.dataController);
+        this.currentState.setDataKeeper(this.dataKeeper);
         this.currentState.setReDrawAction(this.reDrawAction);
         this.currentState.onStateCreating();
     }
@@ -103,7 +111,7 @@ export class StatesController {
 
         this.currentState = state;
         this.currentState.setStatesController(this);
-        this.currentState.setDataController(this.dataController);
+        this.currentState.setDataKeeper(this.dataKeeper);
         this.currentState.setReDrawAction(this.reDrawAction);
         this.currentState.onStateCreating();
     }
@@ -115,7 +123,7 @@ export class StatesController {
         const oldState = this.currentState;
         const newState = this.currentState = this.statesStack.pop();
         newState.setStatesController(this);
-        newState.setDataController(this.dataController);
+        newState.setDataKeeper(this.dataKeeper);
         newState.setReDrawAction(this.reDrawAction);
 
         oldState.onStateDestroy();

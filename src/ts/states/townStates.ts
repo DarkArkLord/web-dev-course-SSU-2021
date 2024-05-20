@@ -36,17 +36,18 @@ export class TownMenuState extends BaseMenuState {
 
         super('Город', [townButtons.toMap, townButtons.toBattle, townButtons.temple, townButtons.states, townButtons.other]);
         const instance = this;
+        const gameData = instance.getData().getGameData();
 
         // Настройка пунктов меню
         this.menuConfig.actions[townButtons.toMap.value] = function () {
-            instance.dataController.saveGameData();
-            const lastLevel = instance.dataController.getData().lastOpenMapLevel;
+            gameData.saveGameData();
+            const lastLevel = gameData.getData().lastOpenMapLevel;
             // const controller = new SelectMapLevelController(lastLevel);
             // instance.statesController.pushState(controller);
         };
         this.menuConfig.actions[townButtons.toBattle.value] = function () {
-            instance.dataController.saveGameData();
-            const lastLevel = instance.dataController.getData().lastOpenMapLevel;
+            gameData.saveGameData();
+            const lastLevel = gameData.getData().lastOpenMapLevel;
             // const controller = new SelectBattleLevelController(lastLevel);
             // instance.statesController.pushState(controller);
         };
@@ -55,16 +56,16 @@ export class TownMenuState extends BaseMenuState {
             // instance.statesController.pushState(controller);
         };
         this.menuConfig.actions[townButtons.states.value] = function () {
-            const character = instance.dataController.getData().character;
+            const character = gameData.getData().character;
             const characterTable = renderCharacter(character);
 
             const controller = new InfoState([characterTable], InfoButtonsConfig.onlyBack, false);
 
-            instance.statesController.pushState(controller);
+            instance.getStatesController().pushState(controller);
         };
         this.menuConfig.actions[townButtons.other.value] = function () {
             const controller = new InfoState(['Другое'], InfoButtonsConfig.onlyBack, false);
-            instance.statesController.pushState(controller);
+            instance.getStatesController().pushState(controller);
         };
 
         // Настройка активности пунктов меню
@@ -72,7 +73,7 @@ export class TownMenuState extends BaseMenuState {
         townButtons.toBattle.isActive = activeOnPositiveHP;
 
         function activeOnPositiveHP() {
-            const player = instance.dataController.getData().character;
+            const player = gameData.getData().character;
             const health = player.commonStates.health;
             return health.current > 0;
         }
@@ -80,7 +81,7 @@ export class TownMenuState extends BaseMenuState {
         // Кнопка назад - в меню
         this.commandActions[Commands.Back] = function () {
             const menuController = new MainMenuState();
-            instance.statesController.pushState(menuController);
+            instance.getStatesController().pushState(menuController);
         }
     }
 }

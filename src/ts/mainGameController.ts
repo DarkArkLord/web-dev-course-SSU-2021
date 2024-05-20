@@ -3,21 +3,14 @@ import { MainMenuState } from "./states/mainMenuState";
 import { DataController } from "./utils/dataController";
 import { StatesController } from "./utils/stateMachine";
 
+
 export class GameDataKeeper {
     private gameData: DataController<TGameData>;
-    private settingsData: DataController<TGameData>;
-}
+    private settingsData: DataController<TSettingsData>;
 
-export class MainGameController {
-    private display: HTMLElement;
-    private dataController: DataController<TGameData>;
-    private statesController: StatesController;
-
-    constructor(display: HTMLElement) {
-        this.display = display;
-
+    constructor() {
         const GAME_SAVE_NAME = 'GAME-SAVE';
-        function defaultGameData() {
+        function defaultGameData(): TGameData {
             // TODO ???
             return {
                 lastOpenMapLevel: 1,
@@ -25,8 +18,38 @@ export class MainGameController {
             };
         }
 
-        this.dataController = new DataController<TGameData>(GAME_SAVE_NAME, defaultGameData);
-        this.statesController = new StatesController(this.dataController, this.reDrawDisplay);
+        this.gameData = new DataController<TGameData>(GAME_SAVE_NAME, defaultGameData);
+
+        const SETTINGS_SAVE_NAME = 'SETTINGS-SAVE';
+        function defaultSettingsData(): TSettingsData {
+            return {
+                test: 'test data',
+            };
+        }
+
+        this.settingsData = new DataController<TSettingsData>(SETTINGS_SAVE_NAME, defaultSettingsData);
+    }
+
+    public getGameData() {
+        return this.gameData;
+    }
+
+    public getSettingsData() {
+        return this.settingsData;
+    }
+}
+
+export class MainGameController {
+    private display: HTMLElement;
+    private dataKeeper: GameDataKeeper;
+    private statesController: StatesController;
+
+    constructor(display: HTMLElement) {
+        this.display = display;
+
+
+        this.dataKeeper = new GameDataKeeper();
+        this.statesController = new StatesController(this.dataKeeper, this.reDrawDisplay);
 
         const mmState = new MainMenuState();
         this.statesController.useState(mmState);

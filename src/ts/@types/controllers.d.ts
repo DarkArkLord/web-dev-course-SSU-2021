@@ -1,8 +1,13 @@
 declare type Commands = import('../controls').Commands;
+declare type GameDataKeeper = import('../mainGameController').GameDataKeeper;
 
 declare type TGameData = {
     lastOpenMapLevel: number,
     character: RPG.TCharacter,
+};
+
+declare type TSettingsData = {
+    test: string,
 };
 
 declare interface IGlobalController {

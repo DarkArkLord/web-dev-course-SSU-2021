@@ -27,28 +27,31 @@ export class MainMenuState extends BaseMenuState {
         super('Главное меню', [items.newGame, items.continue, items.help]);
         const instance = this;
 
-        items.continue.isActive = () => instance.dataController.getData() != undefined
-            && instance.statesController.getStatesStackSize() > 0;
-
-        this.commandActions[Commands.Back] = function () {
-            if (items.continue.isActive()) {
-                instance.statesController.popState();
-            }
-        }
-
+        // настройка пунктов меню
         this.menuConfig.actions[items.newGame.value] = function () {
             const town = new TownMenuState();
-            instance.statesController.clearStatesStack();
-            instance.statesController.useState(town);
-            instance.dataController.resetGameData();
+            instance.getStatesController().clearStatesStack();
+            instance.getStatesController().useState(town);
+            instance.getData().getGameData().resetGameData();
         };
         this.menuConfig.actions[items.continue.value] = function () {
-            instance.statesController.popState();
+            instance.getStatesController().popState();
         };
         this.menuConfig.actions[items.help.value] = function () {
             const helpState = new InfoState(['Помощь'], InfoButtonsConfig.onlyBack, false);
-            instance.statesController.pushState(helpState);
+            instance.getStatesController().pushState(helpState);
         };
+
+        // Установка активности пункта "Продолжить"
+        items.continue.isActive = () => instance.getData().getGameData().getData() != undefined
+            && instance.getStatesController().getStatesStackSize() > 0;
+
+        // Кнопка назад - назад
+        this.commandActions[Commands.Back] = function () {
+            if (items.continue.isActive()) {
+                instance.getStatesController().popState();
+            }
+        }
     }
 
     protected createHeaderElement(): Render.TChild {

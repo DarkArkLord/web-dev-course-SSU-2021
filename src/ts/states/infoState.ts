@@ -48,13 +48,13 @@ export class InfoState extends BaseMenuState {
         this.menuConfig.actions[controlButtons.next.value] = function () {
             info.currentItem++;
             if (info.currentItem >= info.items.length) {
-                instance.statesController.popState();
+                instance.getStatesController().popState();
             }
         }
         this.menuConfig.actions[controlButtons.back.value] = function () {
             info.currentItem--;
             if (info.currentItem < 0) {
-                instance.statesController.popState();
+                instance.getStatesController().popState();
             }
         }
 
