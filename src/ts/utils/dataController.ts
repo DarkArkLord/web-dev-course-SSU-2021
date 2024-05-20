@@ -19,9 +19,13 @@ export class DataController<T> {
         const dataJson = JSON.stringify(this.data);
         window.localStorage.setItem(this.saveName, dataJson);
     }
-    loadGameData(): void {
+    loadGameData(): boolean {
         const savedData = window.localStorage.getItem(this.saveName);
-        const parsedData = JSON.parse(savedData) as T;
-        this.data = parsedData;
+        if (savedData) {
+            const parsedData = JSON.parse(savedData) as T;
+            this.data = parsedData;
+            return true;
+        }
+        return false;
     }
 }
