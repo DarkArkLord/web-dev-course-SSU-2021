@@ -3,6 +3,11 @@ import { MainMenuState } from "./states/mainMenuState";
 import { DataController } from "./utils/dataController";
 import { StatesController } from "./utils/stateMachine";
 
+export class GameDataKeeper {
+    private gameData: DataController<TGameData>;
+    private settingsData: DataController<TGameData>;
+}
+
 export class MainGameController {
     private display: HTMLElement;
     private dataController: DataController<TGameData>;

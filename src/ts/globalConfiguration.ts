@@ -1,7 +1,6 @@
 import { GlobalController } from './controllers/globalController';
 import { Commands, ControlKeys } from './controls'
 import { MainGameController } from './mainGameController';
-import { DataController } from './utils/dataController';
 
 const mainDisplay = document.getElementById('main-display');
 
