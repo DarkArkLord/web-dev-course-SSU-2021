@@ -28,12 +28,12 @@ export const InfoButtonsConfig = {
 
 export class InfoState extends BaseMenuState {
     private infoConfig: {
-        items: string[],
+        items: Render.TChilds,
         currentItem: number,
         showCounter: boolean,
     };
 
-    constructor(content: string[], buttonsConfig: TButtonsConfig, showCounter: boolean) {
+    constructor(content: Render.TChilds, buttonsConfig: TButtonsConfig, showCounter: boolean) {
         const buttons = getButtonsList();
 
         super("Информация", buttons);
