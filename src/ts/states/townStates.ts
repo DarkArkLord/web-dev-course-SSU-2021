@@ -1,6 +1,5 @@
 import { Commands } from "../controls";
 import { renderCharacter } from "../rpg/characterToHtml";
-import { BaseState } from "../utils/stateMachine"
 import { BaseMenuState } from "./baseStates/baseMenuState";
 import { InfoButtonsConfig, InfoState } from "./infoState";
 import { MainMenuState } from "./mainMenuState";
@@ -38,15 +37,16 @@ export class TownMenuState extends BaseMenuState {
         super('Город', [townButtons.toMap, townButtons.toBattle, townButtons.temple, townButtons.states, townButtons.other]);
         const instance = this;
 
+        // Настройка пунктов меню
         this.menuConfig.actions[townButtons.toMap.value] = function () {
-            // instance.globalController.saveGameData();
-            // const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
+            instance.dataController.saveGameData();
+            const lastLevel = instance.dataController.getData().lastOpenMapLevel;
             // const controller = new SelectMapLevelController(lastLevel);
             // instance.statesController.pushState(controller);
         };
         this.menuConfig.actions[townButtons.toBattle.value] = function () {
-            // instance.globalController.saveGameData();
-            // const lastLevel = instance.globalController.gameData.lastOpenMapLevel;
+            instance.dataController.saveGameData();
+            const lastLevel = instance.dataController.getData().lastOpenMapLevel;
             // const controller = new SelectBattleLevelController(lastLevel);
             // instance.statesController.pushState(controller);
         };
@@ -67,10 +67,20 @@ export class TownMenuState extends BaseMenuState {
             instance.statesController.pushState(controller);
         };
 
+        // Настройка активности пунктов меню
+        townButtons.toMap.isActive = activeOnPositiveHP;
+        townButtons.toBattle.isActive = activeOnPositiveHP;
+
+        function activeOnPositiveHP() {
+            const player = instance.dataController.getData().character;
+            const health = player.commonStates.health;
+            return health.current > 0;
+        }
+
+        // Кнопка назад - в меню
         this.commandActions[Commands.Back] = function () {
             const menuController = new MainMenuState();
             instance.statesController.pushState(menuController);
         }
-
     }
 }
